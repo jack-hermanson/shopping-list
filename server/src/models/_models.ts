@@ -1,5 +1,3 @@
 import { Account } from "./Account";
 
-export const models = {
-    Account,
-};
+export const models = [Account];
