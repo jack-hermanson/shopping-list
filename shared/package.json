@@ -1,0 +1,7 @@
+{
+    "name": "shared",
+    "version": "0.0.1",
+    "description": "The shared section between the client and server sides.",
+    "license": "MIT",
+    "private": false
+}
