@@ -12,7 +12,7 @@ import { models } from "./models/_models";
 import { migrations } from "./migrations/_migrations";
 
 // env
-const envPath = path.join(__dirname, ".env");
+const envPath = path.join(__dirname, "..", ".env");
 config({ path: envPath });
 
 // express server
@@ -33,6 +33,7 @@ app.use("/api/accounts", routes.accounts);
 
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;
+console.log({ databaseDialect });
 export const dbOptions: ConnectionOptions = {
     database: databaseDialect === "sqlite" ? "site.db" : "",
     type: databaseDialect,
