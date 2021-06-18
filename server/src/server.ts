@@ -6,6 +6,7 @@ import path from "path";
 import { config } from "dotenv";
 import { ConnectionOptions, createConnection } from "typeorm";
 import sslRedirect from "heroku-ssl-redirect";
+import { routes } from "./routes/_routes";
 
 // env
 const envPath = path.join(__dirname, ".env");
@@ -25,7 +26,7 @@ app.use(sslRedirect(["production"]));
 // todo
 
 // routes
-// todo
+app.use("/api/accounts", routes.accounts);
 
 // database
 /// todo
