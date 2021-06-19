@@ -1883,7 +1883,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.0":
+"@types/react@*", "@types/react@^17.0.0", "@types/react@^17.0.11":
   version "17.0.11"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.11.tgz#67fcd0ddbf5a0b083a0f94e926c7d63f3b836451"
   integrity sha512-yFRQbD+whVonItSk7ZzP/L+gPTJVBkL/7shLEF+i9GC/1cV3JmUxEQz6+9ylhUpWSDuqo1N9qEvqS6vTj4USUA==
@@ -6466,10 +6466,35 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-ts-utils@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.2.0.tgz#439865b6b8099376157c1408b1d89d8e17bf53cc"
-  integrity sha512-a8xpck7M5UGF2N6OijmNSSr9ilrvAmepE0jquvXzHezBIj9SD56Fga0G4LtokkCkxxOql3rEqB3/CQk94xWY8Q==
+jack-hermanson-component-lib@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.2.0.tgz#addae3d8f32dff88340761f483b45ced9cece24f"
+  integrity sha512-E3CAjKbL24BxH0YwAAp7TvFWnawFrmC1+k8n2T9YHd2vj7e98ZzHPoNRAiSzKR6Y7tFLSyeyZrND0zqjrif4rA==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^1.2.35"
+    "@fortawesome/free-solid-svg-icons" "^5.15.3"
+    "@fortawesome/react-fontawesome" "^0.1.14"
+    "@popperjs/core" "^2.9.2"
+    "@types/react" "^17.0.11"
+    "@types/react-dom" "^17.0.0"
+    bootstrap "^5.0.1"
+    jack-hermanson-css-lib "^0.2.0"
+    jack-hermanson-ts-utils "^1.2.1"
+    react "^17.0.2"
+    react-dom "^17.0.2"
+    react-scripts "4.0.3"
+    reactstrap "^9.0.0-0"
+    typescript "^4.3.4"
+
+jack-hermanson-css-lib@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-0.2.0.tgz#fef312be2b2e9da3ad5ed500d29768ceefe77612"
+  integrity sha512-VShH202V2h9OALvL9aUhyiyI1FfTErF/tPH9TTs7qGBNCvziCdDfqWV5wjFJx1FldZX3DB/hEbvsv0uQG858rg==
+
+jack-hermanson-ts-utils@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.2.1.tgz#acba5dfc85ced15eca9f0a532c4b226c3a1f59e9"
+  integrity sha512-nzY8DNyGQp3a5sOU7FH5L1qg2t4YrkSQD2ywJ6LSJKF4BmFFvdm7a8oSYRm0G2ohoziWK+GplJPfDTkP/q7CgA==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"

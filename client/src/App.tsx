@@ -1,12 +1,11 @@
-import React from "react";
 import "./css/main.css";
-import { Button } from "reactstrap";
+import { Alerts } from "./components/Alerts/Alerts";
 
 function App() {
     return (
         <div>
+            <Alerts />
             <p>Body</p>
-            <Button color="primary">Test</Button>
         </div>
     );
 }
