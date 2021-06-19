@@ -10861,6 +10861,25 @@ label,
   background-color: rgba(255, 255, 255, 0.075);
 }
 
+body {
+  background-color: #2b3e50;
+}
+
+.body-container {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+.main-container {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.footer-container {
+  margin-top: auto;
+}
+
 .hover-mouse:hover {
   cursor: pointer;
 }
