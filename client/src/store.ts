@@ -6,10 +6,23 @@ import {
     thunk,
     Thunk,
 } from "easy-peasy";
+import { AlertType } from "jack-hermanson-ts-utils";
 
-interface StoreModel {}
+interface StoreModel {
+    alerts: AlertType[];
+    setAlerts: Action<StoreModel, AlertType[]>;
+    addAlert: Action<StoreModel, AlertType>;
+}
 
-export const store = createStore<StoreModel>({});
+export const store = createStore<StoreModel>({
+    alerts: [],
+    setAlerts: action((state, payload) => {
+        state.alerts = payload;
+    }),
+    addAlert: action((state, payload) => {
+        state.alerts = [payload, ...state.alerts];
+    }),
+});
 
 const typedHooks = createTypedHooks<StoreModel>();
 
