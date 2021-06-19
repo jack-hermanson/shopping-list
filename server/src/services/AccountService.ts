@@ -87,4 +87,20 @@ export abstract class AccountService {
         await accountRepo.update(account, { token });
         return token;
     }
+
+    static async logOut(
+        token: string,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { accountRepo } = getRepos();
+
+        const account = await accountRepo.findOne({ token });
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        await accountRepo.update(account, { token: undefined });
+        return true;
+    }
 }

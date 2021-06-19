@@ -53,3 +53,17 @@ router.post(
         }
     }
 );
+
+// log out
+router.post("/logout", auth, async (req: Request<any>, res: Response) => {
+    try {
+        const success = await AccountService.logOut(req.account.token, res);
+        if (!success) {
+            return;
+        }
+
+        res.sendStatus(HTTP.OK);
+    } catch (error) {
+        sendError(error, res);
+    }
+});
