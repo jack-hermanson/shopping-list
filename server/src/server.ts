@@ -6,9 +6,13 @@ import path from "path";
 import { config } from "dotenv";
 import { ConnectionOptions, createConnection } from "typeorm";
 import sslRedirect from "heroku-ssl-redirect";
+import { routes } from "./routes/_routes";
+import { DbDialect } from "jack-hermanson-ts-utils";
+import { models } from "./models/_models";
+import { migrations } from "./migrations/_migrations";
 
 // env
-const envPath = path.join(__dirname, ".env");
+const envPath = path.join(__dirname, "..", ".env");
 config({ path: envPath });
 
 // express server
@@ -25,10 +29,36 @@ app.use(sslRedirect(["production"]));
 // todo
 
 // routes
-// todo
+app.use("/api/accounts", routes.accounts);
 
 // database
-/// todo
+const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;
+console.log({ databaseDialect });
+export const dbOptions: ConnectionOptions = {
+    database: databaseDialect === "sqlite" ? "site.db" : "",
+    type: databaseDialect,
+    url: process.env.DATABASE_URL,
+    entities: models,
+    synchronize: false,
+    extra: {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    },
+    migrationsRun: true,
+    migrationsTableName: "migrations",
+    migrations: migrations,
+    cli: {
+        migrationsDir: path.join(__dirname, "migrations"),
+    },
+};
+createConnection(dbOptions)
+    .then(connection => {
+        console.log(
+            `Connected to database with type: ${connection.options.type}.`
+        );
+    })
+    .catch(error => console.error(error));
 
 // http server and socket
 const server = http.createServer(app);
