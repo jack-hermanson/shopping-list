@@ -10869,6 +10869,7 @@ body {
   display: flex;
   flex-flow: column;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .main-container {
@@ -10882,6 +10883,15 @@ body {
 
 .hover-mouse:hover {
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a.dotted-link {
+  color: white;
+  border-bottom: 1px dotted white;
 }
 
 /*# sourceMappingURL=main.css.map */
