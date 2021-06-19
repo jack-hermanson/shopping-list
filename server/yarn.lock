@@ -1281,10 +1281,10 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-jack-hermanson-ts-utils@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.0.1.tgz#0d7b834fc63d85f1cf30341bd4ebf10f1e191abd"
-  integrity sha512-yRXXKmy4m+L/OoH7JpNxszaiJbxE3GL57ZTNwIGOoSBgEaTqfq/eVuFndMog1KTtiEKhxCmI9VzCP4o4K21nfw==
+jack-hermanson-ts-utils@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.1.1.tgz#6b06103fdfba2c0a5e952999cacabcf6e3b9a31d"
+  integrity sha512-HeiqtlOW6dgnXJoIxDyQHxvBjiUIedytbYHjRqNs8BbHcoIB3pa/lEsU0ixIsb/1hcq/TbSlOKWHJU/FvcEQhA==
   dependencies:
     react "^17.0.2"
     typeorm "^0.2.34"
