@@ -5,6 +5,7 @@ import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validatio
 import { Response } from "express";
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcryptjs";
+import { HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;
@@ -48,5 +49,42 @@ export abstract class AccountService {
         account.password = await bcrypt.hash(newAccount.password, salt);
 
         return await accountRepo.save(account);
+    }
+
+    // log in - returns token
+    static async logIn(
+        loginRequest: LoginOrNewAccountRequest,
+        res: Response
+    ): Promise<string | undefined> {
+        const { accountRepo } = getRepos();
+
+        // look up user
+        loginRequest.username = loginRequest.username.toLowerCase();
+        const account = await accountRepo.findOne({
+            username: loginRequest.username,
+        });
+
+        // not found
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        // wrong password
+        const passwordIsValid = await bcrypt.compare(
+            loginRequest.password,
+            account.password
+        );
+        if (!passwordIsValid) {
+            res.sendStatus(HTTP.BAD_REQUEST);
+            return undefined;
+        }
+
+        // create token
+        const token = jwt.sign({ id: account.id }, process.env.SECRET_KEY);
+
+        // save token
+        await accountRepo.update(account, { token });
+        return token;
     }
 }

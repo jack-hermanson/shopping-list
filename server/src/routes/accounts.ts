@@ -4,7 +4,7 @@ import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
 import { LoginOrNewAccountRequest } from "../../../shared/resource_models/account";
 import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
-import { newAccountSchema } from "../models/Account";
+import { Account, newAccountSchema } from "../models/Account";
 import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
 import { Socket } from "socket.io";
 import { HTTP } from "jack-hermanson-ts-utils";
@@ -30,6 +30,24 @@ router.post(
             delete newAccount.password;
 
             res.status(HTTP.CREATED).json(newAccount);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+// log in
+router.post(
+    "/login",
+    async (req: Request<LoginOrNewAccountRequest>, res: Response) => {
+        try {
+            if (!(await validateRequest(newAccountSchema, req, res))) return;
+            const requestBody: LoginOrNewAccountRequest = req.body;
+
+            const token = await AccountService.logIn(requestBody, res);
+            if (!token) return;
+
+            res.json({ token });
         } catch (error) {
             sendError(error, res);
         }
