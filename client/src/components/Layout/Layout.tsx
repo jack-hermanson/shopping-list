@@ -1,4 +1,4 @@
-import { ReactNode, FC, Fragment } from "react";
+import { FC, Fragment, ReactNode } from "react";
 import { CONTAINER_FLUID } from "../../utils/constants";
 import { Container } from "reactstrap";
 import { Navigation } from "./Navigation";

@@ -16,6 +16,7 @@ export const Alerts: React.FC = () => {
                 }`;
                 return (
                     <AlertPanel
+                        key={key}
                         alert={alert}
                         removeAlert={() => removeAlert()}
                     />
