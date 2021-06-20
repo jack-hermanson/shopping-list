@@ -1,6 +1,6 @@
 {
     "name": "shopping-list",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "A simple shopping list app. This directory contains the client, server, and shared projects.",
     "author": "Jack Hermanson <jack.hermanson@live.com>",
     "license": "MIT",

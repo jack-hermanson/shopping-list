@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import Joi from "joi";
+import { Clearance } from "../../../shared/enums";
 
 @Entity({ name: "account" })
 export class Account {
@@ -14,6 +15,9 @@ export class Account {
 
     @Column({ nullable: true })
     token?: string;
+
+    @Column({ nullable: false, default: Clearance.NONE })
+    clearance: Clearance;
 }
 
 export const newAccountSchema = Joi.object()
