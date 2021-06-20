@@ -1,13 +1,10 @@
 import { FC, useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { useHistory } from "react-router-dom";
+import { useProtectedRoute } from "../../utils/hooks";
 
 export const Account: FC = () => {
-    const history = useHistory();
-
-    useEffect(() => {
-        history.replace("/login");
-    });
+    useProtectedRoute();
 
     return (
         <div>
