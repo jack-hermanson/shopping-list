@@ -26,7 +26,8 @@ console.log(`Environment: ${app.get("env")}`);
 app.use(sslRedirect(["production"]));
 
 // static
-// todo
+const staticFiles = express.static(path.join(__dirname, "../../client/build"));
+app.use(staticFiles);
 
 // routes
 app.use("/api/accounts", routes.accounts);
