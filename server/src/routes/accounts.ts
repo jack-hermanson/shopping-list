@@ -44,10 +44,10 @@ router.post(
             if (!(await validateRequest(newAccountSchema, req, res))) return;
             const requestBody: LoginOrNewAccountRequest = req.body;
 
-            const token = await AccountService.logIn(requestBody, res);
-            if (!token) return;
+            const account = await AccountService.logIn(requestBody, res);
+            if (!account) return;
 
-            res.json({ token });
+            res.json(account);
         } catch (error) {
             sendError(error, res);
         }

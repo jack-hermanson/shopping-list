@@ -1,7 +1,8 @@
 import { FC, FormEvent, useState } from "react";
 import { FormGroup, Label, Input, Button } from "reactstrap";
 import { LoginOrNewAccountRequest } from "../../../../shared/resource_models/account";
-import { AccountClient } from "../../clients/AccountClient";
+import { scrollToTop } from "jack-hermanson-ts-utils";
+import { useStoreActions } from "../../store";
 
 interface Props {
     afterSubmit?: () => any;
@@ -10,6 +11,8 @@ interface Props {
 export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const logIn = useStoreActions(actions => actions.logIn);
 
     return (
         <form onSubmit={submit} onReset={reset}>
@@ -28,10 +31,11 @@ export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
         };
 
         try {
-            const token = await AccountClient.login(loginRequest);
+            const token = await logIn(loginRequest);
             console.log(token);
         } catch (error) {
             console.log(error);
+            scrollToTop();
         }
 
         afterSubmit?.();

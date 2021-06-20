@@ -1,4 +1,7 @@
-import { LoginOrNewAccountRequest } from "../../../shared/resource_models/account";
+import {
+    AccountRecord,
+    LoginOrNewAccountRequest,
+} from "../../../shared/resource_models/account";
 import axios from "axios";
 
 export abstract class AccountClient {
@@ -6,8 +9,8 @@ export abstract class AccountClient {
 
     static async login(
         loginRequest: LoginOrNewAccountRequest
-    ): Promise<string> {
-        const response = await axios.post<string>(
+    ): Promise<AccountRecord> {
+        const response = await axios.post<AccountRecord>(
             `${this.baseUrl}/login`,
             loginRequest
         );
