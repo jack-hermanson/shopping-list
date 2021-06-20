@@ -7,8 +7,18 @@ import { ListIndex } from "./pages/Main/ListIndex";
 import { NotFound } from "./pages/Misc/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
+import { useEffect } from "react";
+import { useStoreActions } from "./store";
 
 function App() {
+    const logInFromStorage = useStoreActions(
+        actions => actions.logInFromStorage
+    );
+
+    useEffect(() => {
+        logInFromStorage();
+    });
+
     return (
         <BrowserRouter>
             <Layout>

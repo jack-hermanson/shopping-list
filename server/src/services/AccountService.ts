@@ -98,13 +98,24 @@ export abstract class AccountService {
     ): Promise<boolean | undefined> {
         const { accountRepo } = getRepos();
 
+        const account = await this.getAccountFromToken(token, res);
+
+        await accountRepo.update(account, { token: undefined });
+        return true;
+    }
+
+    static async getAccountFromToken(
+        token: string,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+
         const account = await accountRepo.findOne({ token });
         if (!account) {
             res.sendStatus(HTTP.NOT_FOUND);
             return undefined;
         }
 
-        await accountRepo.update(account, { token: undefined });
-        return true;
+        return account;
     }
 }

@@ -1,13 +1,14 @@
-import { FC, useEffect } from "react";
-import { Col, Row } from "reactstrap";
+import { FC } from "react";
+import { Button, Col, Row } from "reactstrap";
+import { useProtectedRoute } from "../../utils/hooks";
+import { useStoreActions } from "../../store";
 import { useHistory } from "react-router-dom";
 
 export const Account: FC = () => {
+    const logOut = useStoreActions(actions => actions.logOut);
     const history = useHistory();
 
-    useEffect(() => {
-        history.replace("/login");
-    });
+    useProtectedRoute();
 
     return (
         <div>
@@ -19,6 +20,15 @@ export const Account: FC = () => {
             <Row>
                 <Col>
                     <p>Account page.</p>
+                    <Button
+                        color="warning"
+                        onClick={() => {
+                            logOut();
+                            history.push("/");
+                        }}
+                    >
+                        Log out
+                    </Button>
                 </Col>
             </Row>
         </div>

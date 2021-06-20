@@ -1,12 +1,14 @@
-import express, { Response, Request as NormalRequest } from "express";
+import express, { Response } from "express";
 import { Request } from "../utils/Request";
 import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
-import { LoginOrNewAccountRequest } from "../../../shared/resource_models/account";
+import {
+    AccountRecord,
+    LoginOrNewAccountRequest,
+} from "../../../shared/resource_models/account";
 import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
-import { Account, newAccountSchema } from "../models/Account";
+import { newAccountSchema } from "../models/Account";
 import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
-import { Socket } from "socket.io";
 import { HTTP } from "jack-hermanson-ts-utils";
 
 export const router = express.Router();
@@ -66,4 +68,10 @@ router.post("/logout", auth, async (req: Request<any>, res: Response) => {
     } catch (error) {
         sendError(error, res);
     }
+});
+
+// log in with token
+router.post("/token", auth, async (req: Request<any>, res: Response) => {
+    const account: AccountRecord = { ...req.account };
+    res.json(account);
 });
