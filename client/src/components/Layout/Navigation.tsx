@@ -16,11 +16,17 @@ import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(o => !o);
+    const history = useHistory();
 
     return (
         <Navbar dark color="secondary" className="mb-4 px-0" expand="lg">
             <Container fluid={CONTAINER_FLUID}>
-                <NavbarBrand className="hover-mouse">
+                <NavbarBrand
+                    onClick={() => {
+                        history.push("/");
+                    }}
+                    className="hover-mouse"
+                >
                     <FA className="me-2" icon={faShoppingCart} /> {APP_NAME}
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
