@@ -27,6 +27,7 @@ export const Navigation: FC = () => {
                 <NavbarBrand
                     onClick={() => {
                         history.push("/");
+                        setIsOpen(false);
                     }}
                     className="hover-mouse"
                 >
@@ -36,7 +37,12 @@ export const Navigation: FC = () => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginLeft: "auto" }}>
                         <NavItem>
-                            <NavLink to={"/account"} exact className="nav-link">
+                            <NavLink
+                                onClick={() => setIsOpen(false)}
+                                to={"/account"}
+                                exact
+                                className="nav-link"
+                            >
                                 <FA className="me-1" icon={faUser} />
                                 {currentUser
                                     ? capitalizeFirst(currentUser.username)
