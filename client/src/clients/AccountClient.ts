@@ -3,7 +3,7 @@ import {
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
 import axios from "axios";
-import { getToken } from "../utils/tokens";
+import { deleteToken, getToken } from "../utils/tokens";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
 
 export abstract class AccountClient {
@@ -34,6 +34,22 @@ export abstract class AccountClient {
         } catch (error) {
             console.log(error.response);
             return undefined;
+        }
+    }
+
+    static async logOut(): Promise<void> {
+        const token = getToken();
+        if (!token) return;
+        deleteToken();
+        try {
+            await axios.post(
+                `${this.baseUrl}/logout`,
+                null,
+                getAuthHeader(token)
+            );
+        } catch (error) {
+            // log out failed, so the token is probably bad anyway
+            console.log(error.response);
         }
     }
 }

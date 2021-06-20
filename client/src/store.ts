@@ -10,6 +10,7 @@ import {
     AlertType,
     capitalizeFirst,
     errorAlert,
+    successAlert,
 } from "jack-hermanson-ts-utils";
 import {
     AccountRecord,
@@ -31,6 +32,7 @@ interface StoreModel {
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
     logIn: Thunk<StoreModel, LoginOrNewAccountRequest>;
     logInFromStorage: Thunk<StoreModel>;
+    logOut: Thunk<StoreModel>;
 }
 
 export const store = createStore<StoreModel>({
@@ -75,9 +77,11 @@ export const store = createStore<StoreModel>({
     logInFromStorage: thunk(async actions => {
         const account = await AccountClient.loginWithToken();
         actions.setCurrentUser(account);
-        if (account) {
-            actions.addAccount(account);
-        }
+    }),
+    logOut: thunk(async actions => {
+        await AccountClient.logOut();
+        actions.setCurrentUser(undefined);
+        actions.addAlert(successAlert("user", "logged out"));
     }),
 });
 
