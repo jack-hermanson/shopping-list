@@ -9,19 +9,14 @@ export const Footer: FC = () => {
         <div className="footer-container bg-secondary">
             <Container className="pb-3 pt-2 mt-2" fluid={CONTAINER_FLUID}>
                 <Row>
-                    <Col lg={6} className="text-muted">
+                    <Col className="text-muted d-flex">
                         <Link className="text-light me-3" to="/">
                             Home
                         </Link>
                         <Link className="text-light" to="/account">
                             Account
                         </Link>
-                    </Col>
-                    <Col lg={6} className="text-muted d-flex">
-                        <span className="ms-lg-auto">
-                            {APP_NAME} v{getVersionNumber()}&nbsp;[
-                            {process.env.NODE_ENV}]
-                        </span>
+                        <span className="ms-auto">{getVersionNumber()}</span>
                     </Col>
                 </Row>
             </Container>
