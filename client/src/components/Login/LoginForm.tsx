@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 import { FormGroup, Label, Input, Button } from "reactstrap";
 import { LoginOrNewAccountRequest } from "../../../../shared/resource_models/account";
+import { AccountClient } from "../../clients/AccountClient";
 
 interface Props {
     afterSubmit?: () => any;
@@ -18,8 +19,21 @@ export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
         </form>
     );
 
-    function submit(e: FormEvent) {
+    async function submit(e: FormEvent) {
         e.preventDefault();
+
+        const loginRequest: LoginOrNewAccountRequest = {
+            username,
+            password,
+        };
+
+        try {
+            const token = await AccountClient.login(loginRequest);
+            console.log(token);
+        } catch (error) {
+            console.log(error);
+        }
+
         afterSubmit?.();
     }
 
@@ -27,6 +41,7 @@ export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
         e.preventDefault();
         setUsername("");
         setPassword("");
+
         document.getElementById("username-input")?.focus();
     }
 
