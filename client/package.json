@@ -1,0 +1,57 @@
+{
+  "name": "client",
+  "version": "0.0.1",
+  "private": false,
+  "license": "MIT",
+  "proxy": "http://localhost:5000",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@popperjs/core": "^2.9.2",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.1",
+    "customize-cra": "^1.0.0",
+    "easy-peasy": "^5.0.3",
+    "jack-hermanson-component-lib": "^0.2.0",
+    "jack-hermanson-css-lib": "^1.0.0",
+    "jack-hermanson-ts-utils": "^1.4.0",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "reactstrap": "^9.0.0-0",
+    "socket.io-client": "^4.1.2",
+    "typescript": "^4.1.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "sass": "^1.35.1"
+  }
+}

@@ -1,0 +1,12 @@
+@import "../../node_modules/jack-hermanson-css-lib/src/main";
+@import "theme";
+@import "layout";
+
+a {
+  text-decoration: none;
+}
+
+a.dotted-link {
+  color: white;
+  border-bottom: 1px dotted white;
+}

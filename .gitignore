@@ -2,3 +2,4 @@
 node_modules/
 server/site.db
 server/.env
+.DS_Store

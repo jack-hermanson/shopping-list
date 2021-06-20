@@ -1,6 +1,9 @@
 import { Account } from "../models/Account";
 import { getConnection, Repository } from "typeorm";
-import { LoginOrNewAccountRequest } from "../../../shared/resource_models/account";
+import {
+    AccountRecord,
+    LoginOrNewAccountRequest,
+} from "../../../shared/resource_models/account";
 import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
 import { Response } from "express";
 import * as jwt from "jsonwebtoken";
@@ -55,7 +58,7 @@ export abstract class AccountService {
     static async logIn(
         loginRequest: LoginOrNewAccountRequest,
         res: Response
-    ): Promise<string | undefined> {
+    ): Promise<AccountRecord | undefined> {
         const { accountRepo } = getRepos();
 
         // look up user
@@ -85,7 +88,8 @@ export abstract class AccountService {
 
         // save token
         await accountRepo.update(account, { token });
-        return token;
+        const updatedAccount = await accountRepo.findOne({ token });
+        return { ...updatedAccount };
     }
 
     static async logOut(
