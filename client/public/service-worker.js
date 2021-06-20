@@ -1,4 +1,10 @@
-const CACHE_NAME = "pwa-task-manager";
+// This service worker file is effectively a 'no-op' that will reset any
+// previous service worker registered for the same host:port combination.
+// In the production build, this file is replaced with an actual service worker
+// file that will precache your site's local assets.
+// See https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+
+const CACHE_NAME = "shopping-list-cache";
 const urlsToCache = ["/"];
 
 // Install a service worker

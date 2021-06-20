@@ -13,5 +13,4 @@ ReactDOM.render(
     </React.Fragment>,
     document.getElementById("root")
 );
-
 serviceWorker.register();
