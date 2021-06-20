@@ -14,8 +14,14 @@ import { HTTP } from "jack-hermanson-ts-utils";
 export const router = express.Router();
 
 // get accounts
-router.get("/", async (req: Request<any>, res: Response) => {
-    res.json(await AccountService.getAll());
+router.get("/", auth, async (req: Request<any>, res: Response) => {
+    res.json(
+        (await AccountService.getAll()).map(a => {
+            delete a.token;
+            delete a.password;
+            return a;
+        })
+    );
 });
 
 // new account
