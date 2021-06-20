@@ -1,11 +1,59 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+.hover-mouse:hover {
+  cursor: pointer;
+}
+
+a.btn:hover {
+  text-decoration: none;
+}
+
+.bottom-buttons {
+  margin-bottom: 0;
+  margin-top: 1.6em;
+}
+.bottom-buttons button:not(last-of-type) {
+  margin-right: 0.5em;
+}
+
+.form-label.required:after {
+  content: " *";
+  color: red;
+}
+
+.card-table tbody > tr th {
+  padding-left: 1em;
+}
+.card-table tbody > tr td:last-of-type {
+  padding-right: 1em;
+}
+.card-table tbody > tr:last-of-type th,
+.card-table tbody > tr:last-of-type td {
+  border-bottom: 0;
+}
+.card-table tbody > tr:first-of-type th,
+.card-table tbody > tr:first-of-type td {
+  border-top: 0;
+}
+
+table.same-width tbody > tr th {
+  width: 30%;
+}
+
+.no-mb-last:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 :root {
   --bs-blue: #4c9be8;
   --bs-indigo: #6610f2;
@@ -10879,10 +10927,6 @@ body {
 
 .footer-container {
   margin-top: auto;
-}
-
-.hover-mouse:hover {
-  cursor: pointer;
 }
 
 a {

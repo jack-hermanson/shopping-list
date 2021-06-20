@@ -12,7 +12,9 @@ export const Login: FC = () => {
             </Row>
             <Row>
                 <Col lg={6}>
-                    <LoginForm onSubmit={n => console.log(n)} />
+                    <LoginForm
+                        afterSubmit={() => console.log("done submitting")}
+                    />
                 </Col>
             </Row>
         </div>

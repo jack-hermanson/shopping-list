@@ -3,15 +3,15 @@ import { FormGroup, Label, Input, Button } from "reactstrap";
 import { LoginOrNewAccountRequest } from "../../../../shared/resource_models/account";
 
 interface Props {
-    onSubmit: (loginRequest: LoginOrNewAccountRequest) => any;
+    afterSubmit?: () => any;
 }
 
-export const LoginForm: FC<Props> = ({ onSubmit }: Props) => {
+export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     return (
-        <form onSubmit={submit}>
+        <form onSubmit={submit} onReset={reset}>
             {renderUsername()}
             {renderPassword()}
             {renderButtons()}
@@ -20,17 +20,21 @@ export const LoginForm: FC<Props> = ({ onSubmit }: Props) => {
 
     function submit(e: FormEvent) {
         e.preventDefault();
-        onSubmit({
-            username,
-            password,
-        });
+        afterSubmit?.();
+    }
+
+    function reset(e: FormEvent) {
+        e.preventDefault();
+        setUsername("");
+        setPassword("");
+        document.getElementById("username-input")?.focus();
     }
 
     function renderUsername() {
         const id = "username-input";
         return (
             <FormGroup>
-                <Label className="form-label" for={id}>
+                <Label className="form-label required" for={id}>
                     Username
                 </Label>
                 <Input
@@ -48,7 +52,7 @@ export const LoginForm: FC<Props> = ({ onSubmit }: Props) => {
         const id = "password-input";
         return (
             <FormGroup>
-                <Label className="form-label" for={id}>
+                <Label className="form-label required" for={id}>
                     Password
                 </Label>
                 <Input
@@ -56,6 +60,7 @@ export const LoginForm: FC<Props> = ({ onSubmit }: Props) => {
                     onChange={e => setPassword(e.target.value)}
                     required
                     id={id}
+                    type="password"
                 />
             </FormGroup>
         );
@@ -63,9 +68,13 @@ export const LoginForm: FC<Props> = ({ onSubmit }: Props) => {
 
     function renderButtons() {
         return (
-            <div>
-                <Button color="primary">Log In</Button>
-                <Button color="secondary">Reset</Button>
+            <div className="bottom-buttons">
+                <Button type="submit" color="primary">
+                    Log In
+                </Button>
+                <Button type="reset" color="secondary">
+                    Reset
+                </Button>
             </div>
         );
     }

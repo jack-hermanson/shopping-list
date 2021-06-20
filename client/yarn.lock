@@ -6491,6 +6491,11 @@ jack-hermanson-css-lib@^0.2.0:
   resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-0.2.0.tgz#fef312be2b2e9da3ad5ed500d29768ceefe77612"
   integrity sha512-VShH202V2h9OALvL9aUhyiyI1FfTErF/tPH9TTs7qGBNCvziCdDfqWV5wjFJx1FldZX3DB/hEbvsv0uQG858rg==
 
+jack-hermanson-css-lib@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-1.0.0.tgz#ebedf8ac3ccc555c5bb1fc02676fb25f0941ccd8"
+  integrity sha512-c61FcKkY2Q6GDTASrOA9vzqPTm/7F3un+ltR4EmFhBemJSdxy3v62qnwMEiDpP/MLoEGoOAKTdGy+h7KYfiVKQ==
+
 jack-hermanson-ts-utils@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.2.1.tgz#acba5dfc85ced15eca9f0a532c4b226c3a1f59e9"
