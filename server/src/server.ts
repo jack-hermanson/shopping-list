@@ -28,6 +28,20 @@ app.use(sslRedirect(["production"]));
 // static
 const staticFiles = express.static(path.join(__dirname, "../../client/build"));
 app.use(staticFiles);
+if (app.get("env") === "production") {
+    app.get("/serviceWorker.js", (req, res) => {
+        res.sendFile(
+            path.resolve(
+                __dirname,
+                "..",
+                "..",
+                "client",
+                "src",
+                "serviceWorker.js"
+            )
+        );
+    });
+}
 
 // routes
 app.use("/api/accounts", routes.accounts);
