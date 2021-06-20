@@ -104,15 +104,6 @@ export abstract class AccountService {
         return true;
     }
 
-    static async logInWithToken(
-        token: string,
-        res: Response
-    ): Promise<AccountRecord | undefined> {
-        const account = await this.getAccountFromToken(token, res);
-        if (!account) return undefined;
-        return { ...account };
-    }
-
     static async getAccountFromToken(
         token: string,
         res: Response

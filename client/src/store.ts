@@ -6,13 +6,17 @@ import {
     thunk,
     Thunk,
 } from "easy-peasy";
-import { AlertType, errorAlert, successAlert } from "jack-hermanson-ts-utils";
+import {
+    AlertType,
+    capitalizeFirst,
+    errorAlert,
+} from "jack-hermanson-ts-utils";
 import {
     AccountRecord,
     LoginOrNewAccountRequest,
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
-import { capitalizeFirst } from "jack-hermanson-ts-utils";
+import { saveToken } from "./utils/tokens";
 
 interface StoreModel {
     alerts: AlertType[];
@@ -26,6 +30,7 @@ interface StoreModel {
     currentUser: AccountRecord | undefined;
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
     logIn: Thunk<StoreModel, LoginOrNewAccountRequest>;
+    logInFromStorage: Thunk<StoreModel>;
 }
 
 export const store = createStore<StoreModel>({
@@ -60,10 +65,18 @@ export const store = createStore<StoreModel>({
                 text: `Welcome, ${capitalizeFirst(account.username)}.`,
                 color: "success",
             });
+            saveToken(account.token!);
         } catch (error) {
             actions.addAlert(errorAlert(error.message));
             console.error(error.response);
             throw error;
+        }
+    }),
+    logInFromStorage: thunk(async actions => {
+        const account = await AccountClient.loginWithToken();
+        actions.setCurrentUser(account);
+        if (account) {
+            actions.addAccount(account);
         }
     }),
 });
