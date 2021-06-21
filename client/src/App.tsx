@@ -7,7 +7,7 @@ import { ListIndex } from "./pages/Main/ListIndex";
 import { NotFound } from "./pages/Misc/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "./store";
 import { Categories } from "./components/Categories/Categories";
 
