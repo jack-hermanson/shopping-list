@@ -104,7 +104,11 @@ export const store = createStore<StoreModel>({
             if (error.response?.status === HTTP.UNAUTHORIZED) {
                 actions.addAlert(errorAlert("Please log in again."));
             }
-            actions.setCategories(undefined);
+            // incorrect permissions
+            if (error.response?.status === HTTP.FORBIDDEN) {
+                actions.addAlert(errorAlert("Insufficient permissions."));
+            }
+            actions.setCategories([]);
         }
     }),
 });
