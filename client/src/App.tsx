@@ -7,22 +7,32 @@ import { ListIndex } from "./pages/Main/ListIndex";
 import { NotFound } from "./pages/Misc/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
-import { useEffect } from "react";
-import { useStoreActions } from "./store";
+import { useCallback, useEffect } from "react";
+import { useStoreActions, useStoreState } from "./store";
+import { Categories } from "./components/Categories/Categories";
 
 function App() {
     const logInFromStorage = useStoreActions(
         actions => actions.logInFromStorage
     );
+    const loadCategories = useStoreActions(actions => actions.loadCategories);
+    const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
         logInFromStorage();
-    });
+        loadCategories();
+    }, [logInFromStorage, loadCategories]);
 
     return (
         <BrowserRouter>
             <Layout>
                 {renderAlerts()}
+                {currentUser ? (
+                    <Categories />
+                ) : (
+                    <p>Log in to view categories.</p>
+                )}
+
                 <Switch>
                     <Route exact path="/" component={ListIndex} />
                     <Route exact path="/login" component={Login} />
