@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Col, Container, Row } from "reactstrap";
-import { CONTAINER_FLUID, APP_NAME } from "../../utils/constants";
+import { CONTAINER_FLUID } from "../../utils/constants";
 import { getVersionNumber } from "../../utils/functions";
 import { Link } from "react-router-dom";
 

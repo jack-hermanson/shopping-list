@@ -10,6 +10,7 @@ import {
     AlertType,
     capitalizeFirst,
     errorAlert,
+    HTTP,
     successAlert,
 } from "jack-hermanson-ts-utils";
 import {
@@ -18,6 +19,8 @@ import {
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
 import { saveToken } from "./utils/tokens";
+import { CategoryRecord } from "../../shared/resource_models/category";
+import { CategoryClient } from "./clients/CategoryClient";
 
 interface StoreModel {
     alerts: AlertType[];
@@ -33,6 +36,10 @@ interface StoreModel {
     logIn: Thunk<StoreModel, LoginOrNewAccountRequest>;
     logInFromStorage: Thunk<StoreModel>;
     logOut: Thunk<StoreModel>;
+
+    categories: CategoryRecord[] | undefined;
+    setCategories: Action<StoreModel, CategoryRecord[] | undefined>;
+    loadCategories: Thunk<StoreModel>;
 }
 
 export const store = createStore<StoreModel>({
@@ -82,6 +89,23 @@ export const store = createStore<StoreModel>({
         await AccountClient.logOut();
         actions.setCurrentUser(undefined);
         actions.addAlert(successAlert("user", "logged out"));
+    }),
+
+    categories: undefined,
+    setCategories: action((state, payload) => {
+        state.categories = payload;
+    }),
+    loadCategories: thunk(async actions => {
+        try {
+            const categories = await CategoryClient.getAll();
+            actions.setCategories(categories);
+        } catch (error) {
+            // token isn't good anymore
+            if (error.response?.status === HTTP.UNAUTHORIZED) {
+                actions.addAlert(errorAlert("Please log in again."));
+            }
+            actions.setCategories(undefined);
+        }
     }),
 });
 
