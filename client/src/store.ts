@@ -18,7 +18,7 @@ import {
     LoginOrNewAccountRequest,
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
-import { saveToken } from "./utils/tokens";
+import { deleteToken, getToken, saveToken } from "./utils/tokens";
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
@@ -109,7 +109,8 @@ export const store = createStore<StoreModel>({
         } catch (error) {
             // token isn't good anymore
             if (error.response?.status === HTTP.UNAUTHORIZED) {
-                actions.addAlert(errorAlert("Please log in again."));
+                deleteToken();
+                actions.setCurrentUser(undefined);
             }
             // incorrect permissions
             if (error.response?.status === HTTP.FORBIDDEN) {
