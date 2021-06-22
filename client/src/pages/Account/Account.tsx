@@ -21,10 +21,11 @@ export const Account: FC = () => {
                 <Col>
                     <p>Account page.</p>
                     <Button
-                        color="warning"
+                        color="secondary"
                         onClick={() => {
-                            logOut();
-                            history.push("/");
+                            logOut().then(() => {
+                                history.push("/login");
+                            });
                         }}
                     >
                         Log out

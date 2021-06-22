@@ -106,7 +106,7 @@ export const store = createStore<StoreModel>({
             }
             // incorrect permissions
             if (error.response?.status === HTTP.FORBIDDEN) {
-                actions.addAlert(errorAlert("Insufficient permissions."));
+                console.error("Insufficient permissions.");
             }
             actions.setCategories([]);
         }

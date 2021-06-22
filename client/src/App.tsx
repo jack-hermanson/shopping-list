@@ -4,12 +4,12 @@ import { Layout } from "./components/Layout/Layout";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { ListIndex } from "./pages/Main/ListIndex";
-import { NotFound } from "./pages/Misc/NotFound";
+import { NotFound } from "./pages/Errors/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
 import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "./store";
-import { Categories } from "./components/Categories/Categories";
+import { Forbidden } from "./pages/Errors/Forbidden";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -27,16 +27,11 @@ function App() {
         <BrowserRouter>
             <Layout>
                 {renderAlerts()}
-                {currentUser ? (
-                    <Categories />
-                ) : (
-                    <p>Log in to view categories.</p>
-                )}
-
                 <Switch>
                     <Route exact path="/" component={ListIndex} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/account" component={Account} />
+                    <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />
                 </Switch>
             </Layout>
