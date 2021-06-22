@@ -16,7 +16,10 @@ const getRepos = (): {
 export abstract class CategoryService {
     static async getAll(): Promise<Category[]> {
         const { categoryRepo } = getRepos();
-        return await categoryRepo.find();
+        return await categoryRepo
+            .createQueryBuilder("category")
+            .orderBy("name")
+            .getMany();
     }
 
     static async create(
