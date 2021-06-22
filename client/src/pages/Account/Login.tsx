@@ -1,10 +1,18 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { LoginForm } from "../../components/Login/LoginForm";
 import { useHistory } from "react-router-dom";
+import { useStoreState } from "../../store";
 
 export const Login: FC = () => {
     const history = useHistory();
+    const currentUser = useStoreState(state => state.currentUser);
+
+    useEffect(() => {
+        if (currentUser) {
+            history.replace("/account");
+        }
+    }, [currentUser, history]);
 
     return (
         <div>
