@@ -23,5 +23,5 @@ const createEditCategory = {
 };
 
 export const createEditCategorySchema = Joi.object()
-    .options({ abortEarly: false })
+    .options({ abortEarly: false, allowUnknown: true })
     .keys(createEditCategory);

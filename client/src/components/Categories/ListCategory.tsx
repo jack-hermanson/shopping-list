@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { Button, Card, CardBody, CardHeader } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, Collapse } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
+import { useStoreActions } from "../../store";
 
 interface Props {
     category: CategoryRecord;
@@ -13,6 +14,8 @@ It should not be used for displaying information
 about a Category record itself.
  */
 export const ListCategory: FC<Props> = ({ category }: Props) => {
+    const updateCategory = useStoreActions(actions => actions.updateCategory);
+
     return (
         <Card className="mb-3">
             <CardHeader className="d-flex">
@@ -28,16 +31,25 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                     </Button>
                 </div>
             </CardHeader>
-            <CardBody>
-                <p>
-                    {category.id} visible: {category.visible.toString()}
-                </p>
-                <p>{category.notes}</p>
-            </CardBody>
+            <Collapse isOpen={category.visible}>
+                <CardBody>
+                    <p>
+                        {category.id} visible: {category.visible.toString()}
+                    </p>
+                    <p>{category.notes}</p>
+                </CardBody>
+            </Collapse>
         </Card>
     );
 
-    function toggleVisibility() {
+    async function toggleVisibility() {
         console.log("visibility toggled");
+        await updateCategory({
+            id: category.id,
+            editedCategory: {
+                ...category,
+                visible: !category.visible,
+            },
+        });
     }
 };
