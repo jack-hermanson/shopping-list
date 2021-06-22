@@ -1,4 +1,6 @@
-export enum SocketEvent {}
+export enum SocketEvent {
+    UPDATE_CATEGORY = "update_category",
+}
 
 export enum Clearance {
     NONE = 0,

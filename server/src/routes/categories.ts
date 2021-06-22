@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import { auth } from "../middleware/auth";
 import { Request } from "../utils/Request";
-import { Clearance } from "../../../shared/enums";
+import { Clearance, SocketEvent } from "../../../shared/enums";
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
@@ -12,6 +12,7 @@ import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
 import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
 import { createEditCategorySchema } from "../models/Category";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { Socket } from "socket.io";
 
 export const router = express.Router();
 
@@ -43,6 +44,38 @@ router.post(
             const newCategory = await CategoryService.create(requestBody, res);
             if (!newCategory) return;
             res.status(HTTP.CREATED).json(newCategory);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.put(
+    "/:id",
+    auth,
+    async (
+        req: Request<{ id: number; CreateEditCategoryRequest }>,
+        res: Response<CategoryRecord>
+    ) => {
+        if (!minClearance(req.account, Clearance.ADMIN, res)) return;
+        try {
+            if (!(await validateRequest(createEditCategorySchema, req, res)))
+                return;
+
+            const requestBody: CreateEditCategoryRequest = req.body;
+            const editedCategory = await CategoryService.update(
+                req.params.id,
+                requestBody,
+                res
+            );
+
+            if (!editedCategory) return;
+
+            // socket
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_CATEGORY, { id: editedCategory.id });
+
+            res.json(editedCategory);
         } catch (error) {
             sendError(error, res);
         }

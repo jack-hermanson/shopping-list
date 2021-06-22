@@ -19,7 +19,10 @@ import {
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
 import { saveToken } from "./utils/tokens";
-import { CategoryRecord } from "../../shared/resource_models/category";
+import {
+    CategoryRecord,
+    CreateEditCategoryRequest,
+} from "../../shared/resource_models/category";
 import { CategoryClient } from "./clients/CategoryClient";
 
 interface StoreModel {
@@ -40,6 +43,10 @@ interface StoreModel {
     categories: CategoryRecord[] | undefined;
     setCategories: Action<StoreModel, CategoryRecord[] | undefined>;
     loadCategories: Thunk<StoreModel>;
+    updateCategory: Thunk<
+        StoreModel,
+        { id: number; editedCategory: CreateEditCategoryRequest }
+    >;
 }
 
 export const store = createStore<StoreModel>({
@@ -106,9 +113,16 @@ export const store = createStore<StoreModel>({
             }
             // incorrect permissions
             if (error.response?.status === HTTP.FORBIDDEN) {
-                actions.addAlert(errorAlert("Insufficient permissions."));
+                console.error("Insufficient permissions.");
             }
             actions.setCategories([]);
+        }
+    }),
+    updateCategory: thunk(async (actions, payload) => {
+        try {
+            await CategoryClient.update(payload.id, payload.editedCategory);
+        } catch (error) {
+            console.error(error);
         }
     }),
 });
