@@ -10,6 +10,7 @@ import { Account } from "./pages/Account/Account";
 import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "./store";
 import { Forbidden } from "./pages/Errors/Forbidden";
+import { SocketConnection } from "./components/Utils/SocketConnection";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -25,6 +26,7 @@ function App() {
 
     return (
         <BrowserRouter>
+            <SocketConnection />
             <Layout>
                 {renderAlerts()}
                 <Switch>

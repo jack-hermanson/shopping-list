@@ -19,7 +19,7 @@ export class Category {
 const createEditCategory = {
     name: Joi.string().required().min(2),
     visible: Joi.boolean().required(),
-    notes: Joi.string().optional(),
+    notes: Joi.optional(),
 };
 
 export const createEditCategorySchema = Joi.object()
