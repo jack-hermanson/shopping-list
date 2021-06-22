@@ -18,7 +18,7 @@ import {
     LoginOrNewAccountRequest,
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
-import { deleteToken, getToken, saveToken } from "./utils/tokens";
+import { deleteToken, saveToken } from "./utils/tokens";
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
@@ -47,6 +47,8 @@ interface StoreModel {
         StoreModel,
         { id: number; editedCategory: CreateEditCategoryRequest; token: string }
     >;
+    loadCategory: Thunk<StoreModel, { id: number; token: string }>;
+    changeCategory: Action<StoreModel, CategoryRecord>;
 }
 
 export const store = createStore<StoreModel>({
@@ -124,6 +126,24 @@ export const store = createStore<StoreModel>({
             await CategoryClient.update(id, editedCategory, token);
         } catch (error) {
             console.error(error);
+        }
+    }),
+    loadCategory: thunk(async (actions, { id, token }) => {
+        try {
+            const category = await CategoryClient.getOne(id, token);
+            actions.changeCategory(category);
+        } catch (error) {
+            actions.addAlert(errorAlert(error.message));
+        }
+    }),
+    changeCategory: action((state, payload) => {
+        if (state.categories) {
+            state.categories = state.categories.map(c => {
+                if (c.id !== payload.id) {
+                    return c;
+                }
+                return payload;
+            });
         }
     }),
 });

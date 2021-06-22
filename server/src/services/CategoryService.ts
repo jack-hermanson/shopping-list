@@ -70,4 +70,19 @@ export abstract class CategoryService {
             ...editedCategory,
         });
     }
+
+    static async getOne(
+        id: number,
+        res: Response
+    ): Promise<Category | undefined> {
+        const { categoryRepo } = getRepos();
+
+        const category = await categoryRepo.findOne(id);
+        if (!category) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        return category;
+    }
 }

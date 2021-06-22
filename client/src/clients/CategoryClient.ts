@@ -4,7 +4,6 @@ import {
 } from "../../../shared/resource_models/category";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
-import { getToken } from "../utils/tokens";
 
 export abstract class CategoryClient {
     static baseUrl = "/api/categories";
@@ -25,6 +24,14 @@ export abstract class CategoryClient {
         const response = await axios.put<CategoryRecord>(
             `${this.baseUrl}/${id}`,
             editedCategory,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getOne(id: number, token: string) {
+        const response = await axios.get<CategoryRecord>(
+            `${this.baseUrl}/${id}`,
             getAuthHeader(token)
         );
         return response.data;
