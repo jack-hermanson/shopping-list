@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, CardBody, CardHeader } from "reactstrap";
+import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 
 interface Props {
@@ -15,8 +15,18 @@ about a Category record itself.
 export const ListCategory: FC<Props> = ({ category }: Props) => {
     return (
         <Card className="mb-3">
-            <CardHeader>
-                <h5 className="card-title mb-0">{category.name}</h5>
+            <CardHeader className="d-flex">
+                <div
+                    className="d-flex hover-mouse w-100"
+                    onClick={toggleVisibility}
+                >
+                    <h5 className="card-title my-auto">{category.name}</h5>
+                </div>
+                <div className="ms-auto">
+                    <Button color="secondary" size="sm">
+                        Actions
+                    </Button>
+                </div>
             </CardHeader>
             <CardBody>
                 <p>
@@ -26,4 +36,8 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
             </CardBody>
         </Card>
     );
+
+    function toggleVisibility() {
+        console.log("visibility toggled");
+    }
 };
