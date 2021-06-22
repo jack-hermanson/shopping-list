@@ -123,6 +123,9 @@ export const store = createStore<StoreModel>({
     }),
     updateCategory: thunk(async (actions, { editedCategory, id, token }) => {
         try {
+            actions.changeCategory({ id, ...editedCategory });
+            // ^ this line isn't really necessary, but it makes the UI feel more responsive
+
             await CategoryClient.update(id, editedCategory, token);
         } catch (error) {
             console.error(error);
