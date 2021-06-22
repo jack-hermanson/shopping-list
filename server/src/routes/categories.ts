@@ -43,6 +43,11 @@ router.post(
             const requestBody: CreateEditCategoryRequest = req.body;
             const newCategory = await CategoryService.create(requestBody, res);
             if (!newCategory) return;
+
+            // socket
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_CATEGORIES);
+
             res.status(HTTP.CREATED).json(newCategory);
         } catch (error) {
             sendError(error, res);
@@ -76,6 +81,23 @@ router.put(
             socket.emit(SocketEvent.UPDATE_CATEGORY, { id: editedCategory.id });
 
             res.json(editedCategory);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<CategoryRecord>) => {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) return;
+
+        try {
+            const category = await CategoryService.getOne(req.params.id, res);
+            if (!category) return;
+
+            res.json(category);
         } catch (error) {
             sendError(error, res);
         }

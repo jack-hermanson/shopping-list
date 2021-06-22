@@ -4,17 +4,11 @@ import {
 } from "../../../shared/resource_models/category";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
-import { getToken } from "../utils/tokens";
-import { NoAuthError } from "../utils/errors";
 
 export abstract class CategoryClient {
     static baseUrl = "/api/categories";
 
-    static async getAll() {
-        const token = getToken();
-        if (!token) {
-            throw new NoAuthError();
-        }
+    static async getAll(token: string) {
         const response = await axios.get<CategoryRecord[]>(
             this.baseUrl,
             getAuthHeader(token)
@@ -22,15 +16,22 @@ export abstract class CategoryClient {
         return response.data;
     }
 
-    static async update(id: number, editedCategory: CreateEditCategoryRequest) {
-        const token = getToken();
-        if (!token) {
-            throw new NoAuthError();
-        }
-
+    static async update(
+        id: number,
+        editedCategory: CreateEditCategoryRequest,
+        token: string
+    ) {
         const response = await axios.put<CategoryRecord>(
             `${this.baseUrl}/${id}`,
             editedCategory,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async getOne(id: number, token: string) {
+        const response = await axios.get<CategoryRecord>(
+            `${this.baseUrl}/${id}`,
             getAuthHeader(token)
         );
         return response.data;

@@ -18,7 +18,7 @@ import {
     LoginOrNewAccountRequest,
 } from "../../shared/resource_models/account";
 import { AccountClient } from "./clients/AccountClient";
-import { saveToken } from "./utils/tokens";
+import { deleteToken, saveToken } from "./utils/tokens";
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
@@ -38,15 +38,17 @@ interface StoreModel {
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
     logIn: Thunk<StoreModel, LoginOrNewAccountRequest>;
     logInFromStorage: Thunk<StoreModel>;
-    logOut: Thunk<StoreModel>;
+    logOut: Thunk<StoreModel, string>;
 
     categories: CategoryRecord[] | undefined;
     setCategories: Action<StoreModel, CategoryRecord[] | undefined>;
-    loadCategories: Thunk<StoreModel>;
+    loadCategories: Thunk<StoreModel, string>;
     updateCategory: Thunk<
         StoreModel,
-        { id: number; editedCategory: CreateEditCategoryRequest }
+        { id: number; editedCategory: CreateEditCategoryRequest; token: string }
     >;
+    loadCategory: Thunk<StoreModel, { id: number; token: string }>;
+    changeCategory: Action<StoreModel, CategoryRecord>;
 }
 
 export const store = createStore<StoreModel>({
@@ -92,8 +94,8 @@ export const store = createStore<StoreModel>({
         const account = await AccountClient.loginWithToken();
         actions.setCurrentUser(account);
     }),
-    logOut: thunk(async actions => {
-        await AccountClient.logOut();
+    logOut: thunk(async (actions, token) => {
+        await AccountClient.logOut(token);
         actions.setCurrentUser(undefined);
         actions.addAlert(successAlert("user", "logged out"));
     }),
@@ -102,14 +104,15 @@ export const store = createStore<StoreModel>({
     setCategories: action((state, payload) => {
         state.categories = payload;
     }),
-    loadCategories: thunk(async actions => {
+    loadCategories: thunk(async (actions, token) => {
         try {
-            const categories = await CategoryClient.getAll();
+            const categories = await CategoryClient.getAll(token);
             actions.setCategories(categories);
         } catch (error) {
             // token isn't good anymore
             if (error.response?.status === HTTP.UNAUTHORIZED) {
-                actions.addAlert(errorAlert("Please log in again."));
+                deleteToken();
+                actions.setCurrentUser(undefined);
             }
             // incorrect permissions
             if (error.response?.status === HTTP.FORBIDDEN) {
@@ -118,11 +121,29 @@ export const store = createStore<StoreModel>({
             actions.setCategories([]);
         }
     }),
-    updateCategory: thunk(async (actions, payload) => {
+    updateCategory: thunk(async (actions, { editedCategory, id, token }) => {
         try {
-            await CategoryClient.update(payload.id, payload.editedCategory);
+            await CategoryClient.update(id, editedCategory, token);
         } catch (error) {
             console.error(error);
+        }
+    }),
+    loadCategory: thunk(async (actions, { id, token }) => {
+        try {
+            const category = await CategoryClient.getOne(id, token);
+            actions.changeCategory(category);
+        } catch (error) {
+            actions.addAlert(errorAlert(error.message));
+        }
+    }),
+    changeCategory: action((state, payload) => {
+        if (state.categories) {
+            state.categories = state.categories.map(c => {
+                if (c.id !== payload.id) {
+                    return c;
+                }
+                return payload;
+            });
         }
     }),
 });

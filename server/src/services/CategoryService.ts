@@ -16,7 +16,10 @@ const getRepos = (): {
 export abstract class CategoryService {
     static async getAll(): Promise<Category[]> {
         const { categoryRepo } = getRepos();
-        return await categoryRepo.find();
+        return await categoryRepo
+            .createQueryBuilder("category")
+            .orderBy("name")
+            .getMany();
     }
 
     static async create(
@@ -66,5 +69,20 @@ export abstract class CategoryService {
             ...existingCategory,
             ...editedCategory,
         });
+    }
+
+    static async getOne(
+        id: number,
+        res: Response
+    ): Promise<Category | undefined> {
+        const { categoryRepo } = getRepos();
+
+        const category = await categoryRepo.findOne(id);
+        if (!category) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        return category;
     }
 }

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button, Card, CardBody, CardHeader, Collapse } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { useStoreActions } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 
 interface Props {
     category: CategoryRecord;
@@ -15,6 +15,7 @@ about a Category record itself.
  */
 export const ListCategory: FC<Props> = ({ category }: Props) => {
     const updateCategory = useStoreActions(actions => actions.updateCategory);
+    const currentUser = useStoreState(state => state.currentUser);
 
     return (
         <Card className="mb-3">
@@ -43,13 +44,16 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
     );
 
     async function toggleVisibility() {
-        console.log("visibility toggled");
-        await updateCategory({
-            id: category.id,
-            editedCategory: {
-                ...category,
-                visible: !category.visible,
-            },
-        });
+        if (currentUser?.token) {
+            console.log("visibility toggled");
+            await updateCategory({
+                id: category.id,
+                editedCategory: {
+                    ...category,
+                    visible: !category.visible,
+                },
+                token: currentUser.token,
+            });
+        }
     }
 };

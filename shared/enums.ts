@@ -1,5 +1,6 @@
 export enum SocketEvent {
-    UPDATE_CATEGORY = "update_category",
+    UPDATE_CATEGORY = "update_category", // only re-fetch 1; send with an id
+    UPDATE_CATEGORIES = "update_categories", // re-fetch all; no data in msg
 }
 
 export enum Clearance {

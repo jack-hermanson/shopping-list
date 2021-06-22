@@ -37,9 +37,7 @@ export abstract class AccountClient {
         }
     }
 
-    static async logOut(): Promise<void> {
-        const token = getToken();
-        if (!token) return;
+    static async logOut(token: string): Promise<void> {
         deleteToken();
         try {
             await axios.post(
