@@ -6466,10 +6466,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.3.0.tgz#44ba309494a5fcb29df18e10136294b32af7743e"
-  integrity sha512-8maEe5OeyPLR8zOvfnZN3R1wwogbalKaQMGyMdDbiQuFRI6ZWJrdX3jEB+JUb/vDyirfwZ2/W4Q46B3Qnvhp6w==
+jack-hermanson-component-lib@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.4.0.tgz#ce2ac87201a926771b4baa1425fa5ba4cea61b83"
+  integrity sha512-4rXIrAHmpfnN/sRwIGtaRTEgexur/oQrNTAzFsRICyO6mK13fWCVyqZp/pn9pYETMmH8BrBahUOOmnJeZ6Vn4Q==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6497,19 +6497,7 @@ jack-hermanson-css-lib@^1.0.0:
   resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-1.0.0.tgz#ebedf8ac3ccc555c5bb1fc02676fb25f0941ccd8"
   integrity sha512-c61FcKkY2Q6GDTASrOA9vzqPTm/7F3un+ltR4EmFhBemJSdxy3v62qnwMEiDpP/MLoEGoOAKTdGy+h7KYfiVKQ==
 
-jack-hermanson-ts-utils@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.2.1.tgz#acba5dfc85ced15eca9f0a532c4b226c3a1f59e9"
-  integrity sha512-nzY8DNyGQp3a5sOU7FH5L1qg2t4YrkSQD2ywJ6LSJKF4BmFFvdm7a8oSYRm0G2ohoziWK+GplJPfDTkP/q7CgA==
-  dependencies:
-    "@types/express" "^4.17.12"
-    express "^4.17.1"
-    joi "^17.4.0"
-    react "^17.0.2"
-    typeorm "^0.2.34"
-    typescript "^4.3.4"
-
-jack-hermanson-ts-utils@^1.4.0:
+jack-hermanson-ts-utils@^1.2.1, jack-hermanson-ts-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.4.0.tgz#c3717954b9094e5ebd9cf937ffa231ecd9555fca"
   integrity sha512-kaxFEkRoD3WAiS5yBvXZqYHcyO8h7+Vu2kFdKtzeMXJQRoLgP7rCx0ePJHq7Av8yzHBs1Fi8c/IiApXS8A8LQg==
