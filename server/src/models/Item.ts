@@ -24,4 +24,7 @@ export class Item {
 
     @Column({ type: "int", nullable: false })
     accountId: number; // id of the last account that updated this record
+
+    @Column({ type: "boolean", default: false, nullable: false })
+    repeats: boolean;
 }
