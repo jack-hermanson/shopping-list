@@ -1,15 +1,14 @@
 import { FC } from "react";
-import { PageHeader } from "jack-hermanson-component-lib/lib";
-import { Col, Row } from "reactstrap";
 import { ManageTabs } from "../../components/Manage/ManageTabs";
+import { Col, Row } from "reactstrap";
 
-export const Index: FC = () => {
+export const Dashboard: FC = () => {
     return (
         <div>
             <ManageTabs />
             <Row>
                 <Col>
-                    <PageHeader border={false} title="Manage Categories" />
+                    <p>Manage dashboard</p>
                 </Col>
             </Row>
         </div>

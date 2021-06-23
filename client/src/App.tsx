@@ -12,7 +12,7 @@ import { useStoreActions, useStoreState } from "./store";
 import { Forbidden } from "./pages/Errors/Forbidden";
 import { SocketConnection } from "./components/Utils/SocketConnection";
 import { Index as Categories } from "./pages/Categories/Index";
-import { Index as ManageIndex } from "./pages/Manage/Index";
+import { Dashboard as ManageDashboard } from "./pages/Manage/Dashboard";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -39,10 +39,10 @@ function App() {
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/account" component={Account} />
 
-                    <Route path="/manage" component={ManageIndex} />
+                    <Route exact path="/manage" component={ManageDashboard} />
                     <Route
                         exact
-                        path="manage/categories"
+                        path="/manage/categories"
                         component={Categories}
                     />
 

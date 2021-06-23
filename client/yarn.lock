@@ -6466,10 +6466,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.4.0.tgz#ce2ac87201a926771b4baa1425fa5ba4cea61b83"
-  integrity sha512-4rXIrAHmpfnN/sRwIGtaRTEgexur/oQrNTAzFsRICyO6mK13fWCVyqZp/pn9pYETMmH8BrBahUOOmnJeZ6Vn4Q==
+jack-hermanson-component-lib@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.5.3.tgz#865040fd00b447fd75d4662737184b336633b263"
+  integrity sha512-IId6XHjpqfgEDfUA6c7weMprid5hiQ9moQl3LOeZN+GZb/tWEssPiY1QNRrTyslOGSqdBScsUOhFNyqV77Il6A==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6483,6 +6483,7 @@ jack-hermanson-component-lib@0.4.0:
     react "^17.0.2"
     react-dom "^17.0.2"
     react-loader-spinner "^4.0.0"
+    react-router-dom "^5.2.0"
     react-scripts "4.0.3"
     reactstrap "^9.0.0-0"
     typescript "^4.3.4"
