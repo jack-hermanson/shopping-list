@@ -5,15 +5,17 @@ import { ManageTabs } from "../../components/Manage/ManageTabs";
 import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";
 import { CreateEditCategoryForm } from "../../components/Categories/CreateEditCategoryForm";
-import { useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../store";
 import { ManageCategory } from "../../components/Categories/ManageCategory";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { capitalizeFirst } from "jack-hermanson-ts-utils";
+import { capitalizeFirst, scrollToTop } from "jack-hermanson-ts-utils";
 
 export const Index: FC = () => {
     useProtectedRoute(Clearance.ADMIN);
 
     const categories = useStoreState(state => state.categories);
+    const currentUser = useStoreState(state => state.currentUser);
+    const saveCategory = useStoreActions(actions => actions.saveCategory);
 
     const [formState, setFormState] = useState<"edit" | "new" | undefined>(
         undefined
@@ -83,10 +85,18 @@ export const Index: FC = () => {
     function renderNewForm() {
         return (
             <CreateEditCategoryForm
-                onSubmit={newCategory => {
-                    console.log("New category:");
-                    console.log(newCategory);
-                    setFormState(undefined);
+                onSubmit={async newCategory => {
+                    if (currentUser?.token) {
+                        try {
+                            await saveCategory({
+                                newCategory,
+                                token: currentUser.token,
+                            });
+                            setFormState(undefined);
+                        } catch (error) {
+                            scrollToTop();
+                        }
+                    }
                 }}
             />
         );

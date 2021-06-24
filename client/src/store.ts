@@ -49,6 +49,10 @@ interface StoreModel {
     >;
     loadCategory: Thunk<StoreModel, { id: number; token: string }>;
     changeCategory: Action<StoreModel, CategoryRecord>;
+    saveCategory: Thunk<
+        StoreModel,
+        { newCategory: CreateEditCategoryRequest; token: string }
+    >;
 }
 
 export const store = createStore<StoreModel>({
@@ -147,6 +151,18 @@ export const store = createStore<StoreModel>({
                 }
                 return payload;
             });
+        }
+    }),
+    saveCategory: thunk(async (actions, payload) => {
+        try {
+            await CategoryClient.create(payload.newCategory, payload.token);
+            actions.addAlert(
+                successAlert(`category "${payload.newCategory.name}"`, "saved")
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
         }
     }),
 });
