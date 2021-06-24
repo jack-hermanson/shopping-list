@@ -1,7 +1,11 @@
 import { FC } from "react";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { Button, Card, CardBody, CardHeader, Table } from "reactstrap";
-import { ActionCardHeader, KeyValCardBody } from "jack-hermanson-component-lib";
+import { Button, Card } from "reactstrap";
+import {
+    ActionCardHeader,
+    ActionsDropdown,
+    KeyValCardBody,
+} from "jack-hermanson-component-lib";
 import { KeyValPair } from "jack-hermanson-ts-utils";
 
 interface Props {
@@ -24,9 +28,21 @@ export const ManageCategory: FC<Props> = ({ category }: Props) => {
     return (
         <Card className="mb-3 no-mb-last">
             <ActionCardHeader title={category.name}>
-                <Button color="primary" size="sm">
-                    Test
-                </Button>
+                <ActionsDropdown
+                    options={[
+                        {
+                            type: "OnClickItem",
+                            label: "Edit",
+                            onClick: () => console.log("edit"),
+                        },
+                        undefined,
+                        {
+                            type: "OnClickItem",
+                            label: "Delete",
+                            onClick: () => console.log("delete"),
+                        },
+                    ]}
+                />
             </ActionCardHeader>
             <KeyValCardBody keyValPairs={tableInfo} />
         </Card>

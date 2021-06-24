@@ -17,7 +17,7 @@
     "bootstrap": "^5.0.1",
     "customize-cra": "^1.0.0",
     "easy-peasy": "^5.0.3",
-    "jack-hermanson-component-lib": "^0.7.0",
+    "jack-hermanson-component-lib": "^0.8.2",
     "jack-hermanson-css-lib": "^1.0.0",
     "jack-hermanson-ts-utils": "^1.4.0",
     "react": "^17.0.2",
