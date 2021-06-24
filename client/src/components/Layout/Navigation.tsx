@@ -18,6 +18,7 @@ import {
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { useStoreState } from "../../store";
 import { capitalizeFirst } from "jack-hermanson-ts-utils";
+import { Clearance } from "../../../../shared/enums";
 
 export const Navigation: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -40,16 +41,7 @@ export const Navigation: FC = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
-                        <NavItem>
-                            <NavLink
-                                onClick={() => setIsOpen(false)}
-                                to={"/manage"}
-                                className="nav-link"
-                            >
-                                <FA className="me-1" icon={faCogs} />
-                                Manage
-                            </NavLink>
-                        </NavItem>
+                        {renderManage()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
                         <NavItem>
@@ -69,4 +61,21 @@ export const Navigation: FC = () => {
             </Container>
         </Navbar>
     );
+
+    function renderManage() {
+        if (currentUser && currentUser.clearance >= Clearance.ADMIN) {
+            return (
+                <NavItem>
+                    <NavLink
+                        onClick={() => setIsOpen(false)}
+                        to={"/manage"}
+                        className="nav-link"
+                    >
+                        <FA className="me-1" icon={faCogs} />
+                        Manage
+                    </NavLink>
+                </NavItem>
+            );
+        }
+    }
 };

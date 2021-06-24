@@ -6466,10 +6466,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.5.3.tgz#865040fd00b447fd75d4662737184b336633b263"
-  integrity sha512-IId6XHjpqfgEDfUA6c7weMprid5hiQ9moQl3LOeZN+GZb/tWEssPiY1QNRrTyslOGSqdBScsUOhFNyqV77Il6A==
+jack-hermanson-component-lib@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.7.0.tgz#384379d9ae6ceba1f5f37ca6c88ec03b3f585d46"
+  integrity sha512-/kPlD/caILlimzCsBPSYopJ7GORmNZdu5gnkPXY02N3e1ZoRrgIUY472Vm8oSP6uk+l5X/MZZy1jZgQaWjeHXA==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6478,7 +6478,7 @@ jack-hermanson-component-lib@^0.5.3:
     "@types/react" "^17.0.11"
     "@types/react-dom" "^17.0.0"
     bootstrap "^5.0.1"
-    jack-hermanson-css-lib "^0.2.0"
+    jack-hermanson-css-lib "^1.0.0"
     jack-hermanson-ts-utils "^1.2.1"
     react "^17.0.2"
     react-dom "^17.0.2"
@@ -6487,11 +6487,6 @@ jack-hermanson-component-lib@^0.5.3:
     react-scripts "4.0.3"
     reactstrap "^9.0.0-0"
     typescript "^4.3.4"
-
-jack-hermanson-css-lib@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-0.2.0.tgz#fef312be2b2e9da3ad5ed500d29768ceefe77612"
-  integrity sha512-VShH202V2h9OALvL9aUhyiyI1FfTErF/tPH9TTs7qGBNCvziCdDfqWV5wjFJx1FldZX3DB/hEbvsv0uQG858rg==
 
 jack-hermanson-css-lib@^1.0.0:
   version "1.0.0"
