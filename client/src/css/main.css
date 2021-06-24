@@ -10809,14 +10809,6 @@ textarea.form-control-lg {
   background-color: #20374c;
 }
 
-.dropdown-menu {
-  font-size: 0.875rem;
-}
-
-.dropdown-header {
-  font-size: 0.875rem;
-}
-
 .blockquote-footer {
   color: #ebebeb;
 }
@@ -10835,9 +10827,6 @@ textarea.form-control-lg {
   color: rgba(255, 255, 255, 0.4);
 }
 
-label,
-.radio label,
-.checkbox label,
 .help-block {
   font-size: 0.875rem;
 }

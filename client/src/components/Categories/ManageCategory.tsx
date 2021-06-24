@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { Button, Card } from "reactstrap";
+import { Card } from "reactstrap";
 import {
     ActionCardHeader,
     ActionsDropdown,
@@ -10,9 +10,10 @@ import { KeyValPair } from "jack-hermanson-ts-utils";
 
 interface Props {
     category: CategoryRecord;
+    edit: (category: CategoryRecord) => any;
 }
 
-export const ManageCategory: FC<Props> = ({ category }: Props) => {
+export const ManageCategory: FC<Props> = ({ category, edit }: Props) => {
     const tableInfo: KeyValPair[] = [
         {
             key: "Notes",
@@ -33,7 +34,7 @@ export const ManageCategory: FC<Props> = ({ category }: Props) => {
                         {
                             type: "OnClickItem",
                             label: "Edit",
-                            onClick: () => console.log("edit"),
+                            onClick: () => edit(category),
                         },
                         undefined,
                         {
