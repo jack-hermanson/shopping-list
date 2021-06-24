@@ -49,4 +49,11 @@ export abstract class CategoryClient {
         );
         return response.data;
     }
+
+    static async delete(categoryId: number, token: string) {
+        await axios.delete(
+            `${this.baseUrl}/${categoryId}`,
+            getAuthHeader(token)
+        );
+    }
 }

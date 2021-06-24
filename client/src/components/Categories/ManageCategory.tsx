@@ -11,9 +11,14 @@ import { KeyValPair } from "jack-hermanson-ts-utils";
 interface Props {
     category: CategoryRecord;
     edit: (category: CategoryRecord) => any;
+    deleteCategory: (categoryId: number) => any;
 }
 
-export const ManageCategory: FC<Props> = ({ category, edit }: Props) => {
+export const ManageCategory: FC<Props> = ({
+    category,
+    edit,
+    deleteCategory,
+}: Props) => {
     const tableInfo: KeyValPair[] = [
         {
             key: "Notes",
@@ -40,7 +45,7 @@ export const ManageCategory: FC<Props> = ({ category, edit }: Props) => {
                         {
                             type: "OnClickItem",
                             label: "Delete",
-                            onClick: () => console.log("delete"),
+                            onClick: () => deleteCategory(category.id),
                         },
                     ]}
                 />

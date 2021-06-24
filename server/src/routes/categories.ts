@@ -103,3 +103,23 @@ router.get(
         }
     }
 );
+
+router.delete(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response) => {
+        if (!minClearance(req.account, Clearance.ADMIN, res)) return;
+
+        try {
+            const socket: Socket = req.app.get("socketio");
+
+            const deleted = await CategoryService.deleteOne(req.params.id, res);
+            if (!deleted) return;
+
+            socket.emit(SocketEvent.UPDATE_CATEGORIES);
+            res.sendStatus(HTTP.OK);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);

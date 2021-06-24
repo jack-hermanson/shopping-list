@@ -16,6 +16,7 @@ export const Index: FC = () => {
     const categories = useStoreState(state => state.categories);
     const currentUser = useStoreState(state => state.currentUser);
     const saveCategory = useStoreActions(actions => actions.saveCategory);
+    const deleteCategory = useStoreActions(actions => actions.deleteCategory);
 
     const [formState, setFormState] = useState<"edit" | "new" | undefined>(
         undefined
@@ -58,6 +59,16 @@ export const Index: FC = () => {
                             edit={category => {
                                 setFormState("edit");
                                 setCategoryToEdit(category);
+                            }}
+                            deleteCategory={categoryId => {
+                                if (categoryToEdit?.id === categoryId) {
+                                    setFormState(undefined);
+                                    setCategoryToEdit(undefined);
+                                }
+                                deleteCategory({
+                                    id: categoryId,
+                                    token: currentUser!.token!, // todo
+                                });
                             }}
                         />
                     ))}

@@ -53,6 +53,7 @@ interface StoreModel {
         StoreModel,
         { newCategory: CreateEditCategoryRequest; token: string }
     >;
+    deleteCategory: Thunk<StoreModel, { id: number; token: string }>;
 }
 
 export const store = createStore<StoreModel>({
@@ -159,6 +160,16 @@ export const store = createStore<StoreModel>({
             actions.addAlert(
                 successAlert(`category "${payload.newCategory.name}"`, "saved")
             );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    deleteCategory: thunk(async (actions, payload) => {
+        try {
+            await CategoryClient.delete(payload.id, payload.token);
+            actions.addAlert(successAlert("category", "deleted"));
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
