@@ -67,3 +67,36 @@ router.get(
         res.json(itemRecords);
     }
 );
+
+router.put(
+    "/:id",
+    auth,
+    async (
+        req: Request<{ id: number } & { CreateEditItemRequest }>,
+        res: Response<ItemRecord>
+    ) => {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) return;
+
+        try {
+            if (!(await validateRequest(createEditItemSchema, req, res)))
+                return;
+
+            const id = req.params.id;
+            const requestBody: CreateEditItemRequest = req.body;
+            const editedItem = await ItemService.update(
+                id,
+                requestBody,
+                req.account.id,
+                res
+            );
+            if (!editedItem) return;
+
+            const categoryIds =
+                await CategoryItemService.getCategoryIdsFromItem(id);
+
+            res.json({ ...editedItem, categoryIds });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);

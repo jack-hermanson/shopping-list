@@ -73,4 +73,44 @@ export abstract class ItemService {
 
         return item;
     }
+
+    static async update(
+        itemId: number,
+        editedItem: CreateEditItemRequest,
+        accountId: number,
+        res: Response
+    ): Promise<Item | undefined> {
+        const { itemRepo } = getRepos();
+
+        const existingItem = await itemRepo.findOne(itemId);
+
+        // item properties
+        if (
+            !(await doesNotConflict({
+                repo: itemRepo,
+                properties: [{ name: "name", value: editedItem.name }],
+                res,
+                existingRecord: existingItem,
+            }))
+        ) {
+            return undefined;
+        }
+
+        // category IDs
+        const categoryIds = await CategoryItemService.updateItemCategories(
+            itemId,
+            editedItem.categoryIds,
+            res
+        );
+        if (!categoryIds) {
+            return undefined;
+        }
+
+        delete editedItem.categoryIds;
+        return await itemRepo.save({
+            ...existingItem,
+            ...editedItem,
+            accountId,
+        });
+    }
 }

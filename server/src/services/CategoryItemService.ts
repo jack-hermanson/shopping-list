@@ -53,4 +53,32 @@ export abstract class CategoryItemService {
         // create the new association
         return await categoryItemRepo.save({ categoryId, itemId });
     }
+
+    static async updateItemCategories(
+        itemId: number,
+        categoryIds: number[],
+        res: Response
+    ): Promise<CategoryItem[] | undefined> {
+        const { categoryItemRepo } = getRepos();
+
+        // remove any existing associations
+        const existingAssociations = await categoryItemRepo.find({ itemId });
+        for (let categoryItem of existingAssociations) {
+            await categoryItemRepo.delete(categoryItem);
+        }
+
+        for (let categoryId of categoryIds) {
+            // is this categoryId legit?
+            const category = await CategoryService.getOne(categoryId, res);
+            if (!category) return undefined;
+
+            // create association
+            await categoryItemRepo.save({
+                categoryId,
+                itemId,
+            });
+        }
+
+        return await categoryItemRepo.find({ itemId });
+    }
 }
