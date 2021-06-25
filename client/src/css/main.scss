@@ -10,3 +10,9 @@ a.dotted-link {
   color: white;
   border-bottom: 1px dotted white;
 }
+
+dl {
+  dd:last-of-type {
+    margin-bottom: 0;
+  }
+}
