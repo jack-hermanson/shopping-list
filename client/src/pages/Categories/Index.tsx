@@ -53,7 +53,13 @@ export const Index: FC = () => {
                     {formState === "edit" && renderEditForm()}
                 </Col>
             </Row>
-            {categoryToDelete && (
+            {renderDeleteConfirmation()}
+        </div>
+    );
+
+    function renderDeleteConfirmation() {
+        if (categoryToDelete) {
+            return (
                 <ConfirmationModal
                     isOpen={showDeleteModal}
                     setIsOpen={setShowDeleteModal}
@@ -71,9 +77,9 @@ export const Index: FC = () => {
                         <strong>{categoryToDelete.name}</strong>?
                     </p>
                 </ConfirmationModal>
-            )}
-        </div>
-    );
+            );
+        }
+    }
 
     async function sendDeleteRequest(categoryId: number) {
         if (currentUser?.token) {
