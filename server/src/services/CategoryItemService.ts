@@ -1,0 +1,56 @@
+import { getConnection, Repository } from "typeorm";
+import { CategoryItem } from "../models/CategoryItem";
+import { ItemService } from "./ItemService";
+import { Response } from "express";
+import { CategoryService } from "./CategoryService";
+import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
+import { HTTP } from "jack-hermanson-ts-utils";
+
+const getRepos = (): {
+    categoryItemRepo: Repository<CategoryItem>;
+} => {
+    const connection = getConnection();
+    const categoryItemRepo = connection.getRepository(CategoryItem);
+    return { categoryItemRepo };
+};
+
+export abstract class CategoryItemService {
+    static async getCategoryIdsFromItem(itemId: number): Promise<number[]> {
+        const { categoryItemRepo } = getRepos();
+        const categoryItems = await categoryItemRepo.find({ itemId });
+        return categoryItems.map(ci => ci.categoryId);
+    }
+
+    static async create(
+        itemId: number,
+        categoryId: number,
+        res: Response
+    ): Promise<CategoryItem> {
+        const { categoryItemRepo } = getRepos();
+
+        // is the itemId legit?
+        const item = await ItemService.getOne(itemId, res);
+        if (!item) {
+            return undefined;
+        }
+
+        // is the categoryId legit?
+        const category = await CategoryService.getOne(categoryId, res);
+        if (!category) {
+            return undefined;
+        }
+
+        // is there already an association?
+        const existingCategoryItem = await categoryItemRepo.findOne({
+            categoryId,
+            itemId,
+        });
+        if (existingCategoryItem) {
+            res.sendStatus(HTTP.CONFLICT);
+            return undefined;
+        }
+
+        // create the new association
+        return await categoryItemRepo.save({ categoryId, itemId });
+    }
+}

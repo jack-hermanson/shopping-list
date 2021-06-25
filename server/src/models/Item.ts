@@ -4,6 +4,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import Joi from "joi";
 
 @Entity({ name: "item" })
 export class Item {
@@ -28,3 +29,15 @@ export class Item {
     @Column({ type: "boolean", default: false, nullable: false })
     repeats: boolean;
 }
+
+const createEditItem = {
+    name: Joi.string().required().min(2),
+    checked: Joi.boolean().required(),
+    notes: Joi.optional(),
+    repeats: Joi.boolean().required(),
+    categoryIds: Joi.array().required().items(Joi.number()).min(1),
+};
+
+export const createEditItemSchema = Joi.object()
+    .options({ abortEarly: false, allowUnknown: true })
+    .keys(createEditItem);
