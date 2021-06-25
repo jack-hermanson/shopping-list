@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Button, Card, CardBody, CardHeader, Collapse } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { useStoreActions, useStoreState } from "../../store";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 interface Props {
     category: CategoryRecord;
@@ -45,15 +46,19 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
 
     async function toggleVisibility() {
         if (currentUser?.token) {
-            console.log("visibility toggled");
-            await updateCategory({
-                id: category.id,
-                editedCategory: {
-                    ...category,
-                    visible: !category.visible,
-                },
-                token: currentUser.token,
-            });
+            try {
+                await updateCategory({
+                    id: category.id,
+                    editedCategory: {
+                        ...category,
+                        visible: !category.visible,
+                    },
+                    token: currentUser.token,
+                });
+            } catch (error) {
+                console.error(error);
+                scrollToTop();
+            }
         }
     }
 };

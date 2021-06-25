@@ -21,6 +21,7 @@ export const Index: FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
     const saveCategory = useStoreActions(actions => actions.saveCategory);
     const deleteCategory = useStoreActions(actions => actions.deleteCategory);
+    const updateCategory = useStoreActions(actions => actions.updateCategory);
 
     const [formState, setFormState] = useState<"edit" | "new" | undefined>(
         undefined
@@ -125,11 +126,21 @@ export const Index: FC = () => {
         return (
             <CreateEditCategoryForm
                 existingCategory={categoryToEdit}
-                onSubmit={editedCategory => {
-                    console.log("Edited to this:");
-                    console.log(editedCategory);
-                    setCategoryToEdit(undefined);
-                    setFormState(undefined);
+                onSubmit={async editedCategory => {
+                    if (categoryToEdit && currentUser?.token) {
+                        try {
+                            await updateCategory({
+                                id: categoryToEdit.id,
+                                editedCategory,
+                                token: currentUser.token,
+                            });
+                            setCategoryToEdit(undefined);
+                            setFormState(undefined);
+                        } catch (error) {
+                            scrollToTop();
+                            console.error(error);
+                        }
+                    }
                 }}
             />
         );

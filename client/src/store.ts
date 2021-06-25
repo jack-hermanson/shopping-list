@@ -45,7 +45,12 @@ interface StoreModel {
     loadCategories: Thunk<StoreModel, string>;
     updateCategory: Thunk<
         StoreModel,
-        { id: number; editedCategory: CreateEditCategoryRequest; token: string }
+        {
+            id: number;
+            editedCategory: CreateEditCategoryRequest;
+            token: string;
+            alert?: boolean;
+        }
     >;
     loadCategory: Thunk<StoreModel, { id: number; token: string }>;
     changeCategory: Action<StoreModel, CategoryRecord>;
@@ -126,16 +131,28 @@ export const store = createStore<StoreModel>({
             actions.setCategories([]);
         }
     }),
-    updateCategory: thunk(async (actions, { editedCategory, id, token }) => {
-        try {
-            actions.changeCategory({ id, ...editedCategory });
-            // ^ this line isn't really necessary, but it makes the UI feel more responsive
+    updateCategory: thunk(
+        async (actions, { editedCategory, id, token, alert = false }) => {
+            try {
+                actions.changeCategory({ id, ...editedCategory });
+                // ^ this line isn't really necessary, but it makes the UI feel more responsive
 
-            await CategoryClient.update(id, editedCategory, token);
-        } catch (error) {
-            console.error(error);
+                await CategoryClient.update(id, editedCategory, token);
+                if (alert) {
+                    actions.addAlert(
+                        successAlert(
+                            `the "${editedCategory.name}" category`,
+                            "edited"
+                        )
+                    );
+                }
+            } catch (error) {
+                console.error(error.response);
+                actions.addAlert(errorAlert(error.message));
+                throw error;
+            }
         }
-    }),
+    ),
     loadCategory: thunk(async (actions, { id, token }) => {
         try {
             const category = await CategoryClient.getOne(id, token);
