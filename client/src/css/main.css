@@ -10809,21 +10809,10 @@ textarea.form-control-lg {
   background-color: #20374c;
 }
 
-.dropdown-menu {
-  font-size: 0.875rem;
-}
-
-.dropdown-header {
-  font-size: 0.875rem;
-}
-
 .blockquote-footer {
   color: #ebebeb;
 }
 
-.table {
-  font-size: 0.875rem;
-}
 .table .thead-dark th {
   color: #fff;
 }
@@ -10838,9 +10827,6 @@ textarea.form-control-lg {
   color: rgba(255, 255, 255, 0.4);
 }
 
-label,
-.radio label,
-.checkbox label,
 .help-block {
   font-size: 0.875rem;
 }
@@ -10936,6 +10922,10 @@ a {
 a.dotted-link {
   color: white;
   border-bottom: 1px dotted white;
+}
+
+dl dd:last-of-type {
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=main.css.map */

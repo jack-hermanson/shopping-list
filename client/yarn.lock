@@ -6466,10 +6466,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jack-hermanson-component-lib@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.3.0.tgz#44ba309494a5fcb29df18e10136294b32af7743e"
-  integrity sha512-8maEe5OeyPLR8zOvfnZN3R1wwogbalKaQMGyMdDbiQuFRI6ZWJrdX3jEB+JUb/vDyirfwZ2/W4Q46B3Qnvhp6w==
+jack-hermanson-component-lib@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-component-lib/-/jack-hermanson-component-lib-0.9.1.tgz#193631a641deef66d454beda50f7b5b84892b392"
+  integrity sha512-GN3t48O/T1vaixQ84Xo6+qnsPYXsVp6Jdl6yoAQPS7P+ehBfZkttYmRmp/GIxiGMpfgBaglZ1apYlsITAQ7MjQ==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^1.2.35"
     "@fortawesome/free-solid-svg-icons" "^5.15.3"
@@ -6478,38 +6478,22 @@ jack-hermanson-component-lib@^0.3.0:
     "@types/react" "^17.0.11"
     "@types/react-dom" "^17.0.0"
     bootstrap "^5.0.1"
-    jack-hermanson-css-lib "^0.2.0"
+    jack-hermanson-css-lib "^1.0.0"
     jack-hermanson-ts-utils "^1.2.1"
     react "^17.0.2"
     react-dom "^17.0.2"
     react-loader-spinner "^4.0.0"
+    react-router-dom "^5.2.0"
     react-scripts "4.0.3"
     reactstrap "^9.0.0-0"
     typescript "^4.3.4"
-
-jack-hermanson-css-lib@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-0.2.0.tgz#fef312be2b2e9da3ad5ed500d29768ceefe77612"
-  integrity sha512-VShH202V2h9OALvL9aUhyiyI1FfTErF/tPH9TTs7qGBNCvziCdDfqWV5wjFJx1FldZX3DB/hEbvsv0uQG858rg==
 
 jack-hermanson-css-lib@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jack-hermanson-css-lib/-/jack-hermanson-css-lib-1.0.0.tgz#ebedf8ac3ccc555c5bb1fc02676fb25f0941ccd8"
   integrity sha512-c61FcKkY2Q6GDTASrOA9vzqPTm/7F3un+ltR4EmFhBemJSdxy3v62qnwMEiDpP/MLoEGoOAKTdGy+h7KYfiVKQ==
 
-jack-hermanson-ts-utils@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.2.1.tgz#acba5dfc85ced15eca9f0a532c4b226c3a1f59e9"
-  integrity sha512-nzY8DNyGQp3a5sOU7FH5L1qg2t4YrkSQD2ywJ6LSJKF4BmFFvdm7a8oSYRm0G2ohoziWK+GplJPfDTkP/q7CgA==
-  dependencies:
-    "@types/express" "^4.17.12"
-    express "^4.17.1"
-    joi "^17.4.0"
-    react "^17.0.2"
-    typeorm "^0.2.34"
-    typescript "^4.3.4"
-
-jack-hermanson-ts-utils@^1.4.0:
+jack-hermanson-ts-utils@^1.2.1, jack-hermanson-ts-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.4.0.tgz#c3717954b9094e5ebd9cf937ffa231ecd9555fca"
   integrity sha512-kaxFEkRoD3WAiS5yBvXZqYHcyO8h7+Vu2kFdKtzeMXJQRoLgP7rCx0ePJHq7Av8yzHBs1Fi8c/IiApXS8A8LQg==

@@ -36,4 +36,24 @@ export abstract class CategoryClient {
         );
         return response.data;
     }
+
+    static async create(newCategory: CreateEditCategoryRequest, token: string) {
+        if (newCategory.notes === "") {
+            delete newCategory.notes;
+        }
+
+        const response = await axios.post<CategoryRecord>(
+            this.baseUrl,
+            newCategory,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async delete(categoryId: number, token: string) {
+        await axios.delete(
+            `${this.baseUrl}/${categoryId}`,
+            getAuthHeader(token)
+        );
+    }
 }

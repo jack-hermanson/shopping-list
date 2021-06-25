@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useStoreActions, useStoreState } from "./store";
 import { Forbidden } from "./pages/Errors/Forbidden";
 import { SocketConnection } from "./components/Utils/SocketConnection";
+import { Index as Categories } from "./pages/Categories/Index";
+import { Dashboard as ManageDashboard } from "./pages/Manage/Dashboard";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -36,6 +38,14 @@ function App() {
                     <Route exact path="/" component={ListIndex} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/account" component={Account} />
+
+                    <Route exact path="/manage" component={ManageDashboard} />
+                    <Route
+                        exact
+                        path="/manage/categories"
+                        component={Categories}
+                    />
+
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />
                 </Switch>

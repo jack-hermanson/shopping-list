@@ -4,13 +4,16 @@ import { CreateEditCategoryRequest } from "../../../shared/resource_models/categ
 import { Response } from "express";
 import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { CategoryItem } from "../models/CategoryItem";
 
 const getRepos = (): {
     categoryRepo: Repository<Category>;
+    categoryItemRepo: Repository<CategoryItem>;
 } => {
     const connection = getConnection();
     const categoryRepo = connection.getRepository(Category);
-    return { categoryRepo };
+    const categoryItemRepo = connection.getRepository(CategoryItem);
+    return { categoryRepo, categoryItemRepo };
 };
 
 export abstract class CategoryService {
@@ -84,5 +87,26 @@ export abstract class CategoryService {
         }
 
         return category;
+    }
+
+    static async deleteOne(
+        id: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { categoryRepo, categoryItemRepo } = getRepos();
+
+        const category = await categoryRepo.findOne(id);
+        if (!category) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        const categoryItems = await categoryItemRepo.find({ categoryId: id });
+        for (let categoryItem of categoryItems) {
+            await categoryItemRepo.delete(categoryItem);
+        }
+
+        await categoryRepo.delete(category);
+        return true;
     }
 }
