@@ -24,6 +24,8 @@ import {
     CreateEditCategoryRequest,
 } from "../../shared/resource_models/category";
 import { CategoryClient } from "./clients/CategoryClient";
+import { ItemRecord } from "../../shared/resource_models/item";
+import { ItemClient } from "./clients/ItemClient";
 
 interface StoreModel {
     alerts: AlertType[];
@@ -59,6 +61,10 @@ interface StoreModel {
         { newCategory: CreateEditCategoryRequest; token: string }
     >;
     deleteCategory: Thunk<StoreModel, { id: number; token: string }>;
+
+    items: ItemRecord[] | undefined;
+    setItems: Action<StoreModel, ItemRecord[]>;
+    loadItems: Thunk<StoreModel, string>;
 }
 
 export const store = createStore<StoreModel>({
@@ -187,6 +193,21 @@ export const store = createStore<StoreModel>({
         try {
             await CategoryClient.delete(payload.id, payload.token);
             actions.addAlert(successAlert("category", "deleted"));
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+
+    items: undefined,
+    setItems: action((state, payload) => {
+        state.items = payload;
+    }),
+    loadItems: thunk(async (actions, token) => {
+        try {
+            const items = await ItemClient.getAll(token);
+            actions.setItems(items);
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));

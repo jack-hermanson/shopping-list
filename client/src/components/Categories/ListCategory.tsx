@@ -3,6 +3,7 @@ import { Button, Card, CardBody, CardHeader, Collapse } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { useStoreActions, useStoreState } from "../../store";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import { LoadingSpinner } from "jack-hermanson-component-lib/lib";
 
 interface Props {
     category: CategoryRecord;
@@ -17,6 +18,9 @@ about a Category record itself.
 export const ListCategory: FC<Props> = ({ category }: Props) => {
     const updateCategory = useStoreActions(actions => actions.updateCategory);
     const currentUser = useStoreState(state => state.currentUser);
+    const items = useStoreState(state => state.items)?.filter(i =>
+        i.categoryIds.includes(category.id)
+    );
 
     return (
         <Card className="mb-3">
@@ -39,6 +43,11 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                         {category.id} visible: {category.visible.toString()}
                     </p>
                     <p>{category.notes}</p>
+                    {items ? (
+                        items.map(item => <p key={item.id}>{item.name}</p>)
+                    ) : (
+                        <LoadingSpinner />
+                    )}
                 </CardBody>
             </Collapse>
         </Card>
