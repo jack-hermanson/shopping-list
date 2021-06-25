@@ -1,5 +1,9 @@
 import { FC, useState, Fragment } from "react";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
+import {
+    ConfirmationModal,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib/lib";
 import { Button, Col, Row } from "reactstrap";
 import { ManageTabs } from "../../components/Manage/ManageTabs";
 import { useProtectedRoute } from "../../utils/hooks";
@@ -24,6 +28,10 @@ export const Index: FC = () => {
     const [categoryToEdit, setCategoryToEdit] = useState<
         CategoryRecord | undefined
     >(undefined);
+    const [categoryToDelete, setCategoryToDelete] = useState<
+        CategoryRecord | undefined
+    >(undefined);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     return (
         <div>
@@ -45,8 +53,41 @@ export const Index: FC = () => {
                     {formState === "edit" && renderEditForm()}
                 </Col>
             </Row>
+            {categoryToDelete && (
+                <ConfirmationModal
+                    isOpen={showDeleteModal}
+                    setIsOpen={setShowDeleteModal}
+                    title="Confirm Deletion"
+                    onConfirm={async () => {
+                        console.log("confirm deletion");
+                        setShowDeleteModal(false);
+                        await sendDeleteRequest(categoryToDelete.id);
+                    }}
+                    buttonColor="danger"
+                    buttonText="Delete"
+                >
+                    <p className="mb-0">
+                        Are you sure you want to delete the category{" "}
+                        <strong>{categoryToDelete.name}</strong>?
+                    </p>
+                </ConfirmationModal>
+            )}
         </div>
     );
+
+    async function sendDeleteRequest(categoryId: number) {
+        if (currentUser?.token) {
+            try {
+                await deleteCategory({
+                    token: currentUser.token,
+                    id: categoryId,
+                });
+            } catch (error) {
+                console.error(error);
+                scrollToTop();
+            }
+        }
+    }
 
     function renderCategories() {
         if (categories) {
@@ -60,15 +101,10 @@ export const Index: FC = () => {
                                 setFormState("edit");
                                 setCategoryToEdit(category);
                             }}
-                            deleteCategory={categoryId => {
-                                if (categoryToEdit?.id === categoryId) {
-                                    setFormState(undefined);
-                                    setCategoryToEdit(undefined);
-                                }
-                                deleteCategory({
-                                    id: categoryId,
-                                    token: currentUser!.token!, // todo
-                                });
+                            deleteCategory={category => {
+                                setCategoryToDelete(category);
+                                setShowDeleteModal(true);
+                                console.log({ category });
                             }}
                         />
                     ))}
