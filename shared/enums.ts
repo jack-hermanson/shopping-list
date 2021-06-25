@@ -1,6 +1,7 @@
 export enum SocketEvent {
     UPDATE_CATEGORY = "update_category", // only re-fetch 1; send with an id
     UPDATE_CATEGORIES = "update_categories", // re-fetch all; no data in msg
+    UPDATE_ITEM = "update_item",
     UPDATE_ITEMS = "update_items",
 }
 

@@ -113,4 +113,25 @@ export abstract class ItemService {
             accountId,
         });
     }
+
+    static async delete(
+        itemId: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { itemRepo } = getRepos();
+
+        const item = await itemRepo.findOne(itemId);
+        if (!item) {
+            res.status(HTTP.NOT_FOUND).send(`No item with ID ${itemId}`);
+            return undefined;
+        }
+
+        const deletedCategoryItems =
+            await CategoryItemService.deleteItemCategories(item.id, res);
+        if (!deletedCategoryItems) return undefined;
+
+        await itemRepo.delete(item.id);
+
+        return true;
+    }
 }

@@ -81,4 +81,25 @@ export abstract class CategoryItemService {
 
         return await categoryItemRepo.find({ itemId });
     }
+
+    static async deleteItemCategories(
+        itemId: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { categoryItemRepo } = getRepos();
+
+        const categoryItems = await categoryItemRepo.find({ itemId });
+        if (!categoryItems.length) {
+            res.status(HTTP.NOT_FOUND).send(
+                `No categoryItems found with item ID ${itemId}`
+            );
+            return undefined;
+        }
+
+        for (let categoryItem of categoryItems) {
+            await categoryItemRepo.delete(categoryItem);
+        }
+
+        return true;
+    }
 }

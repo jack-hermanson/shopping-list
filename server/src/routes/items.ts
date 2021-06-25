@@ -68,11 +68,24 @@ router.get(
     }
 );
 
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<ItemRecord>) => {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) return;
+        const item = await ItemService.getOne(req.params.id, res);
+        const categoryIds = await CategoryItemService.getCategoryIdsFromItem(
+            item.id
+        );
+        res.json({ ...item, categoryIds });
+    }
+);
+
 router.put(
     "/:id",
     auth,
     async (
-        req: Request<{ id: number } & { CreateEditItemRequest }>,
+        req: Request<{ id: number; CreateEditItemRequest }>,
         res: Response<ItemRecord>
     ) => {
         if (!minClearance(req.account, Clearance.NORMAL, res)) return;
@@ -94,7 +107,30 @@ router.put(
             const categoryIds =
                 await CategoryItemService.getCategoryIdsFromItem(id);
 
+            // socket
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_ITEM, { id });
+
             res.json({ ...editedItem, categoryIds });
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.delete(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<boolean>) => {
+        if (!minClearance(req.account, Clearance.ADMIN, res)) return;
+        try {
+            const deleted = await ItemService.delete(req.params.id, res);
+            if (!deleted) return;
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_ITEMS);
+
+            res.json(true);
         } catch (error) {
             sendError(error, res);
         }
