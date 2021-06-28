@@ -46,12 +46,16 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                 </div>
             </CardHeader>
             <Collapse isOpen={category.visible}>
-                <CardBody className="px-0">
+                <CardBody className="px-0 py-0">
                     {items ? (
-                        <Table className="card-table table-striped">
+                        <Table className="card-table table-striped mb-0">
                             <tbody>
                                 {items.map(item => (
-                                    <ListItem item={item} key={item.id} />
+                                    <ListItem
+                                        categoryId={category.id}
+                                        item={item}
+                                        key={item.id}
+                                    />
                                 ))}
                             </tbody>
                         </Table>

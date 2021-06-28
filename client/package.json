@@ -18,7 +18,7 @@
     "customize-cra": "^1.0.0",
     "easy-peasy": "^5.0.3",
     "jack-hermanson-component-lib": "^1.0.0",
-    "jack-hermanson-css-lib": "^1.1.0",
+    "jack-hermanson-css-lib": "^1.2.1",
     "jack-hermanson-ts-utils": "^1.5.0",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
