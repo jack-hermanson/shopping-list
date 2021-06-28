@@ -173,7 +173,7 @@ export const Index: FC = () => {
                     <PageHeader title="Manage Categories">
                         <Button
                             size="sm"
-                            color="success"
+                            color="info"
                             onClick={() => {
                                 setCategoryToEdit(undefined);
                                 setFormState("new");

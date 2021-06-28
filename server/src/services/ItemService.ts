@@ -134,4 +134,23 @@ export abstract class ItemService {
 
         return true;
     }
+
+    static async toggleChecked(
+        itemId: number,
+        checked: boolean,
+        accountId: number,
+        res: Response
+    ): Promise<Item | undefined> {
+        const { itemRepo } = getRepos();
+        const item = await itemRepo.findOne(itemId);
+
+        if (!item) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        item.checked = checked;
+        item.accountId = accountId;
+        return await itemRepo.save(item);
+    }
 }

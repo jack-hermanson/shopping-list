@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { useStoreState } from "../../store";
-import { LoadingSpinner } from "jack-hermanson-component-lib/lib";
+import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
+import { Button } from "reactstrap";
 
 /*
 This component renders the categories on the list.
@@ -10,10 +11,14 @@ for meta/administrative purposes.
  */
 export const ListCategories: FC = () => {
     const categories = useStoreState(state => state.categories);
-    console.log("render categories");
 
     return (
         <div>
+            <PageHeader title="Shopping List">
+                <Button size="sm" color="info">
+                    New Item
+                </Button>
+            </PageHeader>
             {categories ? (
                 categories.map(category => (
                     <ListCategory category={category} key={category.id} />

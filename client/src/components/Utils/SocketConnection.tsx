@@ -6,6 +6,7 @@ import { SocketEvent } from "../../../../shared/enums";
 export const SocketConnection: FC = () => {
     const loadCategories = useStoreActions(actions => actions.loadCategories);
     const loadCategory = useStoreActions(actions => actions.loadCategory);
+    const loadItems = useStoreActions(actions => actions.loadItems);
     const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
@@ -27,7 +28,13 @@ export const SocketConnection: FC = () => {
                 console.log("Reloaded all categories.");
             }
         });
-    }, [loadCategories, loadCategory, currentUser?.token]);
+
+        socket.on(SocketEvent.UPDATE_ITEMS, () => {
+            if (currentUser?.token) {
+                loadItems(currentUser.token);
+            }
+        });
+    }, [loadCategories, loadCategory, loadItems, currentUser?.token]);
 
     return <Fragment />;
 };

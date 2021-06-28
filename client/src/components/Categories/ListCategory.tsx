@@ -1,9 +1,17 @@
 import { FC } from "react";
-import { Button, Card, CardBody, CardHeader, Collapse } from "reactstrap";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Collapse,
+    Table,
+} from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { useStoreActions, useStoreState } from "../../store";
 import { scrollToTop } from "jack-hermanson-ts-utils";
 import { LoadingSpinner } from "jack-hermanson-component-lib/lib";
+import { ListItem } from "../Items/ListItem";
 
 interface Props {
     category: CategoryRecord;
@@ -38,13 +46,15 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                 </div>
             </CardHeader>
             <Collapse isOpen={category.visible}>
-                <CardBody>
-                    <p>
-                        {category.id} visible: {category.visible.toString()}
-                    </p>
-                    <p>{category.notes}</p>
+                <CardBody className="px-0">
                     {items ? (
-                        items.map(item => <p key={item.id}>{item.name}</p>)
+                        <Table className="card-table table-striped">
+                            <tbody>
+                                {items.map(item => (
+                                    <ListItem item={item} key={item.id} />
+                                ))}
+                            </tbody>
+                        </Table>
                     ) : (
                         <LoadingSpinner />
                     )}
