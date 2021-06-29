@@ -1,8 +1,9 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useState } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
-import { Button, Input, Label, Modal } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { CreateEditItemForm } from "./CreateEditItemForm";
+import { useStoreActions, useStoreState } from "../../store";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 interface Props {
     item: ItemRecord;
@@ -10,14 +11,22 @@ interface Props {
 }
 
 export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
+    const [showInfoModal, setShowInfoModal] = useState(false);
+    const updateItem = useStoreActions(actions => actions.updateItem);
+    const currentUser = useStoreState(state => state.currentUser);
+
     return (
         <Fragment>
             <tr>
                 <td className="w-100">{renderInfo()}</td>
-                <td className="ms-auto hover-mouse ps-3">
+                <td
+                    className="ms-auto hover-mouse ps-3"
+                    onClick={() => setShowInfoModal(true)}
+                >
                     <i className="fas fa-info-circle px-0" />
                 </td>
             </tr>
+            {renderModal()}
         </Fragment>
     );
 
@@ -41,6 +50,36 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     )}
                 </Label>
             </div>
+        );
+    }
+
+    function renderModal() {
+        const toggle = () => setShowInfoModal(o => !o);
+        return (
+            <Modal isOpen={showInfoModal} toggle={toggle}>
+                <ModalHeader toggle={toggle}>Edit Item</ModalHeader>
+                <ModalBody>
+                    <CreateEditItemForm
+                        onSubmit={async editedItem => {
+                            setShowInfoModal(false);
+                            if (currentUser?.token) {
+                                try {
+                                    await updateItem({
+                                        id: item.id,
+                                        token: currentUser.token,
+                                        item: editedItem,
+                                    });
+                                } catch (error) {
+                                    console.error(error);
+                                    scrollToTop();
+                                }
+                            }
+                        }}
+                        autoFocus={true}
+                        existingItem={item}
+                    />
+                </ModalBody>
+            </Modal>
         );
     }
 };

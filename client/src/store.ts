@@ -69,6 +69,10 @@ interface StoreModel {
     setItems: Action<StoreModel, ItemRecord[]>;
     loadItems: Thunk<StoreModel, string>;
     saveItem: Thunk<StoreModel, { item: CreateEditItemRequest; token: string }>;
+    updateItem: Thunk<
+        StoreModel,
+        { id: number; item: CreateEditItemRequest; token: string }
+    >;
 }
 
 export const store = createStore<StoreModel>({
@@ -223,6 +227,18 @@ export const store = createStore<StoreModel>({
             await ItemClient.create(payload.item, payload.token);
             actions.addAlert(
                 successAlert(`item "${payload.item.name}"`, "added")
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    updateItem: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.update(payload.id, payload.item, payload.token);
+            actions.addAlert(
+                successAlert(`item "${payload.item.name}"`, "edited")
             );
         } catch (error) {
             console.error(error.response);

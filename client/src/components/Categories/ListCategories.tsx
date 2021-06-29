@@ -17,7 +17,15 @@ export const ListCategories: FC = () => {
     return (
         <div>
             <PageHeader title="Shopping List">
-                <Button size="sm" color="info" outline>
+                <Button
+                    size="sm"
+                    color="info"
+                    outline
+                    onClick={() => {
+                        const filtering = document.getElementById("filtering");
+                        filtering?.scrollIntoView();
+                    }}
+                >
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
                 <Button

@@ -73,7 +73,7 @@ export const CreateEditItemForm: FC<Props> = ({
             onReset={e => {
                 e.preventDefault();
                 resetForm();
-                document.getElementById("new-item-name")?.focus();
+                document.getElementById(idPrefix("name"))?.focus();
             }}
         >
             {renderError()}
@@ -100,7 +100,9 @@ export const CreateEditItemForm: FC<Props> = ({
             categoryIds,
         });
 
-        resetForm();
+        if (!existingItem) {
+            resetForm();
+        }
     }
 
     function idPrefix(field: string) {
@@ -179,7 +181,7 @@ export const CreateEditItemForm: FC<Props> = ({
             <FormGroup>
                 <Label className="form-label required">Categories</Label>
                 {categories?.map(category => {
-                    const id = `category-${category.id}`;
+                    const id = idPrefix(`category-${category.id}`);
                     const alreadySelected = categoryIds.includes(category.id);
                     return (
                         <FormGroup key={category.id} check>

@@ -24,4 +24,17 @@ export abstract class ItemClient {
         );
         return response.data;
     }
+
+    static async update(
+        id: number,
+        item: CreateEditItemRequest,
+        token: string
+    ) {
+        const response = await axios.put<ItemRecord>(
+            `${this.baseUrl}/${id}`,
+            item,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

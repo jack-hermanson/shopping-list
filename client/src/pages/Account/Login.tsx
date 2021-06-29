@@ -10,7 +10,7 @@ export const Login: FC = () => {
 
     useEffect(() => {
         if (currentUser) {
-            history.replace("/account");
+            history.replace("/");
         }
     }, [currentUser, history]);
 

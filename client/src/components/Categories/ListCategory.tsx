@@ -32,19 +32,7 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
 
     return (
         <Card className="mb-3 no-mb-last">
-            <CardHeader className="d-flex">
-                <div
-                    className="d-flex hover-mouse w-100"
-                    onClick={toggleVisibility}
-                >
-                    <h5 className="card-title my-auto">{category.name}</h5>
-                </div>
-                <div className="ms-auto">
-                    <Button color="secondary" size="sm">
-                        Actions
-                    </Button>
-                </div>
-            </CardHeader>
+            {renderCardHeader()}
             <Collapse isOpen={category.visible}>
                 <CardBody className="px-0 py-0">
                     {items ? (
@@ -66,6 +54,24 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
             </Collapse>
         </Card>
     );
+
+    function renderCardHeader() {
+        return (
+            <CardHeader className="d-flex">
+                <div
+                    className="d-flex hover-mouse w-100"
+                    onClick={toggleVisibility}
+                >
+                    <h5 className="card-title my-auto">{category.name}</h5>
+                </div>
+                <div className="ms-auto">
+                    <Button color="secondary" size="sm">
+                        Actions
+                    </Button>
+                </div>
+            </CardHeader>
+        );
+    }
 
     async function toggleVisibility() {
         if (currentUser?.token) {

@@ -19,26 +19,42 @@ export const ListIndex: FC = () => {
                     <ListCategories />
                 </Col>
                 <Col lg={4}>
-                    <Card id="new-item-card">
-                        <CardHeader>
-                            <h5 className="mb-0">New Item</h5>
-                        </CardHeader>
-                        <CardBody>
-                            <CreateEditItemForm
-                                onSubmit={async newItem => {
-                                    if (currentUser?.token) {
-                                        await saveItem({
-                                            item: newItem,
-                                            token: currentUser.token,
-                                        });
-                                    }
-                                }}
-                            />
-                        </CardBody>
-                    </Card>
-                    <p>Filtering</p>
+                    {renderNewItem()}
+                    {renderFiltering()}
                 </Col>
             </Row>
         </div>
     );
+
+    function renderNewItem() {
+        return (
+            <Card id="new-item-card">
+                <CardHeader>
+                    <h5 className="mb-0">New Item</h5>
+                </CardHeader>
+                <CardBody>
+                    <CreateEditItemForm
+                        onSubmit={async newItem => {
+                            if (currentUser?.token) {
+                                await saveItem({
+                                    item: newItem,
+                                    token: currentUser.token,
+                                });
+                            }
+                        }}
+                    />
+                </CardBody>
+            </Card>
+        );
+    }
+
+    function renderFiltering() {
+        return (
+            <Card className="mt-3" id="filtering">
+                <CardHeader>
+                    <h5 className="mb-0">Filtering</h5>
+                </CardHeader>
+            </Card>
+        );
+    }
 };
