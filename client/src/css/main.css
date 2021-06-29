@@ -21,10 +21,10 @@ a.btn:hover {
   color: red;
 }
 
-.card-table tbody > tr th {
+.card-table tbody > tr :first-child {
   padding-left: 1em;
 }
-.card-table tbody > tr td:last-of-type {
+.card-table tbody > tr :last-child {
   padding-right: 1em;
 }
 .card-table tbody > tr:last-of-type th,
@@ -46,6 +46,12 @@ table.same-width tbody > tr th {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.checkbox-lg {
+  width: 1.4em !important;
+  height: 1.4em !important;
+  margin-top: 0 !important;
 }
 
 /*!
@@ -10926,6 +10932,10 @@ a.dotted-link {
 
 dl dd:last-of-type {
   margin-bottom: 0;
+}
+
+.line-height-1 {
+  line-height: 1;
 }
 
 /*# sourceMappingURL=main.css.map */

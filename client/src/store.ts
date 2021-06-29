@@ -24,6 +24,11 @@ import {
     CreateEditCategoryRequest,
 } from "../../shared/resource_models/category";
 import { CategoryClient } from "./clients/CategoryClient";
+import {
+    CreateEditItemRequest,
+    ItemRecord,
+} from "../../shared/resource_models/item";
+import { ItemClient } from "./clients/ItemClient";
 
 interface StoreModel {
     alerts: AlertType[];
@@ -59,6 +64,21 @@ interface StoreModel {
         { newCategory: CreateEditCategoryRequest; token: string }
     >;
     deleteCategory: Thunk<StoreModel, { id: number; token: string }>;
+
+    items: ItemRecord[] | undefined;
+    setItems: Action<StoreModel, ItemRecord[]>;
+    loadItems: Thunk<StoreModel, string>;
+    saveItem: Thunk<StoreModel, { item: CreateEditItemRequest; token: string }>;
+    updateItem: Thunk<
+        StoreModel,
+        { id: number; item: CreateEditItemRequest; token: string }
+    >;
+    changeItem: Action<StoreModel, ItemRecord>;
+    loadItem: Thunk<StoreModel, { id: number; token: string }>;
+    toggleItemCheck: Thunk<
+        StoreModel,
+        { id: number; checked: boolean; token: string }
+    >;
 }
 
 export const store = createStore<StoreModel>({
@@ -191,6 +211,74 @@ export const store = createStore<StoreModel>({
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
             throw error;
+        }
+    }),
+
+    items: undefined,
+    setItems: action((state, payload) => {
+        state.items = payload;
+    }),
+    loadItems: thunk(async (actions, token) => {
+        try {
+            const items = await ItemClient.getAll(token);
+            actions.setItems(items);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    saveItem: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.create(payload.item, payload.token);
+            actions.addAlert(
+                successAlert(`item "${payload.item.name}"`, "added")
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    updateItem: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.update(payload.id, payload.item, payload.token);
+            actions.addAlert(
+                successAlert(`item "${payload.item.name}"`, "edited")
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    changeItem: action((state, payload) => {
+        state.items = state.items?.map(item => {
+            if (item.id === payload.id) {
+                return payload;
+            }
+            return item;
+        });
+    }),
+    loadItem: thunk(async (actions, payload) => {
+        try {
+            const item = await ItemClient.getOne(payload.id, payload.token);
+            actions.changeItem(item);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+        }
+    }),
+    toggleItemCheck: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.toggleCheck(
+                payload.id,
+                payload.checked,
+                payload.token
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
         }
     }),
 });

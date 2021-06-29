@@ -6,7 +6,7 @@ import {
     ActionsDropdown,
     KeyValCardBody,
 } from "jack-hermanson-component-lib";
-import { KeyValPair } from "jack-hermanson-ts-utils";
+import { ClickDropdownAction, KeyValPair } from "jack-hermanson-ts-utils";
 
 interface Props {
     category: CategoryRecord;
@@ -36,17 +36,11 @@ export const ManageCategory: FC<Props> = ({
             <ActionCardHeader title={category.name}>
                 <ActionsDropdown
                     options={[
-                        {
-                            type: "OnClickItem",
-                            label: "Edit",
-                            onClick: () => edit(category),
-                        },
+                        new ClickDropdownAction("Edit", () => edit(category)),
                         undefined,
-                        {
-                            type: "OnClickItem",
-                            label: "Delete",
-                            onClick: () => deleteCategory(category),
-                        },
+                        new ClickDropdownAction("Delete", () =>
+                            deleteCategory(category)
+                        ),
                     ]}
                 />
             </ActionCardHeader>

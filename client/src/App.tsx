@@ -19,15 +19,17 @@ function App() {
         actions => actions.logInFromStorage
     );
     const loadCategories = useStoreActions(actions => actions.loadCategories);
+    const loadItems = useStoreActions(actions => actions.loadItems);
     const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
         logInFromStorage().then(() => {
             if (currentUser?.token) {
                 loadCategories(currentUser.token);
+                loadItems(currentUser.token);
             }
         });
-    }, [logInFromStorage, loadCategories, currentUser?.token]);
+    }, [logInFromStorage, loadCategories, loadItems, currentUser?.token]);
 
     return (
         <BrowserRouter>
