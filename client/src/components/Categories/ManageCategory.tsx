@@ -35,6 +35,7 @@ export const ManageCategory: FC<Props> = ({
         <Card className="mb-3 no-mb-last">
             <ActionCardHeader title={category.name}>
                 <ActionsDropdown
+                    size="sm"
                     options={[
                         new ClickDropdownAction("Edit", () => edit(category)),
                         undefined,
