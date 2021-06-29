@@ -73,6 +73,8 @@ interface StoreModel {
         StoreModel,
         { id: number; item: CreateEditItemRequest; token: string }
     >;
+    changeItem: Action<StoreModel, ItemRecord>;
+    loadItem: Thunk<StoreModel, { id: number; token: string }>;
 }
 
 export const store = createStore<StoreModel>({
@@ -244,6 +246,23 @@ export const store = createStore<StoreModel>({
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
             throw error;
+        }
+    }),
+    changeItem: action((state, payload) => {
+        state.items = state.items?.map(item => {
+            if (item.id === payload.id) {
+                return payload;
+            }
+            return item;
+        });
+    }),
+    loadItem: thunk(async (actions, payload) => {
+        try {
+            const item = await ItemClient.getOne(payload.id, payload.token);
+            actions.changeItem(item);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
         }
     }),
 });

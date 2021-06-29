@@ -37,4 +37,12 @@ export abstract class ItemClient {
         );
         return response.data;
     }
+
+    static async getOne(id: number, token: string) {
+        const response = await axios.get<ItemRecord>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

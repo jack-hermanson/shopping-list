@@ -65,7 +65,10 @@ export const CreateEditItemForm: FC<Props> = ({
         if (existingItem) {
             resetForm();
         }
-    }, [existingItem, resetForm]);
+        if (autoFocus) {
+            document.getElementById(idPrefix("name"))?.focus();
+        }
+    }, [existingItem, resetForm, autoFocus]);
 
     return (
         <form
