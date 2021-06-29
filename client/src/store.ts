@@ -24,7 +24,10 @@ import {
     CreateEditCategoryRequest,
 } from "../../shared/resource_models/category";
 import { CategoryClient } from "./clients/CategoryClient";
-import { ItemRecord } from "../../shared/resource_models/item";
+import {
+    CreateEditItemRequest,
+    ItemRecord,
+} from "../../shared/resource_models/item";
 import { ItemClient } from "./clients/ItemClient";
 
 interface StoreModel {
@@ -65,6 +68,7 @@ interface StoreModel {
     items: ItemRecord[] | undefined;
     setItems: Action<StoreModel, ItemRecord[]>;
     loadItems: Thunk<StoreModel, string>;
+    saveItem: Thunk<StoreModel, { item: CreateEditItemRequest; token: string }>;
 }
 
 export const store = createStore<StoreModel>({
@@ -208,6 +212,18 @@ export const store = createStore<StoreModel>({
         try {
             const items = await ItemClient.getAll(token);
             actions.setItems(items);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    saveItem: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.create(payload.item, payload.token);
+            actions.addAlert(
+                successAlert(`item "${payload.item.name}"`, "added")
+            );
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));

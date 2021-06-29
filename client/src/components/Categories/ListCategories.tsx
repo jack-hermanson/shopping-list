@@ -3,6 +3,8 @@ import { useStoreState } from "../../store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
 import { Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 /*
 This component renders the categories on the list.
@@ -15,7 +17,19 @@ export const ListCategories: FC = () => {
     return (
         <div>
             <PageHeader title="Shopping List">
-                <Button size="sm" color="info">
+                <Button size="sm" color="info" outline>
+                    <FontAwesomeIcon icon={faSearch} />
+                </Button>
+                <Button
+                    size="sm"
+                    color="info"
+                    onClick={() => {
+                        const newItemNameInput =
+                            document.getElementById("new-item-name");
+                        newItemNameInput?.focus();
+                        newItemNameInput?.scrollIntoView();
+                    }}
+                >
                     New Item
                 </Button>
             </PageHeader>

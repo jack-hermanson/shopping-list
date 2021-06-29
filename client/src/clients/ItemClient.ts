@@ -15,4 +15,13 @@ export abstract class ItemClient {
         );
         return response.data;
     }
+
+    static async create(item: CreateEditItemRequest, token: string) {
+        const response = await axios.post<ItemRecord>(
+            this.baseUrl,
+            item,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

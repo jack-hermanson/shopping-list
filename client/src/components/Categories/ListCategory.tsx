@@ -31,7 +31,7 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
     );
 
     return (
-        <Card className="mb-3">
+        <Card className="mb-3 no-mb-last">
             <CardHeader className="d-flex">
                 <div
                     className="d-flex hover-mouse w-100"

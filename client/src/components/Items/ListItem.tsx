@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
-import { Button, Input, Label } from "reactstrap";
+import { Button, Input, Label, Modal } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,12 +11,14 @@ interface Props {
 
 export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     return (
-        <tr>
-            <td className="w-100">{renderInfo()}</td>
-            <td className="ms-auto hover-mouse ps-3">
-                <i className="fas fa-info-circle px-0" />
-            </td>
-        </tr>
+        <Fragment>
+            <tr>
+                <td className="w-100">{renderInfo()}</td>
+                <td className="ms-auto hover-mouse ps-3">
+                    <i className="fas fa-info-circle px-0" />
+                </td>
+            </tr>
+        </Fragment>
     );
 
     function renderInfo() {
