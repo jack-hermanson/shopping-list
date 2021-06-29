@@ -41,7 +41,7 @@ export const SocketConnection: FC = () => {
                 loadItem({ token: currentUser.token, id: e.id });
             }
         });
-    }, [loadCategories, loadCategory, loadItems, currentUser?.token]);
+    }, [loadCategories, loadCategory, loadItems, loadItem, currentUser?.token]);
 
     return <Fragment />;
 };

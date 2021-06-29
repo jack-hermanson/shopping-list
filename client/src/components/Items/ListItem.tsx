@@ -13,6 +13,7 @@ interface Props {
 export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     const [showInfoModal, setShowInfoModal] = useState(false);
     const updateItem = useStoreActions(actions => actions.updateItem);
+    const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
     const currentUser = useStoreState(state => state.currentUser);
 
     return (
@@ -34,7 +35,21 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
         const id = `item-${item.id}-category-${categoryId}-input`;
         return (
             <div className="ps-0 d-flex">
-                <Input id={id} className="me-2 checkbox-lg" type="checkbox" />
+                <Input
+                    id={id}
+                    className="me-2 checkbox-lg"
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={async event => {
+                        if (currentUser?.token) {
+                            await toggleItemCheck({
+                                id: item.id,
+                                checked: event.target.checked,
+                                token: currentUser.token,
+                            });
+                        }
+                    }}
+                />
                 <Label
                     for={id}
                     className="form-check-label my-auto line-height-1 hover-mouse"

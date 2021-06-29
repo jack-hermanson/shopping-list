@@ -84,9 +84,12 @@ router.get(
 router.put(
     "/check/:id",
     auth,
-    async (req: Request<{ id: number; boolean }>, res: Response<Item>) => {
+    async (
+        req: Request<{ id: number; checked: boolean }>,
+        res: Response<Item>
+    ) => {
         if (!minClearance(req.account, Clearance.NORMAL, res)) return;
-        const checked = req.body;
+        const checked = req.body.checked;
         const id = req.params.id;
         const modifiedItem = await ItemService.toggleChecked(
             req.params.id,
@@ -97,7 +100,7 @@ router.put(
         if (!modifiedItem) return;
 
         const socket: Socket = req.app.get("socketio");
-        socket.emit(SocketEvent.UPDATE_CATEGORY, { id });
+        socket.emit(SocketEvent.UPDATE_ITEM, { id });
 
         res.json(modifiedItem);
     }

@@ -60,6 +60,12 @@ export const CreateEditItemForm: FC<Props> = ({
         setError,
     ]);
 
+    const idPrefix = useCallback(
+        (field: string) =>
+            `${existingItem ? existingItem.id : "new"}-item-${field}`,
+        [existingItem]
+    );
+
     useEffect(() => {
         console.log("use effect");
         if (existingItem) {
@@ -68,7 +74,7 @@ export const CreateEditItemForm: FC<Props> = ({
         if (autoFocus) {
             document.getElementById(idPrefix("name"))?.focus();
         }
-    }, [existingItem, resetForm, autoFocus]);
+    }, [existingItem, resetForm, autoFocus, idPrefix]);
 
     return (
         <form
@@ -106,10 +112,6 @@ export const CreateEditItemForm: FC<Props> = ({
         if (!existingItem) {
             resetForm();
         }
-    }
-
-    function idPrefix(field: string) {
-        return `${existingItem ? existingItem.id : "new"}-item-${field}`;
     }
 
     function renderError() {

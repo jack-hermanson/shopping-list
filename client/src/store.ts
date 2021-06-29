@@ -75,6 +75,10 @@ interface StoreModel {
     >;
     changeItem: Action<StoreModel, ItemRecord>;
     loadItem: Thunk<StoreModel, { id: number; token: string }>;
+    toggleItemCheck: Thunk<
+        StoreModel,
+        { id: number; checked: boolean; token: string }
+    >;
 }
 
 export const store = createStore<StoreModel>({
@@ -260,6 +264,18 @@ export const store = createStore<StoreModel>({
         try {
             const item = await ItemClient.getOne(payload.id, payload.token);
             actions.changeItem(item);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+        }
+    }),
+    toggleItemCheck: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.toggleCheck(
+                payload.id,
+                payload.checked,
+                payload.token
+            );
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));

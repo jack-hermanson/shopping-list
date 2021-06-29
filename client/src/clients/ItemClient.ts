@@ -45,4 +45,13 @@ export abstract class ItemClient {
         );
         return response.data;
     }
+
+    static async toggleCheck(id: number, checked: boolean, token: string) {
+        const response = await axios.put<ItemRecord>(
+            `${this.baseUrl}/check/${id}`,
+            { checked },
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }
