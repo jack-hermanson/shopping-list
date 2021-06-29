@@ -25,7 +25,7 @@ export const ManageCategory: FC<Props> = ({
             val: category.notes ? (
                 category.notes
             ) : (
-                <span className="fst-italic text-muted">none</span>
+                <span className="fst-italic text-muted ps-0">none</span>
             ),
         },
         { key: "Visible", val: category.visible.toString() },

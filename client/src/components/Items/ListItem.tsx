@@ -15,6 +15,7 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     const updateItem = useStoreActions(actions => actions.updateItem);
     const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
     const currentUser = useStoreState(state => state.currentUser);
+    const changeItem = useStoreActions(actions => actions.changeItem);
 
     return (
         <Fragment>
@@ -42,6 +43,10 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     checked={item.checked}
                     onChange={async event => {
                         if (currentUser?.token) {
+                            changeItem({
+                                ...item,
+                                checked: event.target.checked,
+                            });
                             await toggleItemCheck({
                                 id: item.id,
                                 checked: event.target.checked,
