@@ -4,7 +4,9 @@ import { Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap";
 import { CreateEditItemForm } from "./CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../store";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as timeago from "timeago.js";
+import { faRecycle } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     item: ItemRecord;
@@ -62,6 +64,9 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     className="form-check-label my-auto line-height-1 hover-mouse"
                 >
                     {item.name}
+                    {item.repeats && (
+                        <span className="ps-1 small fas fa-recycle" />
+                    )}
                     {item.notes && (
                         <span
                             style={{ fontSize: "12px", lineHeight: 1 }}
