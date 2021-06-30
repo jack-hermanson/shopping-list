@@ -17,6 +17,7 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
     const currentUser = useStoreState(state => state.currentUser);
     const changeItem = useStoreActions(actions => actions.changeItem);
+    const accounts = useStoreState(state => state.accounts);
 
     return (
         <Fragment>
@@ -102,7 +103,8 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     <hr />
                     <small className="text-muted">
                         Last updated {timeago.format(item.updated)} by{" "}
-                        {item.accountId}.
+                        {accounts?.find(a => a.id === item.accountId)?.username}
+                        .
                     </small>
                 </ModalBody>
             </Modal>

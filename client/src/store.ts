@@ -38,6 +38,7 @@ interface StoreModel {
     accounts: AccountRecord[];
     setAccounts: Action<StoreModel, AccountRecord[]>;
     addAccount: Action<StoreModel, AccountRecord>;
+    loadAccounts: Thunk<StoreModel, string>;
 
     currentUser: AccountRecord | undefined;
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
@@ -100,6 +101,10 @@ export const store = createStore<StoreModel>({
         state.accounts = [payload, ...state.accounts].sort((a, b) =>
             a.id > b.id ? 1 : -1
         );
+    }),
+    loadAccounts: thunk(async (actions, token) => {
+        const accounts = await AccountClient.getAll(token);
+        actions.setAccounts(accounts);
     }),
 
     currentUser: undefined,
