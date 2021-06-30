@@ -50,4 +50,12 @@ export abstract class AccountClient {
             console.log(error.response);
         }
     }
+
+    static async getAll(token: string) {
+        const response = await axios.get<AccountRecord[]>(
+            this.baseUrl,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

@@ -38,6 +38,7 @@ interface StoreModel {
     accounts: AccountRecord[];
     setAccounts: Action<StoreModel, AccountRecord[]>;
     addAccount: Action<StoreModel, AccountRecord>;
+    loadAccounts: Thunk<StoreModel, string>;
 
     currentUser: AccountRecord | undefined;
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
@@ -79,6 +80,8 @@ interface StoreModel {
         StoreModel,
         { id: number; checked: boolean; token: string }
     >;
+    newItemCategory: number | undefined;
+    setNewItemCategory: Action<StoreModel, number | undefined>;
 }
 
 export const store = createStore<StoreModel>({
@@ -98,6 +101,10 @@ export const store = createStore<StoreModel>({
         state.accounts = [payload, ...state.accounts].sort((a, b) =>
             a.id > b.id ? 1 : -1
         );
+    }),
+    loadAccounts: thunk(async (actions, token) => {
+        const accounts = await AccountClient.getAll(token);
+        actions.setAccounts(accounts);
     }),
 
     currentUser: undefined,
@@ -280,6 +287,10 @@ export const store = createStore<StoreModel>({
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
         }
+    }),
+    newItemCategory: undefined,
+    setNewItemCategory: action((state, categoryId) => {
+        state.newItemCategory = categoryId;
     }),
 });
 
