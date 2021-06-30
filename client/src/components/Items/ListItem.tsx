@@ -1,12 +1,19 @@
 import { FC, Fragment, useState } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
-import { Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap";
+import {
+    Button,
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    ModalHeader,
+} from "reactstrap";
 import { CreateEditItemForm } from "./CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../store";
 import { scrollToTop } from "jack-hermanson-ts-utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as timeago from "timeago.js";
-import { faRecycle } from "@fortawesome/free-solid-svg-icons";
+import { Clearance } from "../../../../shared/enums";
+import { ItemModal } from "./ItemModal";
 
 interface Props {
     item: ItemRecord;
@@ -81,38 +88,12 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     }
 
     function renderModal() {
-        const toggle = () => setShowInfoModal(o => !o);
         return (
-            <Modal isOpen={showInfoModal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Edit Item</ModalHeader>
-                <ModalBody>
-                    <CreateEditItemForm
-                        onSubmit={async editedItem => {
-                            setShowInfoModal(false);
-                            if (currentUser?.token) {
-                                try {
-                                    await updateItem({
-                                        id: item.id,
-                                        token: currentUser.token,
-                                        item: editedItem,
-                                    });
-                                } catch (error) {
-                                    console.error(error);
-                                    scrollToTop();
-                                }
-                            }
-                        }}
-                        autoFocus={true}
-                        existingItem={item}
-                    />
-                    <hr />
-                    <small className="text-muted">
-                        Last updated {timeago.format(item.updated)} by{" "}
-                        {accounts?.find(a => a.id === item.accountId)?.username}
-                        .
-                    </small>
-                </ModalBody>
-            </Modal>
+            <ItemModal
+                item={item}
+                showModal={showInfoModal}
+                setShowModal={setShowInfoModal}
+            />
         );
     }
 };
