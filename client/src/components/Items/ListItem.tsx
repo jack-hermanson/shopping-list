@@ -4,6 +4,7 @@ import { Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap";
 import { CreateEditItemForm } from "./CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../store";
 import { scrollToTop } from "jack-hermanson-ts-utils";
+import * as timeago from "timeago.js";
 
 interface Props {
     item: ItemRecord;
@@ -98,6 +99,11 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                         autoFocus={true}
                         existingItem={item}
                     />
+                    <hr />
+                    <small className="text-muted">
+                        Last updated {timeago.format(item.updated)} by{" "}
+                        {item.accountId}.
+                    </small>
                 </ModalBody>
             </Modal>
         );
