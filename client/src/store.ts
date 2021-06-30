@@ -79,6 +79,8 @@ interface StoreModel {
         StoreModel,
         { id: number; checked: boolean; token: string }
     >;
+    newItemCategory: number | undefined;
+    setNewItemCategory: Action<StoreModel, number | undefined>;
 }
 
 export const store = createStore<StoreModel>({
@@ -280,6 +282,10 @@ export const store = createStore<StoreModel>({
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
         }
+    }),
+    newItemCategory: undefined,
+    setNewItemCategory: action((state, categoryId) => {
+        state.newItemCategory = categoryId;
     }),
 });
 

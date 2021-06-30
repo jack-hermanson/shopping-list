@@ -25,6 +25,8 @@ export const CreateEditItemForm: FC<Props> = ({
     existingItem,
     autoFocus = false,
 }: Props) => {
+    const newItemCategory = useStoreState(state => state.newItemCategory);
+
     const defaultName = existingItem?.name || "";
     const defaultNotes = existingItem?.notes || "";
     const defaultRepeats = existingItem ? existingItem.repeats : false;
@@ -68,13 +70,24 @@ export const CreateEditItemForm: FC<Props> = ({
 
     useEffect(() => {
         console.log("use effect");
+        console.log({ newItemCategory });
         if (existingItem) {
             resetForm();
         }
         if (autoFocus) {
             document.getElementById(idPrefix("name"))?.focus();
         }
-    }, [existingItem, resetForm, autoFocus, idPrefix]);
+        if (newItemCategory) {
+            setCategoryIds([newItemCategory]);
+        }
+    }, [
+        existingItem,
+        resetForm,
+        autoFocus,
+        idPrefix,
+        setCategoryIds,
+        newItemCategory,
+    ]);
 
     return (
         <form

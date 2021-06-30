@@ -9,9 +9,10 @@ import {
 } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { useStoreActions, useStoreState } from "../../store";
-import { scrollToTop } from "jack-hermanson-ts-utils";
+import { ClickDropdownAction, scrollToTop } from "jack-hermanson-ts-utils";
 import { LoadingSpinner } from "jack-hermanson-component-lib/lib";
 import { ListItem } from "../Items/ListItem";
+import { ActionsDropdown } from "jack-hermanson-component-lib";
 
 interface Props {
     category: CategoryRecord;
@@ -24,6 +25,9 @@ It should not be used for displaying information
 about a Category record itself.
  */
 export const ListCategory: FC<Props> = ({ category }: Props) => {
+    const setNewItemCategory = useStoreActions(
+        actions => actions.setNewItemCategory
+    );
     const updateCategory = useStoreActions(actions => actions.updateCategory);
     const currentUser = useStoreState(state => state.currentUser);
     const items = useStoreState(state => state.items)?.filter(i =>
@@ -64,12 +68,26 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                 >
                     <h5 className="card-title my-auto">{category.name}</h5>
                 </div>
-                <div className="ms-auto">
-                    <Button color="secondary" size="sm">
-                        Actions
-                    </Button>
-                </div>
+                <div className="ms-auto">{renderActions()}</div>
             </CardHeader>
+        );
+    }
+
+    function renderActions() {
+        return (
+            <ActionsDropdown
+                size="sm"
+                options={[
+                    new ClickDropdownAction("New Item", () => {
+                        setNewItemCategory(category.id);
+                        const newItemNameInput =
+                            document.getElementById("new-item-name");
+                        newItemNameInput?.focus();
+                        newItemNameInput?.scrollIntoView();
+                    }),
+                ]}
+                color="info"
+            />
         );
     }
 
