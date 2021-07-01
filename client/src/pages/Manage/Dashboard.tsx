@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ManageTabs } from "../../components/Manage/ManageTabs";
-import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
+import { Card, CardHeader, Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib/lib";
 import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";

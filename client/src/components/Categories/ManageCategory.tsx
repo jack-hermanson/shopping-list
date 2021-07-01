@@ -6,7 +6,12 @@ import {
     ActionsDropdown,
     KeyValCardBody,
 } from "jack-hermanson-component-lib";
-import { ClickDropdownAction, KeyValPair } from "jack-hermanson-ts-utils";
+import {
+    ClickDropdownAction,
+    DropdownAction,
+    KeyValPair,
+} from "jack-hermanson-ts-utils";
+import { useStoreState } from "../../stores/_store";
 
 interface Props {
     category: CategoryRecord;
@@ -19,6 +24,8 @@ export const ManageCategory: FC<Props> = ({
     edit,
     deleteCategory,
 }: Props) => {
+    const items = useStoreState(state => state.items);
+
     const tableInfo: KeyValPair[] = [
         {
             key: "Notes",
@@ -29,21 +36,23 @@ export const ManageCategory: FC<Props> = ({
             ),
         },
         { key: "Visible", val: category.visible.toString() },
+        {
+            key: "Items",
+            val: items?.filter(i => i.categoryIds.includes(category.id)).length,
+        },
     ];
+
+    const dropdownOptions: Array<DropdownAction | undefined> = [];
+    dropdownOptions.push(
+        new ClickDropdownAction("Edit", () => edit(category)),
+        undefined,
+        new ClickDropdownAction("Delete", () => deleteCategory(category))
+    );
 
     return (
         <Card className="mb-3 no-mb-last">
             <ActionCardHeader title={category.name}>
-                <ActionsDropdown
-                    size="sm"
-                    options={[
-                        new ClickDropdownAction("Edit", () => edit(category)),
-                        undefined,
-                        new ClickDropdownAction("Delete", () =>
-                            deleteCategory(category)
-                        ),
-                    ]}
-                />
+                <ActionsDropdown size="sm" options={dropdownOptions} />
             </ActionCardHeader>
             <KeyValCardBody keyValPairs={tableInfo} />
         </Card>
