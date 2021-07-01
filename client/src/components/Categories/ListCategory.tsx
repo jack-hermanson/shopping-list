@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Card, CardBody, CardHeader, Collapse, Table } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { useStoreActions, useStoreState } from "../../stores/store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ClickDropdownAction, scrollToTop } from "jack-hermanson-ts-utils";
 import { LoadingSpinner } from "jack-hermanson-component-lib/lib";
 import { ListItem } from "../Items/ListItem";

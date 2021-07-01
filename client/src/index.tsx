@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { StoreProvider } from "easy-peasy";
-import { store } from "./stores/store";
+import { store } from "./stores/_store";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

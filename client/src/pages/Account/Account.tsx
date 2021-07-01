@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button, Col, Row } from "reactstrap";
 import { useProtectedRoute } from "../../utils/hooks";
-import { useStoreActions, useStoreState } from "../../stores/store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { useHistory } from "react-router-dom";
 import { getToken } from "../../utils/tokens";
 

@@ -1,9 +1,33 @@
-import { StoreModel } from "./store";
-import { action, thunk } from "easy-peasy";
+import { StoreModel } from "./_store";
+import { Action, action, Thunk, thunk } from "easy-peasy";
 import { ItemClient } from "../clients/ItemClient";
 import { errorAlert, successAlert } from "jack-hermanson-ts-utils";
+import {
+    CreateEditItemRequest,
+    ItemRecord,
+} from "../../../shared/resource_models/item";
 
-export const itemStore: Partial<StoreModel> = {
+export interface ItemStoreModel {
+    items: ItemRecord[] | undefined;
+    setItems: Action<StoreModel, ItemRecord[]>;
+    loadItems: Thunk<StoreModel, string>;
+    saveItem: Thunk<StoreModel, { item: CreateEditItemRequest; token: string }>;
+    updateItem: Thunk<
+        StoreModel,
+        { id: number; item: CreateEditItemRequest; token: string }
+    >;
+    changeItem: Action<StoreModel, ItemRecord>;
+    loadItem: Thunk<StoreModel, { id: number; token: string }>;
+    toggleItemCheck: Thunk<
+        StoreModel,
+        { id: number; checked: boolean; token: string }
+    >;
+    newItemCategory: number | undefined;
+    setNewItemCategory: Action<StoreModel, number | undefined>;
+    deleteItem: Thunk<StoreModel, { itemId: number; token: string }>;
+}
+
+export const itemStore: ItemStoreModel = {
     items: undefined,
     setItems: action((state, payload) => {
         state.items = payload;

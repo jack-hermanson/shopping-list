@@ -16,7 +16,7 @@ import {
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { useStoreState } from "../../stores/store";
+import { useStoreState } from "../../stores/_store";
 import { capitalizeFirst } from "jack-hermanson-ts-utils";
 import { Clearance } from "../../../../shared/enums";
 
