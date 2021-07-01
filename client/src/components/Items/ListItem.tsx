@@ -1,10 +1,8 @@
 import { FC, Fragment, useState } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
-import { Input, Label, Modal, ModalBody, ModalHeader } from "reactstrap";
-import { CreateEditItemForm } from "./CreateEditItemForm";
+import { Input, Label } from "reactstrap";
 import { useStoreActions, useStoreState } from "../../store";
-import { scrollToTop } from "jack-hermanson-ts-utils";
-import * as timeago from "timeago.js";
+import { ItemModal } from "./ItemModal";
 
 interface Props {
     item: ItemRecord;
@@ -13,11 +11,9 @@ interface Props {
 
 export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     const [showInfoModal, setShowInfoModal] = useState(false);
-    const updateItem = useStoreActions(actions => actions.updateItem);
     const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
     const currentUser = useStoreState(state => state.currentUser);
     const changeItem = useStoreActions(actions => actions.changeItem);
-    const accounts = useStoreState(state => state.accounts);
 
     return (
         <Fragment>
@@ -61,7 +57,17 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     for={id}
                     className="form-check-label my-auto line-height-1 hover-mouse"
                 >
-                    {item.name}
+                    {item.name.capitalizeFirst()}
+                    {item.repeats && (
+                        <span
+                            style={{
+                                height: "14px",
+                                fontSize: "10px",
+                                verticalAlign: "middle",
+                            }}
+                            className="ps-1 fas fa-sync"
+                        />
+                    )}
                     {item.notes && (
                         <span
                             style={{ fontSize: "12px", lineHeight: 1 }}
@@ -76,38 +82,12 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     }
 
     function renderModal() {
-        const toggle = () => setShowInfoModal(o => !o);
         return (
-            <Modal isOpen={showInfoModal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Edit Item</ModalHeader>
-                <ModalBody>
-                    <CreateEditItemForm
-                        onSubmit={async editedItem => {
-                            setShowInfoModal(false);
-                            if (currentUser?.token) {
-                                try {
-                                    await updateItem({
-                                        id: item.id,
-                                        token: currentUser.token,
-                                        item: editedItem,
-                                    });
-                                } catch (error) {
-                                    console.error(error);
-                                    scrollToTop();
-                                }
-                            }
-                        }}
-                        autoFocus={true}
-                        existingItem={item}
-                    />
-                    <hr />
-                    <small className="text-muted">
-                        Last updated {timeago.format(item.updated)} by{" "}
-                        {accounts?.find(a => a.id === item.accountId)?.username}
-                        .
-                    </small>
-                </ModalBody>
-            </Modal>
+            <ItemModal
+                item={item}
+                showModal={showInfoModal}
+                setShowModal={setShowInfoModal}
+            />
         );
     }
 };

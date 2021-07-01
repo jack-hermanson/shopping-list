@@ -5,12 +5,15 @@ import { Clearance } from "../../../../shared/enums";
 import { ListCategories } from "../../components/Categories/ListCategories";
 import { CreateEditItemForm } from "../../components/Items/CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../store";
+import { errorAlert, scrollToTop } from "jack-hermanson-ts-utils";
 
 export const ListIndex: FC = () => {
     useProtectedRoute(Clearance.NORMAL);
 
     const saveItem = useStoreActions(actions => actions.saveItem);
+    const addAlert = useStoreActions(actions => actions.addAlert);
     const currentUser = useStoreState(state => state.currentUser);
+    const items = useStoreState(state => state.items);
 
     return (
         <div>
@@ -36,6 +39,21 @@ export const ListIndex: FC = () => {
                     <CreateEditItemForm
                         onSubmit={async newItem => {
                             if (currentUser?.token) {
+                                if (
+                                    items?.some(
+                                        i =>
+                                            i.name.toLowerCase() ===
+                                            newItem.name.toLowerCase()
+                                    )
+                                ) {
+                                    addAlert(
+                                        errorAlert(
+                                            `An item with the name "${newItem.name}" already exists.`
+                                        )
+                                    );
+                                    scrollToTop();
+                                    return;
+                                }
                                 await saveItem({
                                     item: newItem,
                                     token: currentUser.token,

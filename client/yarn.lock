@@ -6510,6 +6510,18 @@ jack-hermanson-ts-utils@^1.5.0:
     typeorm "^0.2.34"
     typescript "^4.3.4"
 
+jack-hermanson-ts-utils@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.6.4.tgz#731bf6ccb765fd2cc2cf54a9eb0bf714102c8152"
+  integrity sha512-N+OMXZnJSqKkdrgK8IHotDXFoGS9ihKJOtQZ33LnzZKecE1zNVnwvqBIkVRnABDmBtRtMvX11cDq8FM3FPTpug==
+  dependencies:
+    "@types/express" "^4.17.12"
+    express "^4.17.1"
+    joi "^17.4.0"
+    react "^17.0.2"
+    typeorm "^0.2.34"
+    typescript "^4.3.4"
+
 jest-changed-files@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-26.6.2.tgz#f6198479e1cc66f22f9ae1e22acaa0b429c042d0"
