@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 import { PageHeader } from "jack-hermanson-component-lib/lib";
 import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/store";
 
 export const Dashboard: FC = () => {
     useProtectedRoute(Clearance.ADMIN);

@@ -1,5 +1,5 @@
 import React from "react";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/store";
 import { AlertPanel } from "jack-hermanson-component-lib/lib";
 
 export const Alerts: React.FC = () => {

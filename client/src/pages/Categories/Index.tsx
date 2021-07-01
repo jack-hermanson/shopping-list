@@ -9,7 +9,7 @@ import { ManageTabs } from "../../components/Manage/ManageTabs";
 import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";
 import { CreateEditCategoryForm } from "../../components/Categories/CreateEditCategoryForm";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/store";
 import { ManageCategory } from "../../components/Categories/ManageCategory";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { capitalizeFirst, scrollToTop } from "jack-hermanson-ts-utils";

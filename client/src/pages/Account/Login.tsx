@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { LoginForm } from "../../components/Login/LoginForm";
 import { useHistory } from "react-router-dom";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/store";
 
 export const Login: FC = () => {
     const history = useHistory();

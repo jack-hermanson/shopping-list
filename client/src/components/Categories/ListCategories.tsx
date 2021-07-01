@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
 import { Button } from "reactstrap";

@@ -4,7 +4,7 @@ import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";
 import { ListCategories } from "../../components/Categories/ListCategories";
 import { CreateEditItemForm } from "../../components/Items/CreateEditItemForm";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/store";
 import { errorAlert, scrollToTop } from "jack-hermanson-ts-utils";
 
 export const ListIndex: FC = () => {

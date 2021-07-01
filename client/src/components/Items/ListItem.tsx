@@ -1,7 +1,7 @@
 import { FC, Fragment, useState } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
 import { Input, Label } from "reactstrap";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/store";
 import { ItemModal } from "./ItemModal";
 
 interface Props {

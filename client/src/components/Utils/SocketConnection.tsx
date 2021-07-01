@@ -1,6 +1,6 @@
 import { FC, Fragment, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/store";
 import { SocketEvent } from "../../../../shared/enums";
 
 export const SocketConnection: FC = () => {
