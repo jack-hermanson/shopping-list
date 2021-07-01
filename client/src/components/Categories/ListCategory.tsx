@@ -62,14 +62,14 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                     <h5 className="card-title my-auto">{category.name}</h5>
                     {category.notes && (
                         <small
-                            className="mb-1 text-muted"
-                            style={{ lineHeight: 0.6 }}
+                            className="text-muted"
+                            style={{ lineHeight: 0.9, paddingTop: "3px" }}
                         >
                             {category.notes}
                         </small>
                     )}
                 </div>
-                <div className="ms-auto">{renderActions()}</div>
+                <div className="ms-auto my-auto">{renderActions()}</div>
             </CardHeader>
         );
     }
