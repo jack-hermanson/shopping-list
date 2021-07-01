@@ -82,6 +82,7 @@ interface StoreModel {
     >;
     newItemCategory: number | undefined;
     setNewItemCategory: Action<StoreModel, number | undefined>;
+    deleteItem: Thunk<StoreModel, { itemId: number; token: string }>;
 }
 
 export const store = createStore<StoreModel>({
@@ -291,6 +292,16 @@ export const store = createStore<StoreModel>({
     newItemCategory: undefined,
     setNewItemCategory: action((state, categoryId) => {
         state.newItemCategory = categoryId;
+    }),
+    deleteItem: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.deleteItem(payload.itemId, payload.token);
+            actions.addAlert(successAlert("item", "deleted"));
+        } catch (error) {
+            console.log(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
     }),
 });
 

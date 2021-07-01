@@ -22,6 +22,7 @@ export const ItemModal: FC<Props> = ({
     const currentUser = useStoreState(state => state.currentUser);
     const accounts = useStoreState(state => state.accounts);
     const updateItem = useStoreActions(actions => actions.updateItem);
+    const deleteItem = useStoreActions(actions => actions.deleteItem);
 
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
@@ -120,9 +121,16 @@ export const ItemModal: FC<Props> = ({
         }
     }
 
-    function submitDeleteItem() {
-        setShowDeleteConfirmation(false);
-        setShowModal(false);
-        console.log("DELETE");
+    async function submitDeleteItem() {
+        if (currentUser?.token) {
+            try {
+                await deleteItem({ itemId: item.id, token: currentUser.token });
+            } catch (error) {
+                console.error(error);
+                scrollToTop();
+            }
+            setShowDeleteConfirmation(false);
+            setShowModal(false);
+        }
     }
 };

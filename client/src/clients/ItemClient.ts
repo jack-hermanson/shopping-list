@@ -54,4 +54,12 @@ export abstract class ItemClient {
         );
         return response.data;
     }
+
+    static async deleteItem(id: number, token: string) {
+        const response = await axios.delete<boolean>(
+            `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }
