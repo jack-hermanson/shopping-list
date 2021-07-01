@@ -1,18 +1,7 @@
 import { FC, Fragment, useState } from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
-import {
-    Button,
-    Input,
-    Label,
-    Modal,
-    ModalBody,
-    ModalHeader,
-} from "reactstrap";
-import { CreateEditItemForm } from "./CreateEditItemForm";
+import { Input, Label } from "reactstrap";
 import { useStoreActions, useStoreState } from "../../store";
-import { scrollToTop } from "jack-hermanson-ts-utils";
-import * as timeago from "timeago.js";
-import { Clearance } from "../../../../shared/enums";
 import { ItemModal } from "./ItemModal";
 
 interface Props {
@@ -22,11 +11,9 @@ interface Props {
 
 export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
     const [showInfoModal, setShowInfoModal] = useState(false);
-    const updateItem = useStoreActions(actions => actions.updateItem);
     const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
     const currentUser = useStoreState(state => state.currentUser);
     const changeItem = useStoreActions(actions => actions.changeItem);
-    const accounts = useStoreState(state => state.accounts);
 
     return (
         <Fragment>
@@ -70,7 +57,7 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     for={id}
                     className="form-check-label my-auto line-height-1 hover-mouse"
                 >
-                    {item.name}
+                    {item.name.capitalizeFirst()}
                     {item.repeats && (
                         <span
                             style={{
