@@ -139,7 +139,7 @@ router.put(
         if (!editedAccount) return;
 
         delete editedAccount.password;
-        delete editedAccount.username;
+        delete editedAccount.token;
 
         const socket: Socket = req.app.get("socketio");
         socket.emit(SocketEvent.UPDATE_ACCOUNTS);

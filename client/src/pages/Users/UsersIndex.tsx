@@ -5,12 +5,15 @@ import { PageHeader } from "jack-hermanson-component-lib/lib";
 import { useProtectedRoute } from "../../utils/hooks";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreState } from "../../stores/_store";
+import { useHistory } from "react-router-dom";
 
 export const UsersIndex: FC = () => {
     useProtectedRoute(Clearance.ADMIN);
 
     const users = useStoreState(state => state.accounts);
     const currentUser = useStoreState(state => state.currentUser);
+
+    const history = useHistory();
 
     return (
         <div>
@@ -46,7 +49,9 @@ export const UsersIndex: FC = () => {
                                     onClick={
                                         isSuperAdmin
                                             ? () => {
-                                                  console.log("ok");
+                                                  history.push(
+                                                      `/manage/users/${user.id}`
+                                                  );
                                               }
                                             : undefined
                                     }

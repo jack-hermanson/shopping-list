@@ -14,6 +14,7 @@ import { SocketConnection } from "./components/Utils/SocketConnection";
 import { CategoriesIndex } from "./pages/Categories/CategoriesIndex";
 import { Dashboard as ManageDashboard } from "./pages/Manage/Dashboard";
 import { UsersIndex } from "./pages/Users/UsersIndex";
+import { AdminEditAccount } from "./pages/Account/AdminEditAccount";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -57,6 +58,11 @@ function App() {
                         component={CategoriesIndex}
                     />
                     <Route exact path="/manage/users" component={UsersIndex} />
+                    <Route
+                        exact
+                        path="/manage/users/:id"
+                        component={AdminEditAccount}
+                    />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />
