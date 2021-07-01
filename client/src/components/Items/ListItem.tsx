@@ -72,7 +72,14 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                 >
                     {item.name}
                     {item.repeats && (
-                        <span className="ps-1 small fas fa-recycle" />
+                        <span
+                            style={{
+                                height: "14px",
+                                fontSize: "10px",
+                                verticalAlign: "middle",
+                            }}
+                            className="ps-1 fas fa-sync"
+                        />
                     )}
                     {item.notes && (
                         <span
