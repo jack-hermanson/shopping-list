@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { Col, Row } from "reactstrap";
-import { LoginForm } from "../../components/Login/LoginForm";
+import { LoginForm } from "../../components/Accounts/LoginForm";
 import { useHistory } from "react-router-dom";
 import { useStoreState } from "../../stores/_store";
 

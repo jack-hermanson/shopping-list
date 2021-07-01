@@ -156,6 +156,7 @@ export abstract class AccountService {
             account.password = await this.hashPassword(editAccountReq.password);
         }
 
+        editAccountReq.username = editAccountReq.username.toLowerCase();
         if (
             !(await this.okayToChangeUsername(
                 account,
@@ -188,6 +189,7 @@ export abstract class AccountService {
             account.password = await this.hashPassword(editAccountReq.password);
         }
 
+        editAccountReq.username = editAccountReq.username.toLowerCase();
         if (
             !(await this.okayToChangeUsername(
                 account,

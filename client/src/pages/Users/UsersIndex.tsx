@@ -36,6 +36,7 @@ export const UsersIndex: FC = () => {
                         <tr>
                             <th>ID</th>
                             <th>Username</th>
+                            <th>Clearance</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +57,7 @@ export const UsersIndex: FC = () => {
                                     {user.id}
                                 </td>
                                 <td>{user.username.capitalizeFirst()}</td>
+                                <td>{user.clearance}</td>
                             </tr>
                         ))}
                     </tbody>
