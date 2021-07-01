@@ -70,7 +70,7 @@ export const ItemModal: FC<Props> = ({
     }
 
     function renderLastUpdated() {
-        if (accounts) {
+        if (accounts && item.accountId) {
             const lastUpdatedUsername = accounts.find(
                 a => a.id === item.accountId
             )?.username;
@@ -78,7 +78,7 @@ export const ItemModal: FC<Props> = ({
             return (
                 <small className="text-muted my-auto">
                     Last updated {timeago.format(item.updated)} by{" "}
-                    {lastUpdatedUsername}.
+                    {lastUpdatedUsername?.capitalizeFirst()}.
                 </small>
             );
         }

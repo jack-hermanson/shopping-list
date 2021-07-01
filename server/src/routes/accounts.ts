@@ -4,12 +4,22 @@ import { AccountService } from "../services/AccountService";
 import { auth } from "../middleware/auth";
 import {
     AccountRecord,
+    AdminEditAccountRequest,
+    EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
 import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
-import { newAccountSchema } from "../models/Account";
+import {
+    Account,
+    adminEditAccountSchema,
+    editMyAccountSchema,
+    newAccountSchema,
+} from "../models/Account";
 import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
 import { HTTP } from "jack-hermanson-ts-utils";
+import { minClearance } from "../utils/clearance";
+import { Clearance, SocketEvent } from "../../../shared/enums";
+import { Socket } from "socket.io";
 
 export const router = express.Router();
 
@@ -81,3 +91,59 @@ router.post("/token", auth, async (req: Request<any>, res: Response) => {
     const account: AccountRecord = { ...req.account };
     res.json(account);
 });
+
+// edit my own account
+router.put(
+    "/me",
+    auth,
+    async (req: Request<EditAccountRequest>, res: Response<AccountRecord>) => {
+        if (!(await validateRequest(editMyAccountSchema, req, res))) return;
+        const editAccountRequest: EditAccountRequest = req.body;
+
+        const editedAccount = await AccountService.editMyAccount(
+            req.account,
+            editAccountRequest,
+            res
+        );
+        if (!editedAccount) return;
+        delete editedAccount.password;
+        delete editedAccount.token;
+
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.UPDATE_ACCOUNTS);
+
+        res.json({ ...editedAccount });
+    }
+);
+
+// edit someone else's account
+router.put(
+    "/edit/:id",
+    auth,
+    async (
+        req: Request<{ id: number; AdminEditAccountRequest }>,
+        res: Response<AccountRecord>
+    ) => {
+        if (!(await minClearance(req.account, Clearance.SUPER_ADMIN, res)))
+            return;
+        if (!(await validateRequest(adminEditAccountSchema, req, res))) return;
+
+        const adminEditAccountRequest: AdminEditAccountRequest = req.body;
+        const accountId = req.params.id;
+
+        const editedAccount = await AccountService.adminEditAccount(
+            accountId,
+            adminEditAccountRequest,
+            res
+        );
+        if (!editedAccount) return;
+
+        delete editedAccount.password;
+        delete editedAccount.token;
+
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.UPDATE_ACCOUNTS);
+
+        res.json({ ...editedAccount });
+    }
+);

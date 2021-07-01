@@ -20,11 +20,11 @@ export const ListCategories: FC = () => {
                 <Button
                     size="sm"
                     color="info"
-                    outline
                     onClick={() => {
                         const filtering = document.getElementById("filtering");
                         filtering?.scrollIntoView();
                     }}
+                    className="border-end"
                 >
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>

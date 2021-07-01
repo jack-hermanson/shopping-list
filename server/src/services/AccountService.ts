@@ -2,6 +2,8 @@ import { Account } from "../models/Account";
 import { getConnection, Repository } from "typeorm";
 import {
     AccountRecord,
+    AdminEditAccountRequest,
+    EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
 import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
@@ -25,6 +27,12 @@ export abstract class AccountService {
         return await accountRepo.find();
     }
 
+    // hash a password
+    static async hashPassword(rawPassword: string): Promise<string> {
+        const salt = await bcrypt.genSalt(10);
+        return await bcrypt.hash(rawPassword, salt);
+    }
+
     // create new account
     static async create(
         newAccount: LoginOrNewAccountRequest,
@@ -44,12 +52,9 @@ export abstract class AccountService {
             return undefined;
         }
 
-        // create the account
-        const salt = await bcrypt.genSalt(10);
-
         const account = new Account();
         account.username = newAccount.username;
-        account.password = await bcrypt.hash(newAccount.password, salt);
+        account.password = await this.hashPassword(newAccount.password);
 
         return await accountRepo.save(account);
     }
@@ -117,5 +122,87 @@ export abstract class AccountService {
         }
 
         return account;
+    }
+
+    static async okayToChangeUsername(
+        account: Account,
+        newUsername: string,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { accountRepo } = getRepos();
+
+        if (
+            !(await doesNotConflict({
+                repo: accountRepo,
+                properties: [{ name: "username", value: newUsername }],
+                existingRecord: account,
+                res,
+            }))
+        ) {
+            return undefined;
+        }
+
+        return true;
+    }
+
+    static async editMyAccount(
+        account: Account,
+        editAccountReq: EditAccountRequest,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+
+        if (editAccountReq.password) {
+            account.password = await this.hashPassword(editAccountReq.password);
+        }
+
+        editAccountReq.username = editAccountReq.username.toLowerCase();
+        if (
+            !(await this.okayToChangeUsername(
+                account,
+                editAccountReq.username,
+                res
+            ))
+        ) {
+            return undefined;
+        }
+
+        account.username = editAccountReq.username;
+
+        return await accountRepo.save(account);
+    }
+
+    static async adminEditAccount(
+        accountId: number,
+        editAccountReq: AdminEditAccountRequest,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+
+        const account = await accountRepo.findOne(accountId);
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        if (editAccountReq.password) {
+            account.password = await this.hashPassword(editAccountReq.password);
+        }
+
+        editAccountReq.username = editAccountReq.username.toLowerCase();
+        if (
+            !(await this.okayToChangeUsername(
+                account,
+                editAccountReq.username,
+                res
+            ))
+        ) {
+            return undefined;
+        }
+
+        account.username = editAccountReq.username;
+        account.clearance = editAccountReq.clearance;
+
+        return await accountRepo.save(account);
     }
 }

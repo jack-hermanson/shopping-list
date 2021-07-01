@@ -69,8 +69,6 @@ export const CreateEditItemForm: FC<Props> = ({
     );
 
     useEffect(() => {
-        console.log("use effect");
-        console.log({ newItemCategory });
         if (existingItem) {
             resetForm();
         }
