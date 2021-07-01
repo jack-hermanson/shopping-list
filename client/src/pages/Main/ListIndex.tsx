@@ -6,6 +6,7 @@ import { ListCategories } from "../../components/Categories/ListCategories";
 import { CreateEditItemForm } from "../../components/Items/CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../stores/_store";
 import { errorAlert, scrollToTop } from "jack-hermanson-ts-utils";
+import { MobileToggleCard } from "jack-hermanson-component-lib";
 
 export const ListIndex: FC = () => {
     useProtectedRoute(Clearance.NORMAL);
@@ -22,8 +23,7 @@ export const ListIndex: FC = () => {
                     <ListCategories />
                 </Col>
                 <Col lg={4}>
-                    {renderNewItem()}
-                    {renderFiltering()}
+                    <div className="sticky-top">{renderNewItem()}</div>
                 </Col>
             </Row>
         </div>
@@ -62,16 +62,6 @@ export const ListIndex: FC = () => {
                         }}
                     />
                 </CardBody>
-            </Card>
-        );
-    }
-
-    function renderFiltering() {
-        return (
-            <Card className="mt-3" id="filtering">
-                <CardHeader>
-                    <h5 className="mb-0">Filtering</h5>
-                </CardHeader>
             </Card>
         );
     }
