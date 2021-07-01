@@ -1,5 +1,7 @@
 import {
     AccountRecord,
+    AdminEditAccountRequest,
+    EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
 import axios from "axios";
@@ -54,6 +56,31 @@ export abstract class AccountClient {
     static async getAll(token: string) {
         const response = await axios.get<AccountRecord[]>(
             this.baseUrl,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async editMyAccount(
+        editAccountReq: EditAccountRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/me`,
+            editAccountReq,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async adminEditAccount(
+        accountId: number,
+        editAccountReq: AdminEditAccountRequest,
+        token: string
+    ) {
+        const response = await axios.put<AccountRecord>(
+            `${this.baseUrl}/edit/${accountId}`,
+            editAccountReq,
             getAuthHeader(token)
         );
         return response.data;

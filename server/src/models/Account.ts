@@ -20,9 +20,30 @@ export class Account {
     clearance: Clearance;
 }
 
+const usernameSchema = Joi.string().min(2).required();
+const passwordSchema = Joi.string().min(2);
+
 export const newAccountSchema = Joi.object()
     .options({ abortEarly: false })
     .keys({
-        username: Joi.string().min(2).required(),
-        password: Joi.string().min(2).required(),
+        username: usernameSchema,
+        password: passwordSchema.required(),
+    });
+
+export const editMyAccountSchema = Joi.object()
+    .options({ abortEarly: false })
+    .keys({
+        username: usernameSchema,
+        password: passwordSchema.optional(),
+    });
+
+export const adminEditAccountSchema = Joi.object()
+    .options({ abortEarly: false })
+    .keys({
+        username: usernameSchema,
+        password: passwordSchema.optional(),
+        clearance: Joi.number()
+            .min(Clearance.NONE)
+            .max(Clearance.SUPER_ADMIN)
+            .required(),
     });
