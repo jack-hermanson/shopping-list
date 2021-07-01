@@ -6510,10 +6510,10 @@ jack-hermanson-ts-utils@^1.5.0:
     typeorm "^0.2.34"
     typescript "^4.3.4"
 
-jack-hermanson-ts-utils@^1.6.4:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.6.4.tgz#731bf6ccb765fd2cc2cf54a9eb0bf714102c8152"
-  integrity sha512-N+OMXZnJSqKkdrgK8IHotDXFoGS9ihKJOtQZ33LnzZKecE1zNVnwvqBIkVRnABDmBtRtMvX11cDq8FM3FPTpug==
+jack-hermanson-ts-utils@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.7.0.tgz#fdfc0d668d87e2d1a1af8c98b28abc2a495dfb45"
+  integrity sha512-HsvYpjBSUSNCrR9Wat7aDAOfqE9dUi+CTbxsfjTk9ajdDN8uC8lhS+Yy/KmhU0Cyb3ZkPXDruyc3xICypiiO+g==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"

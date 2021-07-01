@@ -6,7 +6,6 @@ import { ListCategories } from "../../components/Categories/ListCategories";
 import { CreateEditItemForm } from "../../components/Items/CreateEditItemForm";
 import { useStoreActions, useStoreState } from "../../stores/_store";
 import { errorAlert, scrollToTop } from "jack-hermanson-ts-utils";
-import { MobileToggleCard } from "jack-hermanson-component-lib";
 
 export const ListIndex: FC = () => {
     useProtectedRoute(Clearance.NORMAL);

@@ -56,10 +56,18 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
         return (
             <CardHeader className="d-flex">
                 <div
-                    className="d-flex hover-mouse w-100"
+                    className="d-flex flex-column w-100 hover-mouse"
                     onClick={toggleVisibility}
                 >
                     <h5 className="card-title my-auto">{category.name}</h5>
+                    {category.notes && (
+                        <small
+                            className="mb-1 text-muted"
+                            style={{ lineHeight: 0.6 }}
+                        >
+                            {category.notes}
+                        </small>
+                    )}
                 </div>
                 <div className="ms-auto">{renderActions()}</div>
             </CardHeader>
