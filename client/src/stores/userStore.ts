@@ -5,21 +5,30 @@ import { errorAlert, successAlert } from "jack-hermanson-ts-utils";
 import { saveToken } from "../utils/tokens";
 import {
     AccountRecord,
+    EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
 
 export interface UserStoreModel {
     currentUser: AccountRecord | undefined;
     setCurrentUser: Action<StoreModel, AccountRecord | undefined>;
+    changeCurrentUser: Action<StoreModel, AccountRecord>;
     logIn: Thunk<StoreModel, LoginOrNewAccountRequest>;
     logInFromStorage: Thunk<StoreModel>;
     logOut: Thunk<StoreModel, string>;
+    editMyAccount: Thunk<
+        StoreModel,
+        { editAccountReq: EditAccountRequest; token: string }
+    >;
 }
 
 export const userStore: UserStoreModel = {
     currentUser: undefined,
     setCurrentUser: action((state, payload) => {
         state.currentUser = payload;
+    }),
+    changeCurrentUser: action((state, payload) => {
+        state.currentUser = { ...state.currentUser, ...payload };
     }),
     logIn: thunk(async (actions, payload) => {
         try {
@@ -45,5 +54,19 @@ export const userStore: UserStoreModel = {
         await AccountClient.logOut(token);
         actions.setCurrentUser(undefined);
         actions.addAlert(successAlert("user", "logged out"));
+    }),
+    editMyAccount: thunk(async (actions, payload) => {
+        try {
+            const editedAccount = await AccountClient.editMyAccount(
+                payload.editAccountReq,
+                payload.token
+            );
+            actions.changeCurrentUser(editedAccount);
+            actions.addAlert(successAlert("account", "edited"));
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
     }),
 };
