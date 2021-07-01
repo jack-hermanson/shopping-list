@@ -13,7 +13,12 @@ export interface AccountStoreModel {
 export const accountStore: AccountStoreModel = {
     accounts: [],
     setAccounts: action((state, payload) => {
-        state.accounts = payload;
+        state.accounts = payload.map(account => {
+            if (account.username === "aj") {
+                account.username = "AJ";
+            }
+            return account;
+        });
     }),
     addAccount: action((state, payload) => {
         state.accounts = [payload, ...state.accounts].sort((a, b) =>

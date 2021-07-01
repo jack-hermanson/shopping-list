@@ -14,7 +14,7 @@ import { ManageCategory } from "../../components/Categories/ManageCategory";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { capitalizeFirst, scrollToTop } from "jack-hermanson-ts-utils";
 
-export const Index: FC = () => {
+export const CategoriesIndex: FC = () => {
     useProtectedRoute(Clearance.ADMIN);
 
     const categories = useStoreState(state => state.categories);
