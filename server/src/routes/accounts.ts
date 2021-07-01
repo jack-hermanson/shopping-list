@@ -18,7 +18,8 @@ import {
 import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
 import { HTTP } from "jack-hermanson-ts-utils";
 import { minClearance } from "../utils/clearance";
-import { Clearance } from "../../../shared/enums";
+import { Clearance, SocketEvent } from "../../../shared/enums";
+import { Socket } from "socket.io";
 
 export const router = express.Router();
 
@@ -107,6 +108,10 @@ router.put(
         if (!editedAccount) return;
         delete editedAccount.password;
         delete editedAccount.token;
+
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.UPDATE_ACCOUNTS);
+
         res.json({ ...editedAccount });
     }
 );
@@ -135,6 +140,10 @@ router.put(
 
         delete editedAccount.password;
         delete editedAccount.username;
+
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.UPDATE_ACCOUNTS);
+
         res.json({ ...editedAccount });
     }
 );

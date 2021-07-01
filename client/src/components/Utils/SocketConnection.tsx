@@ -8,6 +8,7 @@ export const SocketConnection: FC = () => {
     const loadCategory = useStoreActions(actions => actions.loadCategory);
     const loadItems = useStoreActions(actions => actions.loadItems);
     const loadItem = useStoreActions(actions => actions.loadItem);
+    const loadAccounts = useStoreActions(actions => actions.loadAccounts);
     const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
@@ -41,7 +42,20 @@ export const SocketConnection: FC = () => {
                 loadItem({ token: currentUser.token, id: e.id });
             }
         });
-    }, [loadCategories, loadCategory, loadItems, loadItem, currentUser?.token]);
+
+        socket.on(SocketEvent.UPDATE_ACCOUNTS, () => {
+            if (currentUser?.token) {
+                loadAccounts(currentUser.token);
+            }
+        });
+    }, [
+        loadCategories,
+        loadCategory,
+        loadItems,
+        loadItem,
+        loadAccounts,
+        currentUser?.token,
+    ]);
 
     return <Fragment />;
 };

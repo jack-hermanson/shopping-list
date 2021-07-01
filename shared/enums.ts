@@ -3,6 +3,7 @@ export enum SocketEvent {
     UPDATE_CATEGORIES = "update_categories", // re-fetch all; no data in msg
     UPDATE_ITEM = "update_item",
     UPDATE_ITEMS = "update_items",
+    UPDATE_ACCOUNTS = "update_accounts",
 }
 
 export enum Clearance {
