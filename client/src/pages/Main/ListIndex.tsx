@@ -23,10 +23,7 @@ export const ListIndex: FC = () => {
                     <ListCategories />
                 </Col>
                 <Col lg={4}>
-                    <div className="sticky-top">
-                        {renderFiltering()}
-                        {renderNewItem()}
-                    </div>
+                    <div className="sticky-top">{renderNewItem()}</div>
                 </Col>
             </Row>
         </div>
@@ -66,18 +63,6 @@ export const ListIndex: FC = () => {
                     />
                 </CardBody>
             </Card>
-        );
-    }
-
-    function renderFiltering() {
-        return (
-            <div className="mb-3" id="filtering">
-                <MobileToggleCard cardTitle="Filtering">
-                    <CardBody>
-                        <p className="mb-0">Filter</p>
-                    </CardBody>
-                </MobileToggleCard>
-            </div>
         );
     }
 };
