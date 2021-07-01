@@ -2,7 +2,7 @@ import { FC, FormEvent, useState } from "react";
 import { FormGroup, Label, Input, Button } from "reactstrap";
 import { LoginOrNewAccountRequest } from "../../../../shared/resource_models/account";
 import { scrollToTop } from "jack-hermanson-ts-utils";
-import { useStoreActions } from "../../store";
+import { useStoreActions } from "../../stores/_store";
 
 interface Props {
     afterSubmit?: () => any;

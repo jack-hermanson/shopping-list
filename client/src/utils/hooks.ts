@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useStoreState } from "../store";
+import { useStoreState } from "../stores/_store";
 import { Clearance } from "../../../shared/enums";
 
 export const useProtectedRoute = (clearance?: Clearance) => {

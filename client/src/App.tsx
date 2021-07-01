@@ -8,7 +8,7 @@ import { NotFound } from "./pages/Errors/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
 import { useEffect } from "react";
-import { useStoreActions, useStoreState } from "./store";
+import { useStoreActions, useStoreState } from "./stores/_store";
 import { Forbidden } from "./pages/Errors/Forbidden";
 import { SocketConnection } from "./components/Utils/SocketConnection";
 import { Index as Categories } from "./pages/Categories/Index";

@@ -5,7 +5,7 @@ import { CreateEditItemForm } from "./CreateEditItemForm";
 import { scrollToTop } from "jack-hermanson-ts-utils";
 import * as timeago from "timeago.js";
 import { Clearance } from "../../../../shared/enums";
-import { useStoreActions, useStoreState } from "../../store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ConfirmationModal } from "jack-hermanson-component-lib/lib";
 
 interface Props {

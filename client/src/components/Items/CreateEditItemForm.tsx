@@ -11,7 +11,7 @@ import {
     ItemRecord,
 } from "../../../../shared/resource_models/item";
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useStoreState } from "../../store";
+import { useStoreState } from "../../stores/_store";
 import { AlertPanel } from "jack-hermanson-component-lib/lib";
 
 interface Props {
