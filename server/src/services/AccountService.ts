@@ -33,6 +33,22 @@ export abstract class AccountService {
         return await bcrypt.hash(rawPassword, salt);
     }
 
+    // get one account
+    static async getOne(
+        accountId: number,
+        res: Response
+    ): Promise<Account | undefined> {
+        const { accountRepo } = getRepos();
+
+        const account = await accountRepo.findOne(accountId);
+        if (!account) {
+            res.sendStatus(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        return account;
+    }
+
     // create new account
     static async create(
         newAccount: LoginOrNewAccountRequest,

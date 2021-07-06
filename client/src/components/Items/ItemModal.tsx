@@ -7,6 +7,7 @@ import * as timeago from "timeago.js";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ConfirmationModal } from "jack-hermanson-component-lib/lib";
+import { AccountClient } from "../../clients/AccountClient";
 
 interface Props {
     item: ItemRecord;
@@ -69,18 +70,26 @@ export const ItemModal: FC<Props> = ({
         );
     }
 
-    function renderLastUpdated() {
-        if (accounts && item.accountId) {
-            const lastUpdatedUsername = accounts.find(
-                a => a.id === item.accountId
-            )?.username;
+    async function renderLastUpdated() {
+        if (currentUser?.token) {
+            try {
+                const lastUpdatedAccount = await AccountClient.getOne(
+                    item.accountId,
+                    currentUser.token
+                );
+                const lastUpdatedUsername = lastUpdatedAccount.username;
 
-            return (
-                <small className="text-muted my-auto">
-                    Last updated {timeago.format(item.updated)} by{" "}
-                    {lastUpdatedUsername?.capitalizeFirst()}.
-                </small>
-            );
+                return (
+                    <small className="text-muted my-auto">
+                        Last updated {timeago.format(item.updated)} by{" "}
+                        {lastUpdatedUsername?.capitalizeFirst()} (
+                        {item.accountId}
+                        ).
+                    </small>
+                );
+            } catch (error) {
+                return <div>{error.message.toString()}</div>;
+            }
         }
     }
 
