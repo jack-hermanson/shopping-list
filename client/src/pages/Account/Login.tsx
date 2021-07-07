@@ -3,6 +3,7 @@ import { Col, Row } from "reactstrap";
 import { LoginForm } from "../../components/Accounts/LoginForm";
 import { useHistory } from "react-router-dom";
 import { useStoreState } from "../../stores/_store";
+import { getRedirectPath } from "../../utils/functions";
 
 export const Login: FC = () => {
     const history = useHistory();
@@ -23,7 +24,16 @@ export const Login: FC = () => {
             </Row>
             <Row>
                 <Col lg={6}>
-                    <LoginForm afterSubmit={() => history.push("/")} />
+                    <LoginForm
+                        afterSubmit={() => {
+                            const redirectPath = getRedirectPath();
+                            if (redirectPath) {
+                                history.push(redirectPath);
+                            } else {
+                                history.push("/");
+                            }
+                        }}
+                    />
                 </Col>
             </Row>
         </div>

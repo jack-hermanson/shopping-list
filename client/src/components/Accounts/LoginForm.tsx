@@ -31,8 +31,7 @@ export const LoginForm: FC<Props> = ({ afterSubmit }: Props) => {
         };
 
         try {
-            const token = await logIn(loginRequest);
-            console.log(token);
+            await logIn(loginRequest);
         } catch (error) {
             console.log(error);
             scrollToTop();
