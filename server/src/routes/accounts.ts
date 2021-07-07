@@ -34,6 +34,18 @@ router.get("/", auth, async (req: Request<any>, res: Response) => {
     );
 });
 
+// get one account
+router.get(
+    "/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<AccountRecord>) => {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) return;
+        const account = await AccountService.getOne(req.params.id, res);
+        if (!account) return;
+        res.json(account);
+    }
+);
+
 // new account
 router.post(
     "/",

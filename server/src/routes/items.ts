@@ -92,9 +92,9 @@ router.put(
         const checked = req.body.checked;
         const id = req.params.id;
         const modifiedItem = await ItemService.toggleChecked(
-            req.params.id,
-            checked,
             id,
+            checked,
+            req.account.id,
             res
         );
         if (!modifiedItem) return;

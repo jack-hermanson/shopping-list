@@ -3,7 +3,6 @@ import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
 import { Button } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /*
 This component renders the categories on the list.

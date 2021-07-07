@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useState, Fragment } from "react";
+import {
+    Dispatch,
+    FC,
+    SetStateAction,
+    useState,
+    Fragment,
+    useEffect,
+} from "react";
 import { ItemRecord } from "../../../../shared/resource_models/item";
 import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 import { CreateEditItemForm } from "./CreateEditItemForm";
@@ -6,7 +13,12 @@ import { scrollToTop } from "jack-hermanson-ts-utils";
 import * as timeago from "timeago.js";
 import { Clearance } from "../../../../shared/enums";
 import { useStoreActions, useStoreState } from "../../stores/_store";
-import { ConfirmationModal } from "jack-hermanson-component-lib/lib";
+import {
+    ConfirmationModal,
+    LoadingSpinner,
+} from "jack-hermanson-component-lib/lib";
+import { AccountClient } from "../../clients/AccountClient";
+import { AccountRecord } from "../../../../shared/resource_models/account";
 
 interface Props {
     item: ItemRecord;
@@ -20,13 +32,23 @@ export const ItemModal: FC<Props> = ({
     setShowModal,
 }: Props) => {
     const currentUser = useStoreState(state => state.currentUser);
-    const accounts = useStoreState(state => state.accounts);
     const updateItem = useStoreActions(actions => actions.updateItem);
     const deleteItem = useStoreActions(actions => actions.deleteItem);
 
+    const [lastUpdatedAccount, setLastUpdatedAccount] = useState<
+        AccountRecord | undefined
+    >(undefined);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
     const toggle = () => setShowModal(s => !s);
+
+    useEffect(() => {
+        if (currentUser?.token) {
+            AccountClient.getOne(item.accountId, currentUser.token).then(a => {
+                setLastUpdatedAccount(a);
+            });
+        }
+    }, [item, currentUser, setLastUpdatedAccount]);
 
     return (
         <Fragment>
@@ -70,17 +92,17 @@ export const ItemModal: FC<Props> = ({
     }
 
     function renderLastUpdated() {
-        if (accounts && item.accountId) {
-            const lastUpdatedUsername = accounts.find(
-                a => a.id === item.accountId
-            )?.username;
-
+        if (lastUpdatedAccount) {
             return (
                 <small className="text-muted my-auto">
                     Last updated {timeago.format(item.updated)} by{" "}
-                    {lastUpdatedUsername?.capitalizeFirst()}.
+                    {lastUpdatedAccount?.username.capitalizeFirst()} (
+                    {item.accountId}
+                    ).
                 </small>
             );
+        } else {
+            return <LoadingSpinner />;
         }
     }
 
