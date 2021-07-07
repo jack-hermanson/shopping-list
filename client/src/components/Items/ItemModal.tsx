@@ -85,7 +85,7 @@ export const ItemModal: FC<Props> = ({
                         }
                     }
                 }}
-                autoFocus={true}
+                autoFocus={false}
                 existingItem={item}
             />
         );
@@ -95,10 +95,8 @@ export const ItemModal: FC<Props> = ({
         if (lastUpdatedAccount) {
             return (
                 <small className="text-muted my-auto">
-                    Last updated {timeago.format(item.updated)} by{" "}
-                    {lastUpdatedAccount?.username.capitalizeFirst()} (
-                    {item.accountId}
-                    ).
+                    Updated {timeago.format(item.updated)} by{" "}
+                    {lastUpdatedAccount?.username.capitalizeFirst()}.
                 </small>
             );
         } else {

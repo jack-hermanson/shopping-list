@@ -10,7 +10,6 @@ import {
 } from "../../../shared/resource_models/account";
 import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
 import {
-    Account,
     adminEditAccountSchema,
     editMyAccountSchema,
     newAccountSchema,
@@ -69,7 +68,10 @@ router.post(
 // log in
 router.post(
     "/login",
-    async (req: Request<LoginOrNewAccountRequest>, res: Response) => {
+    async (
+        req: Request<LoginOrNewAccountRequest>,
+        res: Response<AccountRecord>
+    ) => {
         try {
             if (!(await validateRequest(newAccountSchema, req, res))) return;
             const requestBody: LoginOrNewAccountRequest = req.body;
@@ -100,6 +102,7 @@ router.post("/logout", auth, async (req: Request<any>, res: Response) => {
 
 // log in with token
 router.post("/token", auth, async (req: Request<any>, res: Response) => {
+    delete req.account.password;
     const account: AccountRecord = { ...req.account };
     res.json(account);
 });

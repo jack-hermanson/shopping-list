@@ -110,6 +110,7 @@ export abstract class AccountService {
         // save token
         await accountRepo.update(account, { token });
         const updatedAccount = await accountRepo.findOne({ token });
+        delete updatedAccount.password;
         return { ...updatedAccount };
     }
 

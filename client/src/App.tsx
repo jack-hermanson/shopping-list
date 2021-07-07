@@ -8,7 +8,7 @@ import { NotFound } from "./pages/Errors/NotFound";
 import { Login } from "./pages/Account/Login";
 import { Account } from "./pages/Account/Account";
 import { useEffect } from "react";
-import { useStoreActions, useStoreState } from "./stores/_store";
+import { useStoreActions } from "./stores/_store";
 import { Forbidden } from "./pages/Errors/Forbidden";
 import { SocketConnection } from "./components/Utils/SocketConnection";
 import { CategoriesIndex } from "./pages/Categories/CategoriesIndex";
@@ -20,26 +20,10 @@ function App() {
     const logInFromStorage = useStoreActions(
         actions => actions.logInFromStorage
     );
-    const loadCategories = useStoreActions(actions => actions.loadCategories);
-    const loadItems = useStoreActions(actions => actions.loadItems);
-    const currentUser = useStoreState(state => state.currentUser);
-    const loadAccounts = useStoreActions(actions => actions.loadAccounts);
 
     useEffect(() => {
-        logInFromStorage().then(() => {
-            if (currentUser?.token) {
-                loadCategories(currentUser.token);
-                loadItems(currentUser.token);
-                loadAccounts(currentUser.token);
-            }
-        });
-    }, [
-        logInFromStorage,
-        loadCategories,
-        loadItems,
-        loadAccounts,
-        currentUser?.token,
-    ]);
+        logInFromStorage();
+    }, [logInFromStorage]);
 
     return (
         <BrowserRouter>
