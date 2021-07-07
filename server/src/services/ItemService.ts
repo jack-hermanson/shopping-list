@@ -20,6 +20,7 @@ const getRepos = (): {
 export abstract class ItemService {
     static async getAll(): Promise<Item[]> {
         const { itemRepo } = getRepos();
+
         return await itemRepo
             .createQueryBuilder("item")
             .orderBy("name")

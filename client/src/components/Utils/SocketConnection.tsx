@@ -14,6 +14,21 @@ export const SocketConnection: FC = () => {
     useEffect(() => {
         const socket: Socket = io("/");
 
+        socket.on("connect", () => {
+            console.log("socket connected on front end");
+            if (currentUser?.token) {
+                console.log("token available - fetching data");
+                loadCategories(currentUser.token);
+                loadItems(currentUser.token);
+                loadAccounts(currentUser.token);
+            }
+        });
+
+        socket.on("disconnect", message => {
+            console.log("disconnected from socket");
+            console.log(message);
+        });
+
         socket.on(SocketEvent.UPDATE_CATEGORY, e => {
             if (currentUser?.token) {
                 loadCategory({
