@@ -96,6 +96,11 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                         newItemNameInput?.focus();
                         newItemNameInput?.scrollIntoView();
                     }),
+                    undefined,
+                    new ClickDropdownAction("Complete", () => {
+                        console.log("Complete");
+                    }),
+                    undefined,
                     new ClickDropdownAction("Check All", () => {
                         if (currentUser?.token) {
                             toggleCategoryItems({
