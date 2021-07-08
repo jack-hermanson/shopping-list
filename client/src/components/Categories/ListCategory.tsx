@@ -26,6 +26,9 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
     const items = useStoreState(state => state.items)?.filter(i =>
         i.categoryIds.includes(category.id)
     );
+    const toggleCategoryItems = useStoreActions(
+        actions => actions.toggleCategoryItems
+    );
 
     return (
         <Card className="mb-3 no-mb-last">
@@ -92,6 +95,29 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                             document.getElementById("new-item-name");
                         newItemNameInput?.focus();
                         newItemNameInput?.scrollIntoView();
+                    }),
+                    undefined,
+                    new ClickDropdownAction("Complete", () => {
+                        console.log("Complete");
+                    }),
+                    undefined,
+                    new ClickDropdownAction("Check All", () => {
+                        if (currentUser?.token) {
+                            toggleCategoryItems({
+                                checkAll: true,
+                                token: currentUser.token,
+                                id: category.id,
+                            });
+                        }
+                    }),
+                    new ClickDropdownAction("Uncheck All", () => {
+                        if (currentUser?.token) {
+                            toggleCategoryItems({
+                                checkAll: false,
+                                token: currentUser.token,
+                                id: category.id,
+                            });
+                        }
                     }),
                 ]}
                 color={`${category.visible ? "info" : "secondary"}`}

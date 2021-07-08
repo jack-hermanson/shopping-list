@@ -1,6 +1,7 @@
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
+    ToggleCategoryItemsRequest,
 } from "../../../shared/resource_models/category";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
@@ -53,6 +54,17 @@ export abstract class CategoryClient {
     static async delete(categoryId: number, token: string) {
         await axios.delete(
             `${this.baseUrl}/${categoryId}`,
+            getAuthHeader(token)
+        );
+    }
+
+    static async toggleItems(
+        toggleCategoryItemsRequest: ToggleCategoryItemsRequest,
+        token: string
+    ) {
+        await axios.post<number[]>(
+            `${this.baseUrl}/toggle-items`,
+            toggleCategoryItemsRequest,
             getAuthHeader(token)
         );
     }

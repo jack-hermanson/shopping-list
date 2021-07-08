@@ -1,9 +1,13 @@
 import { getConnection, Repository } from "typeorm";
 import { Category } from "../models/Category";
-import { CreateEditCategoryRequest } from "../../../shared/resource_models/category";
+import {
+    CreateEditCategoryRequest,
+    ToggleCategoryItemsRequest,
+} from "../../../shared/resource_models/category";
 import { Response } from "express";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { CategoryItem } from "../models/CategoryItem";
+import { ItemService } from "./ItemService";
 
 const getRepos = (): {
     categoryRepo: Repository<Category>;
@@ -107,5 +111,51 @@ export abstract class CategoryService {
 
         await categoryRepo.delete(category);
         return true;
+    }
+
+    /**
+     * Make all of the items in this category checked or unchecked.
+     * Returns a list of item IDs that were affected by this action.
+     * @param requestBody
+     * @param accountId
+     * @param res
+     */
+    static async toggleItems(
+        requestBody: ToggleCategoryItemsRequest,
+        accountId: number,
+        res: Response
+    ): Promise<number[] | undefined> {
+        const { categoryRepo, categoryItemRepo } = getRepos();
+
+        // is the categoryId legit?
+        const category = await categoryRepo.findOne(requestBody.categoryId);
+        if (!category) {
+            res.status(HTTP.NOT_FOUND);
+            return undefined;
+        }
+
+        // all the categoryItems within this category
+        const categoryItems = await categoryItemRepo.find({
+            categoryId: requestBody.categoryId,
+        });
+
+        // ids of items that were toggled
+        const itemIds: number[] = [];
+
+        // check or uncheck each item
+        for (let categoryItem of categoryItems) {
+            const modifiedItem = await ItemService.toggleChecked(
+                categoryItem.itemId,
+                requestBody.checkAll,
+                accountId,
+                res
+            );
+            if (!modifiedItem) {
+                return undefined;
+            }
+            itemIds.push(modifiedItem.id);
+        }
+
+        return itemIds;
     }
 }
