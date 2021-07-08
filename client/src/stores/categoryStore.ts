@@ -28,6 +28,10 @@ export interface CategoryStoreModel {
         { newCategory: CreateEditCategoryRequest; token: string }
     >;
     deleteCategory: Thunk<StoreModel, { id: number; token: string }>;
+    toggleCategoryItems: Thunk<
+        StoreModel,
+        { id: number; checkAll: boolean; token: string }
+    >;
 }
 
 export const categoryStore: CategoryStoreModel = {
@@ -108,6 +112,21 @@ export const categoryStore: CategoryStoreModel = {
         try {
             await CategoryClient.delete(payload.id, payload.token);
             actions.addAlert(successAlert("category", "deleted"));
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    toggleCategoryItems: thunk(async (actions, payload) => {
+        try {
+            await CategoryClient.toggleItems(
+                {
+                    categoryId: payload.id,
+                    checkAll: payload.checkAll,
+                },
+                payload.token
+            );
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));

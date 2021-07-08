@@ -9,3 +9,8 @@ export interface CreateEditCategoryRequest {
 export interface CategoryRecord
     extends ResourceModel,
         CreateEditCategoryRequest {}
+
+export interface ToggleCategoryItemsRequest {
+    categoryId: number;
+    checkAll: boolean; // if it's false, then uncheck all
+}

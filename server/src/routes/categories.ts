@@ -5,12 +5,17 @@ import { Clearance, SocketEvent } from "../../../shared/enums";
 import {
     CategoryRecord,
     CreateEditCategoryRequest,
+    ToggleCategoryItemsRequest,
 } from "../../../shared/resource_models/category";
 import { CategoryService } from "../services/CategoryService";
 import { minClearance } from "../utils/clearance";
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
-import { createEditCategorySchema } from "../models/Category";
+import {
+    createEditCategorySchema,
+    toggleCategoryItemsSchema,
+} from "../models/Category";
 import { Socket } from "socket.io";
+import { ItemRecord } from "../../../shared/resource_models/item";
 
 export const router = express.Router();
 
@@ -47,6 +52,38 @@ router.post(
             socket.emit(SocketEvent.UPDATE_CATEGORIES);
 
             res.status(HTTP.CREATED).json(newCategory);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.post(
+    "/toggle-items",
+    auth,
+    async (
+        req: Request<ToggleCategoryItemsRequest>,
+        res: Response<number[]>
+    ) => {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) return;
+        try {
+            if (!(await validateRequest(toggleCategoryItemsSchema, req, res))) {
+                return;
+            }
+            const requestBody: ToggleCategoryItemsRequest = req.body;
+
+            const modifiedItemIds = await CategoryService.toggleItems(
+                requestBody,
+                req.account.id,
+                res
+            );
+
+            if (!modifiedItemIds) return;
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_ITEMS);
+
+            res.json(modifiedItemIds);
         } catch (error) {
             sendError(error, res);
         }
