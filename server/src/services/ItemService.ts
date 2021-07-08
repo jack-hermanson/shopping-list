@@ -2,9 +2,8 @@ import { getConnection, Repository } from "typeorm";
 import { Item } from "../models/Item";
 import { CategoryItem } from "../models/CategoryItem";
 import { Response } from "express";
-import { HTTP } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { CreateEditItemRequest } from "../../../shared/resource_models/item";
-import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
 import { CategoryItemService } from "./CategoryItemService";
 
 const getRepos = (): {

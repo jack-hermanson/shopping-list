@@ -2,8 +2,7 @@ import { getConnection, Repository } from "typeorm";
 import { Category } from "../models/Category";
 import { CreateEditCategoryRequest } from "../../../shared/resource_models/category";
 import { Response } from "express";
-import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
-import { HTTP } from "jack-hermanson-ts-utils";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { CategoryItem } from "../models/CategoryItem";
 
 const getRepos = (): {
