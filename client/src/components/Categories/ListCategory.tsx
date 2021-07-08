@@ -56,10 +56,17 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
         return (
             <CardHeader className="d-flex">
                 <div
-                    className="d-flex flex-column w-100 hover-mouse"
+                    className={`d-flex flex-column w-100 hover-mouse ${
+                        !category.visible && "text-muted"
+                    }`}
                     onClick={toggleVisibility}
                 >
-                    <h5 className="card-title my-auto">{category.name}</h5>
+                    <h5 className="card-title my-auto">
+                        {category.name}
+                        {!category.visible && (
+                            <i className="ms-2 fas fa-eye-slash"></i>
+                        )}
+                    </h5>
                     {category.notes && (
                         <small
                             className="text-muted"
@@ -87,7 +94,7 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                         newItemNameInput?.scrollIntoView();
                     }),
                 ]}
-                color="info"
+                color={`${category.visible ? "info" : "secondary"}`}
             />
         );
     }
