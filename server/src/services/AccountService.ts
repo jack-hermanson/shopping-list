@@ -6,11 +6,10 @@ import {
     EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
-import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
+import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { Response } from "express";
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcryptjs";
-import { HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {
     accountRepo: Repository<Account>;

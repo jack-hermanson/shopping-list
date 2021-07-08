@@ -8,14 +8,12 @@ import {
     EditAccountRequest,
     LoginOrNewAccountRequest,
 } from "../../../shared/resource_models/account";
-import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
+import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
 import {
     adminEditAccountSchema,
     editMyAccountSchema,
     newAccountSchema,
 } from "../models/Account";
-import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
-import { HTTP } from "jack-hermanson-ts-utils";
 import { minClearance } from "../utils/clearance";
 import { Clearance, SocketEvent } from "../../../shared/enums";
 import { Socket } from "socket.io";

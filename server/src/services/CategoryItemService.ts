@@ -3,7 +3,6 @@ import { CategoryItem } from "../models/CategoryItem";
 import { ItemService } from "./ItemService";
 import { Response } from "express";
 import { CategoryService } from "./CategoryService";
-import { doesNotConflict } from "jack-hermanson-ts-utils/lib/functions/validation";
 import { HTTP } from "jack-hermanson-ts-utils";
 
 const getRepos = (): {

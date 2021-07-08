@@ -8,10 +8,8 @@ import {
 } from "../../../shared/resource_models/category";
 import { CategoryService } from "../services/CategoryService";
 import { minClearance } from "../utils/clearance";
-import { sendError } from "jack-hermanson-ts-utils/lib/functions/errors";
-import { validateRequest } from "jack-hermanson-ts-utils/lib/functions/validation";
+import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
 import { createEditCategorySchema } from "../models/Category";
-import { HTTP } from "jack-hermanson-ts-utils";
 import { Socket } from "socket.io";
 
 export const router = express.Router();
