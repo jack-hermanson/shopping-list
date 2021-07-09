@@ -15,7 +15,6 @@ import {
     toggleCategoryItemsSchema,
 } from "../models/Category";
 import { Socket } from "socket.io";
-import { ItemRecord } from "../../../shared/resource_models/item";
 
 export const router = express.Router();
 
@@ -153,6 +152,56 @@ router.delete(
 
             socket.emit(SocketEvent.UPDATE_CATEGORIES);
             res.sendStatus(HTTP.OK);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.post(
+    "/complete/:id",
+    auth,
+    async (req: Request<{ id: number }>, res: Response<boolean>) => {
+        if (!(await minClearance(req.account, Clearance.NORMAL, res))) {
+            return;
+        }
+
+        try {
+            const completed = await CategoryService.completeCategory(
+                req.params.id,
+                res
+            );
+            if (!completed) {
+                return;
+            }
+
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_ITEMS);
+
+            res.json(true);
+        } catch (error) {
+            sendError(error, res);
+        }
+    }
+);
+
+router.post(
+    "/complete-all",
+    auth,
+    async (req: Request<any>, res: Response<boolean>) => {
+        if (!(await minClearance(req.account, Clearance.NORMAL, res))) {
+            return;
+        }
+
+        try {
+            const completed = await CategoryService.completeAllCategories(res);
+            if (!completed) {
+                return;
+            }
+            const socket: Socket = req.app.get("socketio");
+            socket.emit(SocketEvent.UPDATE_ITEMS);
+
+            res.json(true);
         } catch (error) {
             sendError(error, res);
         }

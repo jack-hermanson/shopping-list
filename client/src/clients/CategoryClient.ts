@@ -68,4 +68,22 @@ export abstract class CategoryClient {
             getAuthHeader(token)
         );
     }
+
+    static async completeCategory(categoryId: number, token: string) {
+        const response = await axios.post<boolean>(
+            `${this.baseUrl}/complete/${categoryId}`,
+            null,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async completeAllCategories(token: string) {
+        const response = await axios.post<boolean>(
+            `${this.baseUrl}/complete-all`,
+            null,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
 }

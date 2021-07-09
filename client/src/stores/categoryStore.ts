@@ -32,6 +32,8 @@ export interface CategoryStoreModel {
         StoreModel,
         { id: number; checkAll: boolean; token: string }
     >;
+    completeCategory: Thunk<StoreModel, { categoryId: number; token: string }>;
+    completeAllCategories: Thunk<StoreModel, string>;
 }
 
 export const categoryStore: CategoryStoreModel = {
@@ -130,6 +132,27 @@ export const categoryStore: CategoryStoreModel = {
         } catch (error) {
             console.error(error.response);
             actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    completeCategory: thunk(async (actions, payload) => {
+        try {
+            await CategoryClient.completeCategory(
+                payload.categoryId,
+                payload.token
+            );
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    completeAllCategories: thunk(async (actions, token) => {
+        try {
+            await CategoryClient.completeAllCategories(token);
+        } catch (error) {
+            console.error(error.response);
+            actions.addAlert(error.message);
             throw error;
         }
     }),

@@ -3,7 +3,10 @@ import { Item } from "../models/Item";
 import { CategoryItem } from "../models/CategoryItem";
 import { Response } from "express";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
-import { CreateEditItemRequest } from "../../../shared/resource_models/item";
+import {
+    CreateEditItemRequest,
+    ToggleAllItemsRequest,
+} from "../../../shared/resource_models/item";
 import { CategoryItemService } from "./CategoryItemService";
 
 const getRepos = (): {
@@ -152,5 +155,43 @@ export abstract class ItemService {
         item.checked = checked;
         item.accountId = accountId;
         return await itemRepo.save(item);
+    }
+
+    /**
+     * Get the items that are associated with a given category.
+     * @param categoryId
+     */
+    static async getItemsInCategory(categoryId: number): Promise<Item[]> {
+        const { itemRepo, categoryItemRepo } = getRepos();
+
+        const categoryItems = await categoryItemRepo.find({ categoryId });
+        const items: Item[] = [];
+
+        for (let categoryItem of categoryItems) {
+            const item = await itemRepo.findOne(categoryItem.itemId);
+            items.push(item);
+        }
+
+        return items;
+    }
+
+    static async toggleAll(
+        toggleAllItemsRequest: ToggleAllItemsRequest,
+        accountId: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        const items = await this.getAll();
+        for (let item of items) {
+            const updatedItem = await this.toggleChecked(
+                item.id,
+                toggleAllItemsRequest.checkAll,
+                accountId,
+                res
+            );
+            if (!updatedItem) {
+                return undefined;
+            }
+        }
+        return true;
     }
 }

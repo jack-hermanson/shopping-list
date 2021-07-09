@@ -1,8 +1,9 @@
 import { FC } from "react";
-import { useStoreState } from "../../stores/_store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
-import { Button } from "reactstrap";
+import { ActionsDropdown } from "jack-hermanson-component-lib";
+import { ClickDropdownAction, scrollToTop } from "jack-hermanson-ts-utils";
 
 /*
 This component renders the categories on the list.
@@ -11,22 +12,66 @@ for meta/administrative purposes.
  */
 export const ListCategories: FC = () => {
     const categories = useStoreState(state => state.categories);
+    const currentUser = useStoreState(state => state.currentUser);
+    const completeAllCategories = useStoreActions(
+        actions => actions.completeAllCategories
+    );
+    const toggleAllItems = useStoreActions(actions => actions.toggleAllItems);
 
     return (
         <div>
             <PageHeader title="Shopping List">
-                <Button
-                    size="sm"
+                <ActionsDropdown
                     color="info"
-                    onClick={() => {
-                        const newItemNameInput =
-                            document.getElementById("new-item-name");
-                        newItemNameInput?.focus();
-                        newItemNameInput?.scrollIntoView();
-                    }}
-                >
-                    New Item
-                </Button>
+                    size="sm"
+                    options={[
+                        new ClickDropdownAction("New Item", () => {
+                            const newItemNameInput =
+                                document.getElementById("new-item-name");
+                            newItemNameInput?.focus();
+                            newItemNameInput?.scrollIntoView();
+                        }),
+                        new ClickDropdownAction("Complete All", async () => {
+                            if (currentUser?.token) {
+                                try {
+                                    await completeAllCategories(
+                                        currentUser.token
+                                    );
+                                } catch (error) {
+                                    console.error(error);
+                                    scrollToTop();
+                                }
+                            }
+                        }),
+                        undefined,
+                        new ClickDropdownAction("Check All", async () => {
+                            if (currentUser?.token && categories) {
+                                try {
+                                    await toggleAllItems({
+                                        token: currentUser.token,
+                                        checked: true,
+                                    });
+                                } catch (error) {
+                                    console.error(error);
+                                    scrollToTop();
+                                }
+                            }
+                        }),
+                        new ClickDropdownAction("Uncheck All", async () => {
+                            if (currentUser?.token && categories) {
+                                try {
+                                    await toggleAllItems({
+                                        token: currentUser.token,
+                                        checked: false,
+                                    });
+                                } catch (error) {
+                                    console.error(error);
+                                    scrollToTop();
+                                }
+                            }
+                        }),
+                    ]}
+                />
             </PageHeader>
             {categories ? (
                 categories.map(category => (

@@ -1,6 +1,7 @@
 import {
     ItemRecord,
     CreateEditItemRequest,
+    ToggleAllItemsRequest,
 } from "../../../shared/resource_models/item";
 import axios from "axios";
 import { getAuthHeader } from "jack-hermanson-ts-utils";
@@ -58,6 +59,18 @@ export abstract class ItemClient {
     static async deleteItem(id: number, token: string) {
         const response = await axios.delete<boolean>(
             `${this.baseUrl}/${id}`,
+            getAuthHeader(token)
+        );
+        return response.data;
+    }
+
+    static async toggleAll(checked: boolean, token: string) {
+        const requestBody: ToggleAllItemsRequest = {
+            checkAll: checked,
+        };
+        const response = await axios.put<boolean>(
+            `${this.baseUrl}/toggle-all`,
+            requestBody,
             getAuthHeader(token)
         );
         return response.data;
