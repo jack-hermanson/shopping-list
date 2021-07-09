@@ -12,7 +12,7 @@ import { CreateEditCategoryForm } from "../../components/Categories/CreateEditCa
 import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ManageCategory } from "../../components/Categories/ManageCategory";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
-import { capitalizeFirst, scrollToTop } from "jack-hermanson-ts-utils";
+import { scrollToTop } from "jack-hermanson-ts-utils";
 
 export const CategoriesIndex: FC = () => {
     useProtectedRoute(Clearance.ADMIN);
@@ -45,7 +45,7 @@ export const CategoriesIndex: FC = () => {
                 </Col>
                 <Col lg={6} className="sticky-top">
                     <h4>
-                        {formState && capitalizeFirst(formState)}{" "}
+                        {formState?.capitalizeFirst()}{" "}
                         {categoryToEdit
                             ? categoryToEdit.name
                             : formState === "new" && "Category"}
