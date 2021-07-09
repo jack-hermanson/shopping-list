@@ -2,7 +2,8 @@ import { FC } from "react";
 import { useStoreState } from "../../stores/_store";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
-import { Button } from "reactstrap";
+import { ActionsDropdown } from "jack-hermanson-component-lib";
+import { ClickDropdownAction } from "jack-hermanson-ts-utils";
 
 /*
 This component renders the categories on the list.
@@ -15,18 +16,18 @@ export const ListCategories: FC = () => {
     return (
         <div>
             <PageHeader title="Shopping List">
-                <Button
-                    size="sm"
+                <ActionsDropdown
                     color="info"
-                    onClick={() => {
-                        const newItemNameInput =
-                            document.getElementById("new-item-name");
-                        newItemNameInput?.focus();
-                        newItemNameInput?.scrollIntoView();
-                    }}
-                >
-                    New Item
-                </Button>
+                    size="sm"
+                    options={[
+                        new ClickDropdownAction("New Item", () => {
+                            const newItemNameInput =
+                                document.getElementById("new-item-name");
+                            newItemNameInput?.focus();
+                            newItemNameInput?.scrollIntoView();
+                        }),
+                    ]}
+                />
             </PageHeader>
             {categories ? (
                 categories.map(category => (

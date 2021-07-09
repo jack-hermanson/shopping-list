@@ -120,7 +120,7 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                         }
                     }),
                 ]}
-                color={`${category.visible ? "info" : "secondary"}`}
+                color="secondary"
             />
         );
     }
