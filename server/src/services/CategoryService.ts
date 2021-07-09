@@ -175,7 +175,6 @@ export abstract class CategoryService {
         for (let item of items) {
             // if it's one-time only and already checked, delete it
             if (!item.repeats && item.checked) {
-                await CategoryItemService.deleteItemCategories(item.id, res);
                 await ItemService.delete(item.id, res);
             }
         }

@@ -22,6 +22,9 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
         actions => actions.setNewItemCategory
     );
     const updateCategory = useStoreActions(actions => actions.updateCategory);
+    const completeCategory = useStoreActions(
+        actions => actions.completeCategory
+    );
     const currentUser = useStoreState(state => state.currentUser);
     const items = useStoreState(state => state.items)?.filter(i =>
         i.categoryIds.includes(category.id)
@@ -97,8 +100,19 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                         newItemNameInput?.scrollIntoView();
                     }),
                     undefined,
-                    new ClickDropdownAction("Complete", () => {
-                        console.log("Complete");
+                    new ClickDropdownAction("Complete", async () => {
+                        if (currentUser?.token) {
+                            console.log("complete");
+                            try {
+                                await completeCategory({
+                                    categoryId: category.id,
+                                    token: currentUser.token,
+                                });
+                            } catch (error) {
+                                console.error(error);
+                                scrollToTop();
+                            }
+                        }
                     }),
                     undefined,
                     new ClickDropdownAction("Check All", () => {
