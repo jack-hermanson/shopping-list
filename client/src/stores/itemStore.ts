@@ -25,6 +25,7 @@ export interface ItemStoreModel {
     newItemCategory: number | undefined;
     setNewItemCategory: Action<StoreModel, number | undefined>;
     deleteItem: Thunk<StoreModel, { itemId: number; token: string }>;
+    toggleAllItems: Thunk<StoreModel, { checked: boolean; token: string }>;
 }
 
 export const itemStore: ItemStoreModel = {
@@ -105,6 +106,15 @@ export const itemStore: ItemStoreModel = {
             actions.addAlert(successAlert("item", "deleted"));
         } catch (error) {
             console.log(error.response);
+            actions.addAlert(errorAlert(error.message));
+            throw error;
+        }
+    }),
+    toggleAllItems: thunk(async (actions, payload) => {
+        try {
+            await ItemClient.toggleAll(payload.checked, payload.token);
+        } catch (error) {
+            console.error(error.response);
             actions.addAlert(errorAlert(error.message));
             throw error;
         }

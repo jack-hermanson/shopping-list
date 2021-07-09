@@ -6,10 +6,15 @@ import { minClearance } from "../utils/clearance";
 import {
     CreateEditItemRequest,
     ItemRecord,
+    ToggleAllItemsRequest,
 } from "../../../shared/resource_models/item";
 import { ItemService } from "../services/ItemService";
 import { HTTP, sendError, validateRequest } from "jack-hermanson-ts-utils";
-import { createEditItemSchema, Item } from "../models/Item";
+import {
+    createEditItemSchema,
+    Item,
+    toggleAllItemsSchema,
+} from "../models/Item";
 import { Socket } from "socket.io";
 import { CategoryItemService } from "../services/CategoryItemService";
 
@@ -76,6 +81,37 @@ router.get(
             item.id
         );
         res.json({ ...item, categoryIds });
+    }
+);
+
+router.put(
+    "/toggle-all",
+    auth,
+    async (req: Request<ToggleAllItemsRequest>, res: Response<boolean>) => {
+        if (!(await minClearance(req.account, Clearance.NORMAL, res))) {
+            return;
+        }
+
+        if (!(await validateRequest(toggleAllItemsSchema, req, res))) {
+            return;
+        }
+
+        const requestBody: ToggleAllItemsRequest = req.body;
+
+        const toggled = await ItemService.toggleAll(
+            requestBody,
+            req.account.id,
+            res
+        );
+
+        if (!toggled) {
+            return;
+        }
+
+        const socket: Socket = req.app.get("socketio");
+        socket.emit(SocketEvent.UPDATE_ITEMS);
+
+        res.json(true);
     }
 );
 

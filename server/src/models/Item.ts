@@ -41,3 +41,7 @@ const createEditItem = {
 export const createEditItemSchema = Joi.object()
     .options({ abortEarly: false, allowUnknown: true })
     .keys(createEditItem);
+
+export const toggleAllItemsSchema = Joi.object()
+    .options({ abortEarly: false, allowUnknown: true })
+    .keys({ checkAll: Joi.boolean().required() });

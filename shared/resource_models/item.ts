@@ -12,3 +12,7 @@ export interface ItemRecord extends ResourceModel, CreateEditItemRequest {
     updated: Date;
     accountId: number;
 }
+
+export interface ToggleAllItemsRequest {
+    checkAll: boolean;
+}

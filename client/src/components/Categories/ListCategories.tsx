@@ -16,9 +16,7 @@ export const ListCategories: FC = () => {
     const completeAllCategories = useStoreActions(
         actions => actions.completeAllCategories
     );
-    const toggleCategoryItems = useStoreActions(
-        actions => actions.toggleCategoryItems
-    );
+    const toggleAllItems = useStoreActions(actions => actions.toggleAllItems);
 
     return (
         <div>
@@ -49,13 +47,10 @@ export const ListCategories: FC = () => {
                         new ClickDropdownAction("Check All", async () => {
                             if (currentUser?.token && categories) {
                                 try {
-                                    for (let category of categories) {
-                                        await toggleCategoryItems({
-                                            checkAll: true,
-                                            id: category.id,
-                                            token: currentUser.token,
-                                        });
-                                    }
+                                    await toggleAllItems({
+                                        token: currentUser.token,
+                                        checked: true,
+                                    });
                                 } catch (error) {
                                     console.error(error);
                                     scrollToTop();
@@ -65,13 +60,10 @@ export const ListCategories: FC = () => {
                         new ClickDropdownAction("Uncheck All", async () => {
                             if (currentUser?.token && categories) {
                                 try {
-                                    for (let category of categories) {
-                                        await toggleCategoryItems({
-                                            checkAll: false,
-                                            id: category.id,
-                                            token: currentUser.token,
-                                        });
-                                    }
+                                    await toggleAllItems({
+                                        token: currentUser.token,
+                                        checked: false,
+                                    });
                                 } catch (error) {
                                     console.error(error);
                                     scrollToTop();
