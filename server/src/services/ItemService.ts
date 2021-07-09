@@ -153,4 +153,22 @@ export abstract class ItemService {
         item.accountId = accountId;
         return await itemRepo.save(item);
     }
+
+    /**
+     * Get the items that are associated with a given category.
+     * @param categoryId
+     */
+    static async getItemsInCategory(categoryId: number): Promise<Item[]> {
+        const { itemRepo, categoryItemRepo } = getRepos();
+
+        const categoryItems = await categoryItemRepo.find({ categoryId });
+        const items: Item[] = [];
+
+        for (let categoryItem of categoryItems) {
+            const item = await itemRepo.findOne(categoryItem.itemId);
+            items.push(item);
+        }
+
+        return items;
+    }
 }

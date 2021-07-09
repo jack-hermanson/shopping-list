@@ -8,6 +8,7 @@ import { Response } from "express";
 import { doesNotConflict, HTTP } from "jack-hermanson-ts-utils";
 import { CategoryItem } from "../models/CategoryItem";
 import { ItemService } from "./ItemService";
+import { CategoryItemService } from "./CategoryItemService";
 
 const getRepos = (): {
     categoryRepo: Repository<Category>;
@@ -157,5 +158,45 @@ export abstract class CategoryService {
         }
 
         return itemIds;
+    }
+
+    static async completeCategory(
+        id: number,
+        res: Response
+    ): Promise<boolean | undefined> {
+        // is the category id legit
+        const category = await this.getOne(id, res);
+        if (!category) {
+            return undefined;
+        }
+
+        const items = await ItemService.getItemsInCategory(id);
+
+        for (let item of items) {
+            // if it's one-time only and already checked, delete it
+            if (!item.repeats && item.checked) {
+                await CategoryItemService.deleteItemCategories(item.id, res);
+                await ItemService.delete(item.id, res);
+            }
+        }
+
+        return true;
+    }
+
+    static async completeAllCategories(
+        res: Response
+    ): Promise<boolean | undefined> {
+        const { categoryRepo } = getRepos();
+
+        const categories = await categoryRepo.find();
+
+        for (let category of categories) {
+            const completed = await this.completeCategory(category.id, res);
+            if (!completed) {
+                return undefined;
+            }
+        }
+
+        return true;
     }
 }
