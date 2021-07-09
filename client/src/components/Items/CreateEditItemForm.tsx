@@ -11,7 +11,7 @@ import {
     ItemRecord,
 } from "../../../../shared/resource_models/item";
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useStoreState } from "../../stores/_store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { AlertPanel } from "jack-hermanson-component-lib/lib";
 
 interface Props {
@@ -26,6 +26,9 @@ export const CreateEditItemForm: FC<Props> = ({
     autoFocus = false,
 }: Props) => {
     const newItemCategory = useStoreState(state => state.newItemCategory);
+    const setNewItemCategory = useStoreActions(
+        actions => actions.setNewItemCategory
+    );
 
     const defaultName = existingItem?.name || "";
     const defaultNotes = existingItem?.notes || "";
@@ -50,6 +53,7 @@ export const CreateEditItemForm: FC<Props> = ({
         setRepeats(defaultRepeats);
         setCategoryIds(defaultCategoryIds);
         setError("");
+        setNewItemCategory(undefined);
     }, [
         setName,
         defaultName,
@@ -60,6 +64,7 @@ export const CreateEditItemForm: FC<Props> = ({
         setCategoryIds,
         defaultCategoryIds,
         setError,
+        setNewItemCategory,
     ]);
 
     const idPrefix = useCallback(
