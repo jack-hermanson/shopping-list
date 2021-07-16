@@ -4,6 +4,7 @@ import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
 import { ActionsDropdown } from "jack-hermanson-component-lib";
 import { ClickDropdownAction, scrollToTop } from "jack-hermanson-ts-utils";
+import { UncheckedGroup } from "../UncheckedItems/UncheckedGroup";
 
 /*
 This component renders the categories on the list.
@@ -41,7 +42,7 @@ export const ListCategories: FC = () => {
 
     function renderUncheckedGroup() {
         if (showUncheckedGroup) {
-            return <p>Unchecked</p>;
+            return <UncheckedGroup />;
         }
     }
 
