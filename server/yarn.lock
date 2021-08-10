@@ -1281,10 +1281,10 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
-jack-hermanson-ts-utils@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.7.2.tgz#62845539cf3fe215f931f6402728e22b8a51df44"
-  integrity sha512-xjVOlD5uJ3gs0e6QpJHRUJqoDMpQ0y8r6CJcQAIO6hLV2pj+x7WTPkxk9rs07vPdJYMAOtOTCZyLRng5Jhaeyw==
+jack-hermanson-ts-utils@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/jack-hermanson-ts-utils/-/jack-hermanson-ts-utils-1.8.2.tgz#f84157b3f5fb6e8e840a1de61864152d92a78722"
+  integrity sha512-ZDcU9T73B5rhcv4lJ3DGZPGd5esysjcIzYA6EHOPCXczI6y8aNr7rrSjhK4yXLkWsw2ueJbLphezPQWW5Oghhg==
   dependencies:
     "@types/express" "^4.17.12"
     express "^4.17.1"
