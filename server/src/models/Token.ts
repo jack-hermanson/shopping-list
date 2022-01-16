@@ -19,4 +19,7 @@ export class Token {
 
     @Column({ type: "int", nullable: false })
     accountId: number;
+
+    @Column({ type: "varchar", nullable: true })
+    ipAddress?: string;
 }

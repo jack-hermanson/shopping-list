@@ -27,6 +27,11 @@ export class Token1628565761450 implements MigrationInterface {
                 type: "int",
                 isNullable: false,
             },
+            {
+                name: "ipAddress",
+                type: "varchar",
+                isNullable: true,
+            },
         ],
     });
 
