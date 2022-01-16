@@ -4,7 +4,6 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
-import Joi from "joi";
 
 @Entity({ name: "token" })
 export class Token {
