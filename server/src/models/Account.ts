@@ -13,9 +13,6 @@ export class Account {
     @Column({ nullable: false })
     password: string;
 
-    @Column({ nullable: true })
-    token?: string;
-
     @Column({ nullable: false, default: Clearance.NONE })
     clearance: Clearance;
 }

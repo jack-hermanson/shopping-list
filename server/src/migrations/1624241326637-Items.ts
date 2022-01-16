@@ -28,7 +28,7 @@ export class Items1624241326637 implements MigrationInterface {
                 isNullable: true,
             },
             {
-                name: "update",
+                name: "updated",
                 type: "timestamp",
                 default: "CURRENT_TIMESTAMP",
             },
