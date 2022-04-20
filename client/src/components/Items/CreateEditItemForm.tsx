@@ -205,9 +205,14 @@ export const CreateEditItemForm: FC<Props> = ({
                     const id = idPrefix(`category-${category.id}`);
                     const alreadySelected = categoryIds.includes(category.id);
                     return (
-                        <FormGroup key={category.id} check>
+                        <FormGroup
+                            key={category.id}
+                            check
+                            className="mb-2 no-mb-last"
+                        >
                             <Input
                                 checked={alreadySelected}
+                                className="checkbox-lg me-2"
                                 type="checkbox"
                                 id={id}
                                 onChange={event => {

@@ -50,6 +50,8 @@ export abstract class ItemService {
     ): Promise<Item | undefined> {
         const { itemRepo } = getRepos();
 
+        newItem.name = newItem.name.trim();
+
         if (
             !(await doesNotConflict({
                 repo: itemRepo,
@@ -84,6 +86,8 @@ export abstract class ItemService {
         res: Response
     ): Promise<Item | undefined> {
         const { itemRepo } = getRepos();
+
+        editedItem.name = editedItem.name.trim();
 
         const existingItem = await itemRepo.findOne(itemId);
 

@@ -63,7 +63,7 @@ export const ListItem: FC<Props> = ({ item, categoryId }: Props) => {
                     {item.repeats && (
                         <span
                             style={{
-                                height: "14px",
+                                height: "12px",
                                 fontSize: "10px",
                                 verticalAlign: "middle",
                             }}
