@@ -88,7 +88,7 @@ router.put(
     "/toggle-all",
     auth,
     async (req: Request<ToggleAllItemsRequest>, res: Response<boolean>) => {
-        if (!(await minClearance(req.account, Clearance.NORMAL, res))) {
+        if (!minClearance(req.account, Clearance.NORMAL, res)) {
             return;
         }
 
