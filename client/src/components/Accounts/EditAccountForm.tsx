@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
 import { AccountRecord } from "../../../../shared/resource_models/account";
-import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Button, FormGroup, FormText, Input, Label } from "reactstrap";
 import { useStoreState } from "../../stores/_store";
 import { Clearance } from "../../../../shared/enums";
+import { FormError } from "jack-hermanson-component-lib";
 
 interface Props {
     account: AccountRecord;
@@ -18,17 +19,22 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
 
     const [username, setUsername] = useState(account.username);
     const [password, setPassword] = useState("");
-    const [clearance, setClearance] = useState<Clearance>(account.clearance);
+    const [clearance, setClearance] = useState<Clearance | "">(
+        account.clearance
+    );
+    const [clearanceError, setClearanceError] = useState(false);
 
     return (
         <form
             onSubmit={event => {
                 event.preventDefault();
-                onSubmit({
-                    username,
-                    password: password.length ? password : undefined,
-                    clearance,
-                });
+                if (clearance !== "") {
+                    onSubmit({
+                        username,
+                        password: password.length ? password : undefined,
+                        clearance,
+                    });
+                }
             }}
             onReset={event => {
                 event.preventDefault();
@@ -81,6 +87,8 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
 
     function renderClearance() {
         const id = "clearance-input";
+        const placeholder = `${Clearance.NONE}, ${Clearance.NORMAL}, ${Clearance.ADMIN}, ${Clearance.SUPER_ADMIN}`;
+        let typedValue = "";
         if (currentUser && currentUser.clearance >= Clearance.SUPER_ADMIN) {
             return (
                 <FormGroup>
@@ -92,10 +100,28 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
                         min={Clearance.NONE}
                         max={Clearance.SUPER_ADMIN}
                         value={clearance}
-                        onChange={e =>
-                            setClearance(parseInt(e.target.value) as Clearance)
-                        }
+                        placeholder={placeholder}
+                        onChange={e => {
+                            const parsedValue = parseInt(e.target.value);
+                            switch (parsedValue) {
+                                case Clearance.NONE:
+                                case Clearance.NORMAL:
+                                case Clearance.ADMIN:
+                                case Clearance.SUPER_ADMIN:
+                                    setClearance(parsedValue as Clearance);
+                                    setClearanceError(false);
+                                    break;
+                                default:
+                                    if (e.target.value.trim() !== "") {
+                                        setClearanceError(true);
+                                    }
+                                    setClearance("");
+                            }
+                        }}
                     />
+                    {clearanceError && (
+                        <FormError>Incorrect value for clearance.</FormError>
+                    )}
                 </FormGroup>
             );
         }
