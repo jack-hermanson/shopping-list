@@ -1,6 +1,10 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useStoreActions, useStoreState } from "../../stores/_store";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
+import {
+    ConfirmationModal,
+    LoadingSpinner,
+    PageHeader,
+} from "jack-hermanson-component-lib/lib";
 import { ListCategory } from "./ListCategory";
 import { ActionsDropdown } from "jack-hermanson-component-lib";
 import { ClickDropdownAction, scrollToTop } from "jack-hermanson-ts-utils";
@@ -24,6 +28,12 @@ export const ListCategories: FC = () => {
         actions => actions.setShowUncheckedGroup
     );
 
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    type ConfirmAction = "completeAll" | "checkAll" | "uncheckAll";
+    const [confirmAction, setConfirmAction] = useState<
+        ConfirmAction | undefined
+    >(undefined);
+
     return (
         <div>
             <PageHeader title="Shopping List">
@@ -37,6 +47,7 @@ export const ListCategories: FC = () => {
             ) : (
                 <LoadingSpinner />
             )}
+            {renderConfirmationModal()}
         </div>
     );
 
@@ -54,42 +65,18 @@ export const ListCategories: FC = () => {
                 newItemNameInput?.focus();
                 newItemNameInput?.scrollIntoView();
             }),
-            new ClickDropdownAction("Complete All", async () => {
-                if (currentUser?.token) {
-                    try {
-                        await completeAllCategories(currentUser.token);
-                    } catch (error) {
-                        console.error(error);
-                        scrollToTop();
-                    }
-                }
+            new ClickDropdownAction("Complete All", () => {
+                setConfirmAction("completeAll");
+                setShowConfirmModal(true);
             }),
             undefined,
             new ClickDropdownAction("Check All", async () => {
-                if (currentUser?.token && categories) {
-                    try {
-                        await toggleAllItems({
-                            token: currentUser.token,
-                            checked: true,
-                        });
-                    } catch (error) {
-                        console.error(error);
-                        scrollToTop();
-                    }
-                }
+                setConfirmAction("checkAll");
+                setShowConfirmModal(true);
             }),
             new ClickDropdownAction("Uncheck All", async () => {
-                if (currentUser?.token && categories) {
-                    try {
-                        await toggleAllItems({
-                            token: currentUser.token,
-                            checked: false,
-                        });
-                    } catch (error) {
-                        console.error(error);
-                        scrollToTop();
-                    }
-                }
+                setConfirmAction("uncheckAll");
+                setShowConfirmModal(true);
             }),
             undefined,
         ];
@@ -109,5 +96,82 @@ export const ListCategories: FC = () => {
         }
 
         return <ActionsDropdown color="info" size="sm" options={options} />;
+    }
+
+    async function completeAll() {
+        try {
+            await completeAllCategories(currentUser!.token!);
+        } catch (error) {
+            console.error(error);
+            scrollToTop();
+        }
+    }
+
+    async function checkAll() {
+        try {
+            await toggleAllItems({
+                token: currentUser!.token!,
+                checked: true,
+            });
+        } catch (error) {
+            console.error(error);
+            scrollToTop();
+        }
+    }
+
+    async function uncheckAll() {
+        try {
+            await toggleAllItems({
+                token: currentUser!.token!,
+                checked: false,
+            });
+        } catch (error) {
+            console.error(error);
+            scrollToTop();
+        }
+    }
+
+    function renderConfirmationModal() {
+        if (currentUser?.token && categories) {
+            let title: string;
+            let body: string;
+            let onConfirm: () => Promise<any>;
+            switch (confirmAction) {
+                case "completeAll":
+                    title = "Complete All";
+                    body =
+                        "complete all items? This will remove checked non-recurring items, but leave the rest unaffected.";
+                    onConfirm = completeAll;
+                    break;
+                case "checkAll":
+                    title = "Check All";
+                    body = "mark all items as checked?";
+                    onConfirm = checkAll;
+                    break;
+                case "uncheckAll":
+                    title = "Uncheck All";
+                    body = "mark all items as unchecked?";
+                    onConfirm = uncheckAll;
+                    break;
+                default:
+                    title = "";
+                    body = "";
+            }
+
+            return (
+                <ConfirmationModal
+                    isOpen={showConfirmModal}
+                    setIsOpen={setShowConfirmModal}
+                    title={title}
+                    onConfirm={async () => {
+                        await onConfirm();
+                        setShowConfirmModal(false);
+                        setConfirmAction(undefined);
+                    }}
+                >
+                    Are you sure you want to {body}
+                </ConfirmationModal>
+            );
+        }
     }
 };
