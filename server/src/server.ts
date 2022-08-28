@@ -85,4 +85,5 @@ app.set("socketio", io);
 // listen
 server.listen(app.get("port"), () => {
     console.log(`Server is listening on port ${app.get("port")}.`);
+    console.log(`ENVIRONMENT: ${process.env.NODE_ENV}`);
 });
