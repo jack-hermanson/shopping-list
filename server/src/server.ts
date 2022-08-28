@@ -23,7 +23,7 @@ app.set("port", process.env.PORT || 5000);
 
 // ssl
 console.log(`Environment: ${app.get("env")}`);
-app.use(sslRedirect(["production"]));
+// app.use(sslRedirect(["production"]));
 
 // static
 const staticFiles = express.static(path.join(__dirname, "../../client/build"));
