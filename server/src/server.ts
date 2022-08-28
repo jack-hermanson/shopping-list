@@ -34,6 +34,15 @@ app.use("/api/accounts", routes.accounts);
 app.use("/api/categories", routes.categories);
 app.use("/api/items", routes.items);
 
+// production redirects
+if (process.env.NODE_ENV === "production") {
+    app.get("*", (req, res) => {
+        res.sendFile(
+            path.resolve(__dirname, "../../client/build", "index.html")
+        );
+    });
+}
+
 // database
 const databaseDialect = process.env.DATABASE_DIALECT as DbDialect;
 console.log({ databaseDialect });
