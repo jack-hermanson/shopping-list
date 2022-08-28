@@ -4,7 +4,7 @@
     "description": "The server side of the shopping-list app.",
     "scripts": {
         "start": "nodemon -x ts-node src/server.ts",
-        "start:prod": "ts-node src/server.ts"
+        "start:prod": "NODE_ENV=production ts-node src/server.ts"
     },
     "author": "Jack",
     "license": "MIT",
