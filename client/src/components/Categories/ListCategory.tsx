@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { Card, CardBody, CardHeader, Collapse, Table } from "reactstrap";
 import { CategoryRecord } from "../../../../shared/resource_models/category";
 import { useStoreActions, useStoreState } from "../../stores/_store";
@@ -59,6 +59,8 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
     );
 
     function renderCardHeader() {
+        const numUncheckedItems = items?.filter(i => !i.checked).length;
+
         return (
             <CardHeader className="d-flex">
                 <div
@@ -67,10 +69,24 @@ export const ListCategory: FC<Props> = ({ category }: Props) => {
                     }`}
                     onClick={toggleVisibility}
                 >
-                    <h5 className="card-title my-auto">
+                    <h5 className="card-title my-auto d-flex">
                         {category.name}
                         {!category.visible && (
-                            <i className="ms-2 fas fa-eye-slash"></i>
+                            <Fragment>
+                                {numUncheckedItems !== undefined &&
+                                numUncheckedItems > 0 ? (
+                                    <span
+                                        className="badge ms-2 bg-secondary my-auto"
+                                        style={{
+                                            fontSize: "0.6em",
+                                        }}
+                                    >
+                                        {numUncheckedItems}
+                                    </span>
+                                ) : (
+                                    <i className="ms-2 fas fa-eye-slash my-auto"></i>
+                                )}
+                            </Fragment>
                         )}
                     </h5>
                     {category.notes && (
