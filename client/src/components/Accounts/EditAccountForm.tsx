@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { AccountRecord } from "../../../../shared/resource_models/account";
-import { Button, FormGroup, FormText, Input, Label } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import { useStoreState } from "../../stores/_store";
 import { Clearance } from "../../../../shared/enums";
 import { FormError } from "jack-hermanson-component-lib";
@@ -88,7 +88,6 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
     function renderClearance() {
         const id = "clearance-input";
         const placeholder = `${Clearance.NONE}, ${Clearance.NORMAL}, ${Clearance.ADMIN}, ${Clearance.SUPER_ADMIN}`;
-        let typedValue = "";
         if (currentUser && currentUser.clearance >= Clearance.SUPER_ADMIN) {
             return (
                 <FormGroup>
