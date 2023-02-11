@@ -9,6 +9,7 @@ export const SocketConnection: FC = () => {
     const loadItems = useStoreActions(actions => actions.loadItems);
     const loadItem = useStoreActions(actions => actions.loadItem);
     const loadAccounts = useStoreActions(actions => actions.loadAccounts);
+    const loadChores = useStoreActions(actions => actions.loadChores);
     const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
@@ -21,6 +22,7 @@ export const SocketConnection: FC = () => {
                 loadCategories(currentUser.token);
                 loadItems(currentUser.token);
                 loadAccounts(currentUser.token);
+                loadChores(currentUser.token);
             }
         });
 
@@ -69,6 +71,7 @@ export const SocketConnection: FC = () => {
         loadItems,
         loadItem,
         loadAccounts,
+        loadChores,
         currentUser?.token,
     ]);
 

@@ -4,7 +4,7 @@ export interface ChoreRequest {
     title: string;
     description: string;
     recurring: boolean;
-    intervalDays: number;
+    intervalDays?: number;
 }
 
 export interface ChoreRecord extends ChoreRequest, ResourceModel {}

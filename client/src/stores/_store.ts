@@ -8,6 +8,7 @@ import {
     uncheckedItemStore,
     UncheckedItemStoreModel,
 } from "./uncheckedItemStore";
+import { choreStore, ChoreStoreModel } from "./choreStore";
 
 export interface StoreModel
     extends AlertStoreModel,
@@ -15,7 +16,8 @@ export interface StoreModel
         UserStoreModel,
         CategoryStoreModel,
         ItemStoreModel,
-        UncheckedItemStoreModel {}
+        UncheckedItemStoreModel,
+        ChoreStoreModel {}
 
 export const store = createStore<StoreModel>({
     ...alertStore,
@@ -24,6 +26,7 @@ export const store = createStore<StoreModel>({
     ...categoryStore,
     ...itemStore,
     ...uncheckedItemStore,
+    ...choreStore,
 } as StoreModel);
 
 const typedHooks = createTypedHooks<StoreModel>();
