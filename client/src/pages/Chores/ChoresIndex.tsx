@@ -1,23 +1,28 @@
 import { Fragment, FunctionComponent } from "react";
 import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
 import { Col, Row } from "reactstrap";
-import { useStoreState } from "../../stores/_store";
+import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ChoreGlance } from "../../components/Chores/ChoreGlance";
+import { ChoreLogGlance } from "../../components/Chores/ChoreLogGlance";
 
 export const ChoresIndex: FunctionComponent = () => {
     const chores = useStoreState(state => state.chores);
+    const choreLogs = useStoreState(state => state.choreLogs);
 
     return (
         <div>
             <PageHeader title={"Chores"} />
             <Row>
                 <Col>
-                    {!chores ? (
+                    {!choreLogs ? (
                         <LoadingSpinner />
                     ) : (
                         <Fragment>
-                            {chores.map(chore => (
-                                <ChoreGlance chore={chore} key={chore.id} />
+                            {choreLogs.map(choreLog => (
+                                <ChoreLogGlance
+                                    choreLog={choreLog}
+                                    key={choreLog.id}
+                                />
                             ))}
                         </Fragment>
                     )}
