@@ -25,6 +25,9 @@ export interface UserStoreModel {
 export const userStore: UserStoreModel = {
     currentUser: undefined,
     setCurrentUser: action((state, payload) => {
+        if (payload && payload.username === "aj") {
+            payload.username = "AJ";
+        }
         state.currentUser = payload;
     }),
     changeCurrentUser: action((state, payload) => {

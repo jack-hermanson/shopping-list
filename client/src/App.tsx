@@ -15,6 +15,7 @@ import { CategoriesIndex } from "./pages/Categories/CategoriesIndex";
 import { Dashboard as ManageDashboard } from "./pages/Manage/Dashboard";
 import { UsersIndex } from "./pages/Users/UsersIndex";
 import { AdminEditAccount } from "./pages/Account/AdminEditAccount";
+import { ChoresIndex } from "./pages/Chores/ChoresIndex";
 
 function App() {
     const logInFromStorage = useStoreActions(
@@ -47,6 +48,8 @@ function App() {
                         path="/manage/users/:id"
                         component={AdminEditAccount}
                     />
+
+                    <Route exact path="/chores" component={ChoresIndex} />
 
                     <Route exact path="/forbidden" component={Forbidden} />
                     <Route component={NotFound} />

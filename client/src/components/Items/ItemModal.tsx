@@ -45,6 +45,11 @@ export const ItemModal: FC<Props> = ({
     useEffect(() => {
         if (currentUser?.token) {
             AccountClient.getOne(item.accountId, currentUser.token).then(a => {
+                if (a.username === "aj") {
+                    a.username = "AJ";
+                } else {
+                    a.username = a.username.capitalizeFirst();
+                }
                 setLastUpdatedAccount(a);
             });
         }
@@ -96,7 +101,7 @@ export const ItemModal: FC<Props> = ({
             return (
                 <small className="text-muted my-auto">
                     Updated {timeago.format(item.updated)} by{" "}
-                    {lastUpdatedAccount?.username.capitalizeFirst()}.
+                    {lastUpdatedAccount?.username}.
                 </small>
             );
         } else {

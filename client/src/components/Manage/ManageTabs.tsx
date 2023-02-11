@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { NavTabs } from "jack-hermanson-component-lib";
+
 export const ManageTabs: FC = () => {
     return (
         <div>
