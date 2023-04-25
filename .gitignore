@@ -4,3 +4,4 @@ server/site.db
 server/.env
 .DS_Store
 build
+dist/
