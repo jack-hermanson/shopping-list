@@ -11,13 +11,13 @@ import {
 import { APP_NAME, CONTAINER_FLUID } from "../../utils/constants";
 import { NavLink, useHistory } from "react-router-dom";
 import {
+    faClipboardList,
     faCogs,
     faShoppingCart,
     faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { useStoreState } from "../../stores/_store";
-import { capitalizeFirst } from "jack-hermanson-ts-utils";
 import { Clearance } from "../../../../shared/enums";
 
 export const Navigation: FC = () => {
@@ -41,6 +41,7 @@ export const Navigation: FC = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
+                        {renderChores()}
                         {renderManage()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>
@@ -52,7 +53,7 @@ export const Navigation: FC = () => {
                             >
                                 <FA className="me-1" icon={faUser} />
                                 {currentUser
-                                    ? capitalizeFirst(currentUser.username)
+                                    ? currentUser.username.capitalizeFirst()
                                     : "Account"}
                             </NavLink>
                         </NavItem>
@@ -73,6 +74,23 @@ export const Navigation: FC = () => {
                     >
                         <FA className="me-1" icon={faCogs} />
                         Manage
+                    </NavLink>
+                </NavItem>
+            );
+        }
+    }
+
+    function renderChores() {
+        if (currentUser && currentUser.clearance >= Clearance.NORMAL) {
+            return (
+                <NavItem>
+                    <NavLink
+                        onClick={() => setIsOpen(false)}
+                        to={"/chores"}
+                        className="nav-link"
+                    >
+                        <FA icon={faClipboardList} className="me-1" />
+                        Chores
                     </NavLink>
                 </NavItem>
             );

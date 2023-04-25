@@ -17,8 +17,10 @@ interface Props {
 export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
     const currentUser = useStoreState(state => state.currentUser);
 
-    const [username, setUsername] = useState(account.username);
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState<string>(
+        account.username.toLowerCase()
+    );
+    const [password, setPassword] = useState<string>("");
     const [clearance, setClearance] = useState<Clearance | "">(
         account.clearance
     );
@@ -38,7 +40,7 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
             }}
             onReset={event => {
                 event.preventDefault();
-                setUsername(account.username);
+                setUsername(account.username.toLowerCase());
                 setPassword("");
                 setClearance(account.clearance);
             }}
@@ -59,7 +61,7 @@ export const EditAccountForm: FC<Props> = ({ account, onSubmit }: Props) => {
                 </Label>
                 <Input
                     value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={e => setUsername(e.target.value.toLowerCase())}
                     id={id}
                     required
                 />
