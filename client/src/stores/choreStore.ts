@@ -72,6 +72,20 @@ export const choreStore: ChoreStoreModel = {
                 completedDate: new Date(),
                 dueDate: dayjs().add(1, "day").toDate(),
             },
+            {
+                id: 3,
+                choreId: 3,
+                accountId: 1,
+                completedDate: dayjs().add(-1, "minutes").toDate(),
+                dueDate: dayjs().add(3, "hours").toDate(),
+            },
+            {
+                id: 4,
+                choreId: 4,
+                accountId: 1,
+                completedDate: undefined,
+                dueDate: dayjs().add(-1, "hours").toDate(),
+            },
         ]);
     }),
 };

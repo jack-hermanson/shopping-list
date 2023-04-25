@@ -32,14 +32,21 @@ export const ChoreLogGlance: FunctionComponent<Props> = ({ choreLog }) => {
     }, [setUser, accounts, choreLog]);
 
     return (
-        <Card>
+        <Card className="mb-3 no-mb-last">
             <CardBody>
-                <p>{choreLog.id}</p>
-                {chore && <p>{chore.title}</p>}
+                <p>choreLog.id = {choreLog.id}</p>
+                {chore && <p>chore.title = {chore.title}</p>}
                 {choreLog.dueDate && (
                     <p>
-                        {dayjs(choreLog.dueDate).format("MM/DD/YY")} (
+                        Due: {dayjs(choreLog.dueDate).format("MM/DD/YY")} (
                         {dayjs(choreLog.dueDate).fromNow()})
+                    </p>
+                )}
+                {choreLog.completedDate && (
+                    <p>
+                        Completed:{" "}
+                        {dayjs(choreLog.completedDate).format("MM/DD/YY")} (
+                        {dayjs(choreLog.completedDate).fromNow()})
                     </p>
                 )}
             </CardBody>

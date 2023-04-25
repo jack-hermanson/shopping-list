@@ -1,5 +1,9 @@
 import { Fragment, FunctionComponent } from "react";
-import { LoadingSpinner, PageHeader } from "jack-hermanson-component-lib/lib";
+import {
+    LoadingSpinner,
+    MobileToggleCard,
+    PageHeader,
+} from "jack-hermanson-component-lib/lib";
 import { Col, Row } from "reactstrap";
 import { useStoreActions, useStoreState } from "../../stores/_store";
 import { ChoreGlance } from "../../components/Chores/ChoreGlance";
@@ -13,7 +17,7 @@ export const ChoresIndex: FunctionComponent = () => {
         <div>
             <PageHeader title={"Chores"} />
             <Row>
-                <Col>
+                <Col xs={12} lg={8} className="order-2 order-lg-1">
                     {!choreLogs ? (
                         <LoadingSpinner />
                     ) : (
@@ -26,6 +30,11 @@ export const ChoresIndex: FunctionComponent = () => {
                             ))}
                         </Fragment>
                     )}
+                </Col>
+                <Col xs={12} lg={4} className="order-1 order-lg-2 mb-3 mb-lg-0">
+                    <MobileToggleCard cardTitle="Filtering">
+                        <p>Some filter</p>
+                    </MobileToggleCard>
                 </Col>
             </Row>
         </div>
