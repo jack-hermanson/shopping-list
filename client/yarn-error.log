@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/jack/.nvm/versions/node/v16.13.0/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add -D @types/dayjs
+  /Users/jack/.nvm/versions/node/v16.13.0/bin/node /usr/local/Cellar/yarn/1.22.18/libexec/bin/yarn.js add vite @vitejs/plugin-react vite-tsconfig-paths vite-lugin-svgr -D
 
 PATH: 
-  /Users/jack/.nvm/versions/node/v16.13.0/bin:/usr/local/lib/ruby/gems/3.1.0/bin:/Users/jack/jdk-15/jdk-15.0.2.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/MacGPG2/bin:/Applications/Little Snitch.app/Contents/Components:/opt/X11/bin:/Library/Apple/usr/bin:/Users/jack/Developer/typescript/shopping-list/node_modules/.bin
+  /Users/jack/.nvm/versions/node/v16.13.0/bin:/usr/local/lib/ruby/gems/3.1.0/bin:/Users/jack/jdk-15/jdk-15.0.2.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/MacGPG2/bin:/Applications/Little Snitch.app/Contents/Components:/opt/X11/bin:/Library/Apple/usr/bin:/Users/jack/.nvm/versions/node/v16.13.0/bin:/usr/local/lib/ruby/gems/3.1.0/bin:/Users/jack/jdk-15/jdk-15.0.2.jdk/Contents/Home/bin:/Users/jack/Developer/typescript/shopping-list/node_modules/.bin
 
 Yarn version: 
   1.22.18
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fdayjs: Not found
+  Error: https://registry.yarnpkg.com/vite-lugin-svgr: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:66138:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.18/libexec/lib/cli.js:140883:22)
       at Request.emit (node:events:390:28)

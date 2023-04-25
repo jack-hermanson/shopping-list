@@ -10,10 +10,12 @@ export abstract class CategoryClient {
     static baseUrl = "/api/categories";
 
     static async getAll(token: string) {
+        console.log("getAll");
         const response = await axios.get<CategoryRecord[]>(
             this.baseUrl,
             getAuthHeader(token)
         );
+        console.log(response);
         return response.data;
     }
 

@@ -14,7 +14,9 @@ export const SocketConnection: FC = () => {
     const currentUser = useStoreState(state => state.currentUser);
 
     useEffect(() => {
-        const socket: Socket = io("/");
+        console.log("socket");
+        const socket: Socket = io("localhost:5000");
+        console.log(socket);
 
         socket.on("connect", () => {
             console.log("socket connected on front end");
