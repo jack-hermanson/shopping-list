@@ -41,7 +41,7 @@ export const Navigation: FC = () => {
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav navbar style={{ marginRight: "auto" }}>
-                        {renderChores()}
+                        {/*{renderChores()}*/}
                         {renderManage()}
                     </Nav>
                     <Nav navbar style={{ marginLeft: "auto" }}>

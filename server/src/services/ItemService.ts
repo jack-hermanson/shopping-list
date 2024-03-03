@@ -8,6 +8,8 @@ import {
     ToggleAllItemsRequest,
 } from "../../../shared/resource_models/item";
 import { CategoryItemService } from "./CategoryItemService";
+import axios from "axios";
+import { AccountService } from "./AccountService";
 
 const getRepos = (): {
     itemRepo: Repository<Item>;
@@ -114,6 +116,7 @@ export abstract class ItemService {
         }
 
         delete editedItem.categoryIds;
+
         return await itemRepo.save({
             ...existingItem,
             ...editedItem,
@@ -158,6 +161,26 @@ export abstract class ItemService {
 
         item.checked = checked;
         item.accountId = accountId;
+
+        const account = await AccountService.getOne(accountId, res);
+        const summary = `${account.username} ${checked ? "" : "un"}checked '${item.name}'`;
+
+        try {
+            await axios.post("https://logger.herm.shop/api/logs/new", {
+                token: "f4ae9d843dae548b",
+                level: 3,
+                body: {
+                    // person: account.username,
+                    // item: item,
+                    // checked: checked,
+                    date: new Date().toISOString(),
+                    summary: summary
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+
         return await itemRepo.save(item);
     }
 
