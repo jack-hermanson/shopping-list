@@ -14,6 +14,7 @@ export const ListIndex: FC = () => {
     const addAlert = useStoreActions(actions => actions.addAlert);
     const currentUser = useStoreState(state => state.currentUser);
     const items = useStoreState(state => state.items);
+    const toggleItemCheck = useStoreActions(actions => actions.toggleItemCheck);
 
     return (
         <div>
@@ -38,18 +39,21 @@ export const ListIndex: FC = () => {
                     <CreateEditItemForm
                         onSubmit={async newItem => {
                             if (currentUser?.token) {
-                                if (
-                                    items?.some(
-                                        i =>
-                                            i.name.toLowerCase() ===
-                                            newItem.name.toLowerCase()
-                                    )
-                                ) {
+                                const existingItem = items?.
+                                    find(i => i.name.toLowerCase() === newItem.name.toLowerCase());
+
+
+                                if (existingItem) {
                                     addAlert(
                                         errorAlert(
-                                            `An item with the name "${newItem.name}" already exists.`
+                                            `An item with the name "${newItem.name}" already exists. Its ID is ${existingItem.id}. Unchecking it now.`
                                         )
                                     );
+                                    await toggleItemCheck({
+                                        id: existingItem.id,
+                                        checked: false,
+                                        token: currentUser.token,
+                                    });
                                     scrollToTop();
                                     return;
                                 }
